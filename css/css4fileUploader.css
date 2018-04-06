@@ -1,0 +1,161 @@
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+form#file-drag-drop{
+    display: block;
+    height: 400px;
+    width: 400px;
+    background: #ccc;
+    margin: auto;
+    margin-top: 40px;
+    text-align: center;
+    line-height: 400px;
+    border-radius: 4px;
+  }
+
+  div.file-listing{
+    width: 400px;
+    margin: auto;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  div.file-listing img{
+    height: 100px;
+  }
+
+  div.remove-container{
+    text-align: center;
+  }
+
+  div.remove-container a{
+    color: red;
+    cursor: pointer;
+  }
+
+  a.submit-button{
+    display: block;
+    margin: auto;
+    text-align: center;
+    width: 200px;
+    padding: 10px;
+    text-transform: uppercase;
+    background-color: #CCC;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  progress {
+    width: 400px;
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+
+
+
+
+  #file-drag-drop {
+  border: 2px dashed #999;
+  border-radius: 10px;
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+#file-drag-drop.isActive {border-color: #74b9ff; width:100%}
+.file-uploader {margin-bottom: 15px;} 
+.file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  border: 1px solid #74b9ff;
+  color: #74b9ff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer; 
+}
+.file-label:hover {
+    color: #fff;
+    background-color: #74b9ff; 
+}
+#file {display: none;}
+
+
+
+
+
+th {
+	text-align:center !important
+}
+.btn-delete {
+	cursor: pointer; background: transparent; border:0px; color: red; font-size:30px;   padding-left: 22px; padding-right: 22px;
+}
+.btn-delete:hover {
+    background: red 	!important;
+    color:		white;
+}
+
+.cust-anim:hover{
+	-webkit-transform: 	scale(1.2);
+	-ms-transform: 		scale(1.2);
+	 transform: 		scale(1.2);
+}
+.table-info {
+	padding: 10px;
+}
+
+
+
+
+table.niceTbl thead th {
+    background-color: 	rgba(204, 204, 255, 0.4);
+    font-weight: 		bold;
+    text-align: 		left;
+}
+  /* нечётные строки таблицы — красные */
+table.niceTbl tbody tr:nth-child(odd) {
+    background-color:rgba(255, 0, 0, 0.2);
+  }
+  
+  /* чётные строки — зелёные */
+table.niceTbl tbody tr:nth-child(even) {
+    background-color:rgba(0, 255, 0, 0.2);
+  }
+table.niceTbl col:nth-child(odd) {
+    background-color:rgba(255, 255, 255, 0.2);
+  }
+  
+table.niceTbl col:nth-child(even) {
+    background-color:rgba(0, 0, 0, 0.1);
+  }
+table.niceTbl tbody tr:hover {
+    background-color:rgba(255, 255, 0, 0.2);
+  }
+.table.niceTbl td, .table.niceTbl th {vertical-align: middle;}
+
+
+.modal_title { font-weight: 700;}
+.modal_desc { word-wrap: break-word; }
