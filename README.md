@@ -1,6 +1,29 @@
-# video_uploader_vue
+# video-uploader-new
 
+## Project setup
+```
+npm install
+```
 
-<img src="https://vk.com/doc40778210_459679313">
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-<img src="https://pp.userapi.com/c846121/v846121821/19d2e/gQ3MitQ61-M.jpg">
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
