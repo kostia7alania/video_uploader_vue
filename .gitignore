@@ -1,8 +1,9 @@
 .DS_Store
 node_modules
 /dist
-soap.php
-
+*/soap.php 
+*/soap.php 
+/backend/soap.php 
 # local env files
 .env.local
 .env.*.local
