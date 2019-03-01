@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-if="dragAndDropCapable" id="file-drag-drop" ref="fileform">
+    <form v-if="dragAndDropCapable" id="file-drag-drop" :class="{ highlight: isActive }" ref="fileform">
       <span class="drop-files">Drop your files in this area ...</span>
     </form>
     <DragDropZoneButton :formats="formats"/>
@@ -11,22 +11,16 @@
 import DragDropZoneButton from "./DragDropZoneButton";
 export default {
   name: "Drag-Drop-Zone",
-  props: {},
+  data() {
+    return {
+      highlight: false
+    }
+  },
   components: {
     DragDropZoneButton
   },
   methods: {
-    selectFilesHandler(event) {
-      this.$store.dispatch("filesSelected", event);
-      /*
-        for (let i = 0; i < e.dataTransfer.files.length; i++) {
-          let curfile = (window.curFile = e.dataTransfer.files[i]); 
-          let aa = curfile.name.split(".");
-          let fileType = "." + aa[aa.length - 1];  
-            this.$store.commit("appendToArray", { prop: "selectedVideos", state:  file});
-          
-        }*/
-    }
+    selectFilesHandler(event) { this.$store.dispatch("filesSelected", event); }
   },
   computed: {
     formats() {
@@ -46,38 +40,30 @@ export default {
     }
   },
   mounted() {
+
     //через .stop.prevent реализовать потом: https://ru.vuejs.org/v2/api/index.html#v-on
-    let prevent = e => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
+    /*
+        @dragleave.stop.prevent="highlight=false"
+        @drop.stop.prevent="highlight=false"
+        @dragleave.stop.prevent="dragover=true"
+        @drop.stop.prevent="dragenter=true"
+    */
+    let prevent = e => { e.preventDefault(); e.stopPropagation();};
+    let drop = document.querySelector("#file-drag-drop");
+    let  highlight  = () => drop.classList.add("isActive")
+    let unhighlight = () => drop.classList.remove("isActive") 
     if (this.dragAndDropCapable) {
       "drag,dragstart,dragend,dragover,dragenter,dragleave,drop"
-        .split(",")
-        .forEach(evt =>
-          this.$refs.fileform.addEventListener(evt, prevent, false)
-        );
+      .split(",") .forEach(evt =>  this.$refs.fileform.addEventListener(evt, prevent, false) );
       this.$refs.fileform.addEventListener("drop", this.selectFilesHandler);
     }
 
-    let drop = document.querySelector("#file-drag-drop");
-    function highlight(e) {
-      drop.classList.add("isActive");
-    }
-    function unhighlight(e) {
-      drop.classList.remove("isActive");
-    }
-    let highlightEvents = ["dragenter", "dragover"];
     let unhighlightEvents = ["dragleave", "drop"];
-    [...highlightEvents, ...highlightEvents].forEach(ev => {
-      drop.addEventListener(ev, prevent, false);
-    });
-    highlightEvents.forEach(ev => {
-      drop.addEventListener(ev, highlight, false);
-    });
-    unhighlightEvents.forEach(ev => {
-      drop.addEventListener(ev, unhighlight, false);
-    });
+    let highlightEvents = ["dragenter", "dragover"];
+    [...unhighlightEvents, ...highlightEvents].forEach(ev =>drop.addEventListener(ev, prevent, false) );//+-
+    highlightEvents.forEach(ev => drop.addEventListener(ev, highlight, false) );
+    unhighlightEvents.forEach(ev => drop.addEventListener(ev, unhighlight, false) );
+
   }
 };
 </script>
