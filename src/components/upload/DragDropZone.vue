@@ -16,36 +16,24 @@ export default {
     DragDropZoneButton
   },
   methods: {
-    selectFilesHandler(e) {
-        /* Capture the files from the drop event and add them to our local files array.*/
+    selectFilesHandler(event) {
+      this.$store.dispatch("filesSelected", event);
+      /*
         for (let i = 0; i < e.dataTransfer.files.length; i++) {
           let curfile = (window.curFile = e.dataTransfer.files[i]); 
           let aa = curfile.name.split(".");
-          let fileType = "." + aa[aa.length - 1]; 
-          if (this.formats.split(",").includes(fileType)) {
-            let file  = {
-              name: curfile.name,
-              size: curfile.size,
-              type: curfile.type,
-              url: window.URL.createObjectURL(curfile),
-              lastModifiedDate: curfile.lastModifiedDate.toLocaleString(),
-              comment: "",
-              fileSelf: curfile
-            };
+          let fileType = "." + aa[aa.length - 1];  
             this.$store.commit("appendToArray", { prop: "selectedVideos", state:  file});
-          } else {
-            alert(
-              `The video-format using in ${
-                curfile.name
-              } is not supported! Please, convert it to another format!`
-            );
-          }
-        }
-      }
+          
+        }*/
+    }
   },
   computed: {
     formats() {
-      return this.$store.state.formats.replace(new RegExp(/(\w{1,99})/gim), ".$1");
+      return this.$store.state.formats.replace(
+        new RegExp(/(\w{1,99})/gim),
+        ".$1"
+      );
     },
     dragAndDropCapable() {
       /* https://serversideup.net/drag-and-drop-file-uploads-with-vuejs-and-axios/ */
@@ -55,9 +43,10 @@ export default {
         "FormData" in window &&
         "FileReader" in window
       );
-    },
+    }
   },
-  mounted() { //через .stop.prevent реализовать потом: https://ru.vuejs.org/v2/api/index.html#v-on
+  mounted() {
+    //через .stop.prevent реализовать потом: https://ru.vuejs.org/v2/api/index.html#v-on
     let prevent = e => {
       e.preventDefault();
       e.stopPropagation();
@@ -111,6 +100,19 @@ form#file-drag-drop {
   width: 400px;
   margin: 50px auto;
   padding: 20px;
+}
+
+#file-drag-drop.isActive {
+  border-color: #74b9ff;
+  width:100%; 
+background: -webkit-radial-gradient(red, yellow, green); /* Safari 5.1-6.0 */
+background: -o-radial-gradient(red, yellow, green); /* Opera 11.6-12.0 */
+background: -moz-radial-gradient(red, yellow, green); /* Firefox 3.6-15 */
+background: radial-gradient(red, yellow, green); /* Стандартный синтаксис */
+background: -webkit-radial-gradient(60% 55%, farthest-side, red, yellow, black); /* Safari 5.1-6.0 */
+background: -o-radial-gradient(60% 55%, farthest-side, red, yellow, black); /* Opera 11.6-12.0 */ 
+background: -moz-radial-gradient(60% 55%, farthest-side, red, yellow, black); /* Firefox 3.6-15 */
+background: radial-gradient(farthest-side at 60% 55%, red, yellow, black); /* Стандартный синтаксис */
 }
 
 .file-label {
