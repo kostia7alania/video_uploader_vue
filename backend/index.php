@@ -1,5 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
+if(!isset($_GET['action'])) exit('{status: 0, msg: "wrong action"}');
+
 require('./soap.php');
 $action = $_GET['action'];
 //$videodir = "\\\\media\videos\converted\2FD3D68C-B4DD-416B-A431-10189EC24887.mp4";
