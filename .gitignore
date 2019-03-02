@@ -9,6 +9,9 @@ node_modules
 .env.*.local
 
 #git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch  *soap*' --prune-empty --tag-name-filter cat -- --all
+#git filter-branch --tree-filter 'ls -l backend/soap.php'
+
+#git filter-branch --tree-filter 'rm -f backend/soap.php'
 
 # Log files
 npm-debug.log*
