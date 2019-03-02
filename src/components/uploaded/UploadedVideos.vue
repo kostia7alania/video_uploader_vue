@@ -8,13 +8,7 @@
           <th scope="col">Date</th>
           <th scope="col">Comment</th>
         </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td colspan="5" align="center" v-html="'Summary: <b>Count:</b> ' + alreadyUploaded.length"></td>
-        </tr>
-      </tfoot>
-
+      </thead>  
       <tbody>
         <tr align="center" v-for="(file2, index2) in alreadyUploaded" :index="index2" :key="file2.VidUID" >
           <td>{{index2+1}}</td>
