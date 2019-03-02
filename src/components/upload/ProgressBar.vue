@@ -1,5 +1,5 @@
 <template>
-  <div align="center"> 
+  <div class="Progress-Bar"> 
     <progress max="100" :value="uploadPercentage"></progress>
     <p>{{uploadPercentage}}%</p>
     <p>{{transferStatus}}</p>
@@ -10,9 +10,7 @@
 export default {
   name: "Progress-Bar",
   data(){
-    return {
-      uploadPercentage: 0
-    }
+    return { uploadPercentage: 0 }
   },
   computed: {
     transferStatus() { return this.$store.state.transferStatus; }
