@@ -1,6 +1,6 @@
 <template>
   <td align="center">
-    <button class="btn" @click="sendHandler" :class="{block: !sizeCheck || !typeCheck}" v-b-tooltip.hover :title="send_btn_tooltip">
+    <button class="btn" @click="sendHandler" :class="sendClass" v-b-tooltip.hover :title="send_btn_tooltip">
       <i class="far fa-share-square"></i>
     </button>
     <button class="btn" @click="deleteHandler" v-b-tooltip.hover title="Delete the file">
@@ -10,31 +10,37 @@
 </template>
 
 <script>
+
+
+import checkMixins from '@/mixins.js'
+import {localCheckers} from '@/mixins.js'
+
+  
 export default {
   name: "Action-Btns",
-  props: {
-    file: File,
-    index: String|Number,
-    sizeCheck: Boolean,
-    typeCheck: Boolean
-  },
+  mixins: [checkMixins, localCheckers],
+  props: { obj: Object }, 
   methods: { 
     sendHandler() {
-      let s = this.sizeCheck;
-      let t = this.typeCheck;
-      if(!s | !t) {
-        alert(s)
-      }
-      console.log('sendHandler', this.index)
+      let s = this.obj.sizeOK;
+      let t = this.obj.typeOK;
+      let res;
+      if(!s) res = 'size exceeded'
+      if(!t) res = res?'and format not supported' : 'format not supported'
+      if(res) {this.$toast.warning(res, this.$store.state.getTime()); return; }
+      else this.$store.dispatch( 'upload', this.$store.state.selectedVideos[this.obj.index] )
     },
     deleteHandler() {
-      this.$store.commit('deleteEntry', {prop: 'selectedVideos', index: this.index})
+      this.$store.commit('deleteEntry', {prop: 'selectedVideos', index: this.obj.index})
     }
   }, 
-  computed: {
+  mounted(){
+    console.log('OBJ.>>>',this.obj)
+  },
+  computed: { 
+    sendClass() { return (!this.obj.sizeOK || !this.obj.typeOK) ? 'block' : '' },
     send_btn_tooltip() {
-      if(!this.sizeCheck || !this.typeCheck) return 'You cannot send this file';
-      return 'Send the file';
+      return !this.obj.sizeOK || !this.obj.typeOK ? 'You cannot send this file' : 'Send the file';
     }
   }
 };

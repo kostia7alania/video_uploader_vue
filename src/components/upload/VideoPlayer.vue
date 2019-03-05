@@ -22,13 +22,14 @@
 
 <script>
 import "video.js/dist/video-js.css";
-import { videoPlayer } from "vue-video-player";
+import { videojs, videoPlayer } from "vue-video-player";
+import brand from "@/plugins/videojs-brand";
 
 export default {
   name: "VideoPlayer",
   components: { videoPlayer },
   props: {
-    src: File
+    file: File
   },
   data() {
     return {
@@ -39,9 +40,8 @@ export default {
         playbackRates: [0.5, 1.0, 1.5, 2.0, 5, 16],
         sources: [
           {
-            type: "video/mp4",
-            src:
-              "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            type: this.file.type || "video/mp4",
+            src: window.URL.createObjectURL(this.file)// "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
           }
         ],
         poster: "/static/images/author.jpg"
@@ -52,19 +52,30 @@ export default {
     console.log("this is current player instance object", this.player);
   },
   methods: {
-    createVideoSrc: file => window.URL.createObjectURL(file),
-    play(e) {console.log('play!', e)},
-    pause(e) {  console.log('pause!', e) },
-    ended(e) {console.log('ended=>', e)},
-    waiting(e) {console.log('waiting', e)},
-    playing(e) {console.log("playing", e);},
-    loadeddata(e) {console.log("loadeddata", e);},
-    timeupdate(e) {//console.log("timeupdate", e);
+    brandClick(){
+      console.log('brandClick');
+      this.$toast.info('Powered by APCIS Dev Team', this.$store.state.getTime())
     },
-    canplay(e) {console.log("canplay", e);},
-    canplaythrough(e) {console.log("canplaythrough", e);},
-    statechanged(e) {console.log("statechanged", e);},
-    ready(e) {console.log("ready", e);}
+    play(e) { console.log("play!", e); },
+    pause(e) { console.log("pause!", e); },
+    ended(e) {  console.log("ended=>", e); },
+    waiting(e) {  console.log("waiting", e); },
+    playing(e) { console.log("playing", e); },
+    loadeddata(e) {   console.log("loadeddata", e); },
+    timeupdate(e) { /*console.log("timeupdate", e);*/  },
+    canplay(e) {  console.log("canplay", e); },
+    canplaythrough(e) { console.log("canplaythrough", e);  },
+    statechanged(e) { console.log("statechanged", e);  },
+    ready(player) {
+      console.log("ready",player);
+      player.brand({
+        image: "https://apcis.tmou.org/img/tmou.gif",
+        title: "by APCIS Dev.",
+        destination: '#',//"http://www.google.com",
+        destinationTarget: '', //"_top"
+        brandClick: this.brandClick
+      });
+    }
   },
   computed: {
     player() {
@@ -75,8 +86,58 @@ export default {
 </script>
  
 <style lang="scss">
-.video-player,.video-js {
+.video-player,
+.video-js {
   height: 200px !important;
-  width: 200px!important;;
+  width: 200px !important;
+}
+
+
+
+// Sass for videojs-brand
+.video-js {
+  // This class is added to the video.js element by the plugin by default.
+  &.vjs-brand {   display: block;
+      width: 300px !important;
+      height: 200px!important;
+     }
+}
+
+
+.vjs-fullscreen-control {
+      transition: 0.3s !important;
+      &:hover {
+        transform: scale(1.3); 
+        color: white;
+        padding:1px
+      }
+}
+
+div.vjs-brand-container {
+
+  &>img.vjs-brand-container-link {
+      position: relative;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 98%;
+      width: 4em; 
+      vertical-align: middle;
+      cursor: pointer;
+      transition: 0.1s;
+      
+      &:hover {
+        transform: scale(1.1);
+        background: white;
+        padding:1px
+      }
+  }
+}
+
+.vjs-error .vjs-error-display:before {
+  content: 'preview unavailable'
+}
+.vjs-modal-dialog-content {
+  display: none;
 }
 </style>

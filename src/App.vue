@@ -11,7 +11,7 @@ import Upload from "./Views/Upload";
 import Uploaded from "./Views/Uploaded";
 
 export default {
-  name: "app",
+  name: "app", 
   components: {
     Upload,
     Uploaded

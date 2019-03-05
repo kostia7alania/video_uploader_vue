@@ -2,7 +2,7 @@
   <div id="#appVideoUploader"> 
       <DragDropZone/>
       <SelectedFiles v-if="selectedVideos.length" :selectedVideos="selectedVideos"/>
-      <UploadAllBtn v-if="selectedVideos.length" />
+      <UploadBottomBtns v-if="selectedVideos.length" />
       <ProgressBar/> 
   </div>
 </template>
@@ -13,7 +13,7 @@
 import SelectedFiles from "../components/upload/SelectedFiles";
 import DragDropZone from "../components/upload/DragDropZone";
 import ProgressBar from "../components/upload/ProgressBar";
-import UploadAllBtn from "../components/upload/UploadAllBtn";
+import UploadBottomBtns from "../components/upload/UploadBottomBtns";
 
 import axios from "axios";
 
@@ -23,7 +23,7 @@ export default {
     SelectedFiles,
     DragDropZone,
     ProgressBar,
-    UploadAllBtn
+    UploadBottomBtns
   },
   props: { msg: String },
   data() {

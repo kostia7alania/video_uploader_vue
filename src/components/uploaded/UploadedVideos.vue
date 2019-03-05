@@ -1,5 +1,6 @@
 <template> 
-    <table class="table" align="center" width="1200px" border="0" cellpadding="10" cellspacing="10">
+<div>
+      <table v-if="alreadyUploaded.length" class="table" align="center" width="1200px" border="0" cellpadding="10" cellspacing="10">
       <thead>
         <tr>
           <th width="22">#</th>
@@ -15,9 +16,9 @@
           <td width="200px">
             <video width="200px" controls>
               <source
-                :src="(file2.status==2)?ConvertedVideoDir+file2.VidUID+'.mp4':RealVideoDir+file2.FileName"
+                :src="(file2.status==2)?ConvertedVideoDir+file2.VidUID+'.mp4':RealVideoDir+file2.OrigFileName"
                 :poster="(file2.status==2)?PreviewDir+file2.VidUID+'.gif':''"
-                :type="(file2.status==2)?'video/mp4':'video/'+file2.FileName.split('.')[1]" >
+                :type="(file2.status==2)?'video/mp4':'video/'+file2.OrigFileName.split('.')[1]" >
             </video>
           </td>
           <td align="center"> <b>{{file2.Status|status}}</b> </td>
@@ -26,13 +27,16 @@
         </tr>
 
       </tbody>
-    </table> 
+    </table>  
+    <h1 v-else-if="shown">Your video-list is empty! Please, try load you video again or convert it to another format!</h1>
+    <p v-else>Click the button to get the list with uploaded videos!</p>
+</div>
 </template>
 
 <script>
 export default {
   name: "Uploaded-Videos",
-  props: { alreadyUploaded: Array },
+  props: {shown: Boolean },
   filters: {
     status(e) {
         return e==0?"[0] - In queue":e==1?"[1] - Converting...":e==2?"[2] - Converted!":e==3?"[3] - Error":"N/A"
@@ -41,7 +45,8 @@ export default {
   computed: {
     otvetjson() { return this.$store.state.otvetjson },
     ConvertedVideoDir() { return this.$store.state.ConvertedVideoDir },
-    RealVideoDir() { return this.$store.state.RealVideoDir }
+    RealVideoDir() { return this.$store.state.RealVideoDir },
+    alreadyUploaded() { return this.$store.state.alreadyUploaded},
   }
 };
 </script>
