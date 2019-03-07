@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Already uploaded</h1>
-    <UploadedRefreshBtn :shown="shown" @updated="shown = true"/> 
-    <router-view :shown="shown"></router-view> 
+    <UploadedRefreshBtn/> 
+    <router-view/>
   </div>
 </template>
 
@@ -11,16 +11,6 @@ import UploadedRefreshBtn from "../components/uploaded/UploadedRefreshBtn";
 
 export default {
   name: "Uploaded",
-  data() {
-    return { shown: false };
-  },
-  components: { 
-    UploadedRefreshBtn
-  },
-  computed: {
-  }
+  components: {UploadedRefreshBtn},
 };
-</script>
- 
-<style scoped lang="scss">
-</style>
+</script> 

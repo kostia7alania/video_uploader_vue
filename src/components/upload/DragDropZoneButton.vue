@@ -13,6 +13,7 @@ export default {
   methods: {
     filesSelected(event) {
       this.$store.dispatch("filesSelected", event);
+      event.target.value = '';
     }
   },
   computed: {

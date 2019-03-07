@@ -1,25 +1,42 @@
 <template>
-  <button :class="btn_class" class="btn" @click="load">
-    <i :class="btn_icon_class" class="fa" aria-hidden="true"/>
-    {{btn_text}} 
-  </button>
+  <div>
+
+  <b-button-group>
+    <b-button :class="btn_class" class="btn" @click="load">
+      <i :class="btn_icon_class" class="fa"/>
+      {{btn_text}} 
+    </b-button> 
+    <b-dropdown v-if="shown" right text="Menu">
+      <b-dropdown-item @click="hide"><i class="far fa-eye-slash"></i> Hide list</b-dropdown-item>
+      <!--<b-dropdown-divider />-->
+    </b-dropdown>
+  </b-button-group>
+    
+  </div>
 </template>
 
 <script>
-import axios from 'axios'; 
+import axios from 'axios';
 
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Uploaded-Refresh-Btn",
-  props: {
-    shown: Boolean
-  },
+  props: {},
   data() {
     return {
-      status: 0,
-      source: null
+      status: 0
     } //0-init,1-refreshed,2-loading,3-normal,4-error,5-success,6-cancelled
   },
-  computed: { 
+  mounted() {
+    window.e = this;
+    this.getVideoList() //for getting HASH -- for prevent(alerting) upload DUPLICATES videos;
+  },
+  computed: {
+    shown() {return this.$route.name === 'uploaded';},
+    ...mapState([
+      'isLoadedList',
+      'source'
+    ]),
     btn_class() {
       let s = this.status;
       if(s === 6) return 'btn-danger'
@@ -50,6 +67,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'getVideoList'
+    ]),
+    hide(){
+      this.$router.push({ name: 'Home', params: { userId: 123 }})
+    },
     cancel() {
       this.source.cancel('Operation canceled by the user.');
       this.tmp_change_btn( {now: 6} );
@@ -58,30 +81,21 @@ export default {
         this.status = now;
         setTimeout( () => this.status = after, 1500)
     },
+
     async load() {
       this.$router.push('uploaded')
-      let s = this.status; 
-      if ( s === 2 ) return this.cancel();
-      console.log('=>load();')
+      let s = this.status;
+      if ( s === 2 ) return this.cancel(); 
       this.status = 2;
-
-      const CancelToken = axios.CancelToken;
-      const source = CancelToken.source();
-      this.source = source;
-      
-      let list = await this.$store.dispatch("getVideoList", {source});
-      console.log('list', list);
-      if(typeof list === 'object' && 'message' in list )  {return ;}
+      let list = await this.getVideoList();
+      if(typeof list === "string" )  {console.log('exit!!!->',list);return ;}
       this.tmp_change_btn( list ? {now: 5} : {now: 4} );
-      if(list) this.$emit('updated'); //если ошибка, то не сообщаем, что данные получены
+      if(list instanceof Array && list.lenght===0) this._vm.$toast.warning( 'The list is empty', state.getTime() )
     }
-  }
+  },
 };
 </script>
  
-<style scoped lang="scss">
-
-.loading {
-  cursor: progress;
-}
+<style scoped lang="scss"> 
+.loading { cursor: progress; }
 </style>

@@ -1,139 +1,73 @@
 <template>
-  <div class="SelectedFiles">
-    <b-container fluid>
-      <!--<SelectedFilesRows v-for="(obj, index) in selectedVideos":key="obj.hash":obj="obj":index="index"/>-->
-      <b-table
-        striped
-        small
-        show-empty
-        empty-text="Нет элементов для отображения"
-        stacked="xl"
-        hover
-        selectable
-        :items="items"
-        :fields="fields"
-         @row-selected="rowSelected"
-         @row-clicked ="rowClick"
-      >
-        <template slot="Preview" slot-scope="data">
-          <VideoPlayer v-if="data.value.type === 'video/mp4'" :file="data.value"/>
-          <span v-else v-b-tooltip.hover title="The video preview is unavailable">
-            <i class="fas fa-ban"/> N/A
-          </span>
-        </template>
-        <template slot="Name" slot-scope="data"><b>{{data.value}}</b></template>
-        <template slot="Info" slot-scope="data"><InfoCol :obj="data.value" :file="data.value.file"/></template>
-
-        <template slot="Comment" slot-scope="data">
-          <textarea type="text" :value="$store.state.selectedVideos[data.index].userData.comment" @input="comment($event, data.index,data)"></textarea>
-        </template>
-
-        <template slot="Actions" slot-scope="data"><ActionBtns :obj="data.value" /></template>
-
-      </b-table>
-    </b-container>
-  </div>
+  <b-container fluid class="table-responsive">
+    <table class="table table-Default">
+      <thead><SelectedFilesHead/></thead>
+      <tbody>
+        <SelectedFilesRow
+          v-for="(obj, index) in selectedVideos"
+          :obj="obj"
+          :index="index"
+          :key="obj.fileData.hash"
+        />
+      </tbody>
+      <tfoot><SelectedFilesHead/></tfoot>
+    </table>
+  </b-container>
 </template>
 
 <script>
-//import SelectedFilesRows from "./SelectedFilesRows";
-
-import ActionBtns from "./ActionBtns";
-import VideoPlayer from "./VideoPlayer";
-import checkMixins from '@/mixins.js'
-
-import InfoCol from "./Info_col";
+import SelectedFilesHead from './SelectedFilesHead';
+import SelectedFilesRow from "./SelectedFilesRow";
 
 export default {
   name: "Selected-Videos",
-  mixins: [checkMixins],
   props: { selectedVideos: Array },
+  components: { SelectedFilesRow, SelectedFilesHead },
   data() {
-    return {
-      selected_rows: []
-    };
+    return {};
   },
-  components: { ActionBtns, VideoPlayer, InfoCol },
-  methods: {
-    rowClick(e){
-      let index = e.index;
-      this.$store.commit('toogleSelectRow', { index } )
-    },
-    rowSelected(arr_rows) {
-      console.log(arr_rows)
-      this.selected_rows = arr_rows
-      //this.selected_rows[hash] = true;
-    },
-
-    comment(ev, index) {
-      //this.$store.state.selectedVideos[index].userData.comment = ev.target.value
-     // this.$forceUpdate();
-      this.$store.commit("changeUserData", {
-        obj: "selectedVideos",
-        prop: "comment",
-        index,
-        val: ev.target.value
-      });
-    },
-  },
-  computed: {
-   fields: () => [
-        { key: "index", label: "#", formatter: e => e + 1 },
-        "Preview",
-        "Name",
-        "Info",
-        "Comment",
-        "Actions"
-    ],
-    items() {
-      return this.selectedVideos.map((el, i) => {
-        let e = el.fileData;
-        console.log(e.file.name,e);
-        return {
-          index: i,
-          Preview: e.file,
-          Name: e.file.name,
-          Info: { ...e, file: e.file, index: i },
-          Comment: "",
-          Actions: { ...e,file: e.file, index: i },
-          _rowVariant: this.selectedVideos[i].userData.class === "alert alert-danger"?'danger':''
-        };
-      });
-    }
-  }
+  methods: {},
+  computed: {}
 };
 </script>
  
 <style lang="scss">
+/*
 .table-headers {
   font-weight: bold;
   margin: 10px 0 30px 0;
 }
 
-.list-item2 {
+.list-item {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   & > div {
     flex: auto;
-    &:nth-child(1) {
-      flex: 1;
-    }
-    &:nth-child(2) {
-      flex: 3;
-    }
-    &:nth-child(3) {
-      flex: 1;
-    }
-    &:nth-child(4) {
-      flex: 2;
-    }
-    &:nth-child(5) {
-      flex: 2;
-    }
-    &:nth-child(6) {
-      flex: 1;
-    }
+    &:nth-child(1) { flex: 1; }
+    &:nth-child(2) { flex: 3; }
+    &:nth-child(3) { flex: 1; }
+    &:nth-child(4) { flex: 2; }
+    &:nth-child(5) { flex: 2; }
+    &:nth-child(6) { flex: 1; }
   }
 }
+
+.list-item:nth-child(even){ background:#ffa; }
+.list-item:nth-child(odd){ background:#ddd; }
+
+.selected_row {
+  background: rgba(17, 70, 247, 0.486) !important;
+    &:hover {
+    background: rgba(17, 70, 247, 0.386) !important;
+  }
+}
+.list-item {
+  padding: 5px 0 5px 0;
+  cursor:pointer;
+  transition: .1s;
+  &:hover {
+    background: rgba(119, 19, 19, 0.055)
+  }
+} */
 </style>

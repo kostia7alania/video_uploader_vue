@@ -33,15 +33,19 @@
 import ActionBtns from "./ActionBtns";
 import VideoPlayer from "./VideoPlayer";
 
+import { mapMutations, mapState } from 'vuex'; 
+
 export default {
   name: "Selected-Videos-Rows",
   props: { obj: Object, index: null },
   components: { ActionBtns, VideoPlayer },
   methods: {
+    ...mapMutations([
+      'changeUserData'
+    ]),
     comment(ev, index) {
       let val = ev.target.value;
-      this.$store.commit("changeUserData", {
-        obj: "selectedVideos",
+      this.changeUserData ({
         prop: "comment",
         index: index,
         val: val
@@ -73,11 +77,11 @@ export default {
     typeFilter: e => (e ? `${e.split("/")[1]} (${e.split("/")[0]})` : "N/A")
   },
   computed: {
+    ...mapState([
+      'maxSize'
+    ]),
     file() {
       return this.obj.file;
-    },
-    maxSize() {
-      return this.$store.state.maxSize;
     }
   }
 };
@@ -85,11 +89,7 @@ export default {
  
 <style scoped lang="scss">
 
-
-.list-item {
-  transition: all 0.5s;
-}
-
+.list-item { transition: all 0.5s; }
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s;
@@ -97,13 +97,9 @@ export default {
   right: 0px;
   left: 0px;
 }
-
-.list-enter {
-  transform: translateY(-60px);
-}
-.list-leave-to /* .list-leave-active до версии 2.1.8 */ {
-  opacity: 0;
-}
+.list-enter { transform: translateY(-60px); }
+.list-leave-to /* .list-leave-active до версии 2.1.8 */ { opacity: 0;}
 /*.list-transitionend {  background: red}*/
 /*.list-move {transition: transform 1s; }*/
+
 </style>

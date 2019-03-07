@@ -9,7 +9,8 @@
         {{ file.type | typeFilter}}
       </p>
       <b>Modified:</b>
-      {{file.lastModifiedDate | dateFilter}}
+      {{file.lastModifiedDate | dateFilter }}<br>
+      {{file.lastModifiedDate | dateFilterTime }}
     </b-col>
 </template>
 
@@ -24,11 +25,12 @@ export default {
   mixins: [checkMixins, filters],
   props: { obj:Object, file: File },
   computed: {
-    sizeTitle() { return this.obj.sizeOK ? 'Size is OK' : 'File size exceeded' },
-    typeTitle() { return this.obj.typeOK ? 'Type is OK' : 'The format is not supported' },
+    sizeTitle() { return this.obj.fileData.sizeOK ? 'Size is OK' : 'File size exceeded' },
+    typeTitle() { return this.obj.fileData.typeOK ? 'Type is OK' : 'The format is not supported' },
   },
   filters: {
-    dateFilter: e => new Date(e).toLocaleDateString(),
+    dateFilter: e => new Date(e).toLocaleDateString() ,
+    dateFilterTime: e => new Date(e).toLocaleTimeString() ,
     typeFilter: e => (e ? `${e.split("/")[1]} (${e.split("/")[0]})` : "N/A")
   }
 };

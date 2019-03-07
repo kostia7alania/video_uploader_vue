@@ -1,29 +1,21 @@
 <template>
-  <div class="Progress-Bar"> 
-    <progress max="100" :value="uploadPercentage"></progress>
-    <p>{{uploadPercentage}}%</p>
-    <p>{{transferStatus}}</p>
+  <div class="Progress-Bar">
+    <b-progress :max=100>
+      <b-progress-bar :value="percent" :label="`${percent} %`"/>
+    </b-progress>
   </div>
 </template>
 
 <script>
 export default {
   name: "Progress-Bar",
-  data(){
-    return { uploadPercentage: 0 }
+  props: { percent: { type: Number, default: () => 0 } },
+  data() {
+    return {};
   },
-  computed: {
-    transferStatus() { return this.$store.state.transferStatus; }
-  }
+  computed: {}
 };
 </script>
  
 <style scoped lang="scss">
-progress {
-  width: 400px;
-  margin: auto;
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
 </style>

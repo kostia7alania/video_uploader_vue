@@ -1,6 +1,9 @@
 <template> 
 <div>
-      <table v-if="alreadyUploaded.length" class="table" align="center" width="1200px" border="0" cellpadding="10" cellspacing="10">
+   <progressBar v-if="typeof percentCompleted === 'number'" :percent="+percentCompleted"/>
+
+  
+      <table v-if="isLoadedList && alreadyUploaded.length" class="table" align="center" width="1200px" border="0" cellpadding="10" cellspacing="10">
       <thead>
         <tr>
           <th width="22">#</th>
@@ -28,21 +31,27 @@
 
       </tbody>
     </table>  
-    <h1 v-else-if="shown">Your video-list is empty! Please, try load you video again or convert it to another format!</h1>
+    <h1 v-else-if="isLoadedList && !alreadyUploaded.length">Your video-list is empty! Please, try load you video again or convert it to another format!</h1>
     <p v-else>Click the button to get the list with uploaded videos!</p>
 </div>
 </template>
 
 <script>
+
+import { mapState } from "vuex";
 export default {
   name: "Uploaded-Videos",
-  props: {shown: Boolean },
+  props: {},
   filters: {
     status(e) {
         return e==0?"[0] - In queue":e==1?"[1] - Converting...":e==2?"[2] - Converted!":e==3?"[3] - Error":"N/A"
       } 
   },
   computed: {
+    ...mapState([
+      'isLoadedList',
+      'percentCompleted'
+    ]),
     otvetjson() { return this.$store.state.otvetjson },
     ConvertedVideoDir() { return this.$store.state.ConvertedVideoDir },
     RealVideoDir() { return this.$store.state.RealVideoDir },
