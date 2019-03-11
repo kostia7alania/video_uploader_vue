@@ -1,8 +1,27 @@
 <?php
+ini_set('upload_max_filesize',  '2000M');
+ini_set('post_max_size',        '2000M');
+/*  file_uploads
+    upload_max_filesize
+    max_input_time
+    memory_limit
+    max_execution_time
+    post_max_size
+*/
+
+
 header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
 header("Content-Type: application/json");
 
-if(!isset($_GET['action'])) exit('{status: 0, msg: "Wrong action"}');
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))//may also be using PUT, PATCH, HEAD etc
+      header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+      header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+  exit(0);
+}
+
+if(!isset($_GET['action'])) {/*http_response_code(500);*/exit('{status: 0, msg: "Wrong action"}');}
 require('./soap.php');
 $action = $_GET['action'];
 //$videodir = "\\\\media\videos\converted\2FD3D68C-B4DD-416B-A431-10189EC24887.mp4";
@@ -19,7 +38,10 @@ $allowedFormats = ['mpg','mov','flv','mp4','avi','qt','wmv','3gp','mpeg'];
 
 if ($action == 'savevid') {
   if ( !isset($_GET['def_uid']) || !isset($_GET['insp_uid']) ) {     echo '{"status":0, "msg":"! Try to relogin"}'; die; }
-  if ( !isset($_FILES['file']) || $_FILES['file']['error'] === 1 ) { echo '{"status":0, "msg":"File is corrupt"}';  die; }
+  if ( !isset($_FILES['file']) || $_FILES['file']['error'] === 1 ) {
+    echo '{"status":0, "msg":"File is corrupt"}';
+    die;
+  }
     $file     = $_FILES['file'];
     $hash     = $_POST['hash'];
     $comment  = $_POST['comment'];

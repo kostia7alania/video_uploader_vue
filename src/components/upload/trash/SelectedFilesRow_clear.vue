@@ -33,19 +33,15 @@
 import ActionBtns from "./ActionBtns";
 import VideoPlayer from "./VideoPlayer";
 
-import { mapMutations, mapState } from 'vuex'; 
-
 export default {
   name: "Selected-Videos-Rows",
   props: { obj: Object, index: null },
   components: { ActionBtns, VideoPlayer },
   methods: {
-    ...mapMutations([
-      'changeUserData'
-    ]),
     comment(ev, index) {
       let val = ev.target.value;
-      this.changeUserData ({
+      this.$store.commit("changeUserData", {
+        obj: "selectedVideos",
         prop: "comment",
         index: index,
         val: val
@@ -77,11 +73,11 @@ export default {
     typeFilter: e => (e ? `${e.split("/")[1]} (${e.split("/")[0]})` : "N/A")
   },
   computed: {
-    ...mapState([
-      'maxSize'
-    ]),
     file() {
       return this.obj.file;
+    },
+    maxSize() {
+      return this.$store.state.maxSize;
     }
   }
 };

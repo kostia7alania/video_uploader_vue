@@ -50,7 +50,7 @@ export default {
     ]),
 
     async sendHandler() {
-      await this.upload ({ index: this.obj.index, data: this.selectedVideos[this.obj.index] } )
+      let up = await this.upload ({ index: this.obj.index, data: this.selectedVideos[this.obj.index] } )
     },
 
     deleteHandler() {

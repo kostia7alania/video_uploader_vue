@@ -5,7 +5,7 @@ export default {
 
   params: async () => window.location.search.replace("?", "").split("&").reduce((p, e) => {let a = e.split("=");p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);return p;}, {}),
   
-  toast({state}, {text,type}) {this._vm.$toast[type]( text, state.getTime() )},
+  toast({ state }, { text,type }) {this._vm.$toast[type]( text, state.getTime() )},
   
   pulseRow( { state, commit }, { hash, index } ) {
     let val_tmp = {obj: 'selectedVideos', index, prop: 'class',  val: 'pulse' };
@@ -91,6 +91,8 @@ export default {
     });
   },
 
+
+/********************/
   async upload({ state, commit, dispatch }, { data }) {
     window.t = this;
     let hash = data.fileData.hash;
@@ -108,10 +110,7 @@ export default {
     if (res) { this._vm.$toast.warning(`<b>${res}</b>: ${name}`, state.getTime()); return; }
     const params = data.params ? data.params : await dispatch("params"); 
     if (!params.def_uid && !params.insp_uid) {
-      dispatch("toast", {
-        text: "Url is wrong",
-        type: "warning"
-      });
+      dispatch("toast", { text: "Url is wrong", type: "warning" });
       return false;
     }
     const formData = new FormData();
@@ -129,10 +128,8 @@ export default {
     const options = {
       headers: {Accept: "application/json",'Content-Type': 'multipart/form-data'},
       //onUploadProgress: e => e.lengthComputable ? state.selectedVideos.forEach ( (obj,index) => obj.fileData.hash === hash ? commit('changeUserData', {prop: 'percentCompleted', index, val: Math.round( (e.loaded * 100) / e.total )}):'' ):'',
-      onUploadProgress: async e => e.lengthComputable ? 
-          commit('changeUserData', {prop: 'percentCompleted', index: await dispatch( 'getIndex', { hash } ), val: Math.round( (e.loaded * 100) / e.total )})
-        : '',
-        cancelToken: source.token
+      onUploadProgress: async e => e.lengthComputable ? commit('changeUserData', {prop: 'percentCompleted', index: await dispatch( 'getIndex', { hash } ), val: Math.round( (e.loaded * 100) / e.total )}): '',
+      cancelToken: source.token
     };
     
     commit('changeUserData', { index: await dispatch( 'getIndex', { hash } ), prop: 'source', val:source } )
@@ -141,16 +138,25 @@ export default {
     .post(url, formData, options)
       .then ( async res => {
         console.log("SUCCESS=>", res.data);
-        commit( 'deleteEntry', { index: await dispatch('getIndex', { hash } ) } );
+        if (res.data.status == 1) {
+          commit( 'deleteEntry', { index: await dispatch('getIndex', { hash } ) } );
+          this._vm.$toast.success(`<b>Sucessifely uploaded</b> - ${res.data.OrigFileName}`,  state.getTime());
+        } else {
+          this._vm.$toast.warning(name+"is not uploaded!",  state.getTime());
+        }
         return res.data
       })
     .catch( async err => {
       console.log("err=>", err);
       commit('changeUserData', {prop: "percentCompleted", index: await dispatch('getIndex', { hash }), val: null} )
+      
       return err 
-  })
+    })
   },
-  async getIndex ( {state }, { hash } ) {
+
+/************ */
+  
+  getIndex ( {state }, { hash } ) {
     for (let index in state.selectedVideos) if(state.selectedVideos[index].fileData.hash === hash) return index;
   },
 
@@ -167,14 +173,33 @@ export default {
     })
     
   },
-         
+
+/********/
+  
   async prepareToUploadAll ( { state, dispatch } ) {
-    state.selectedVideos.forEach( async e => {
+    let arr = state.selectedVideos.map( async e => {
       //if(e.fileData.sizeOK && e.fileData.typeOK)  { }
         let uploaded = await dispatch( "upload", {data:e} );
         console.log('uploaded=>',uploaded)
-     
-    })
+        return uploaded
+    });
+    Promise.all(arr)
+      .then(  e   =>  {
+        console.log( 'Promise.all suc', e)
+        let suc = 0, fail = 0;
+        e.forEach( el => el.status ? suc++ : fail++ )
+        let res = '';
+            res = suc > 0 ? `Successively uploaded <b>${suc}</b>`:''
+            res = fail?`${res?res+' and f':'F'}ailed <b>${fail}</b> file${(suc+fail)>1?'s':''}`: `${res} file${(suc+fail)>1?'s':''}`;
+        dispatch("toast", { text: res, type: "success" });
+      })
+      .catch( err =>  {
+        console.warn("Promise.all err", err)
+        dispatch( "toast", { text: 'Upload all done with error: ' + err, type: "success" });
+      })
+      console.log('arr!!!!!');
   },
+
+  /********/
 
 };

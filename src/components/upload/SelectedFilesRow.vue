@@ -7,7 +7,7 @@
               <span  v-if="obj.fileData.file.type === 'video/mp4'" >  <VideoPlayer :file="obj.fileData.file"/></span>
               <span v-else v-b-tooltip.hover title="The video preview is unavailable"> <i class="fas fa-ban"/> N/A  </span>
           </td>
-          <td cols="2">  <b>{{obj.fileData.file.name}}</b>   </td>
+          <td cols="2">  <b :class="{'alreadyUplName': isAlreadyUploaded}">{{obj.fileData.file.name}}</b>   </td>
           <td cols="2"> <InfoCol :obj="obj" :file="obj.fileData.file"/></td>
           <td cols="2"> <textarea @click.stop type="text" @input="comment($event, index)"></textarea> </td>
           <td cols="1">  <ActionBtns @click.stop :obj="{index, ...obj.fileData, ...obj.userData}"/> </td>
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 import ActionBtns from "./ActionBtns";
 import VideoPlayer from "./VideoPlayer";
 import checkMixins from '@/mixins.js'
@@ -61,7 +60,7 @@ export default {
       this.changeUserData( {
         prop: "comment",
         index,
-        val: ev.target.value
+        val:   ev.target.value
       });
     },
   },
@@ -108,44 +107,14 @@ export default {
 </script>
  
 <style lang="scss">
-/*
-.table-headers {
-  font-weight: bold;
-  margin: 10px 0 30px 0;
-}
 
-.list-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  & > div {
-    flex: auto;
-    &:nth-child(1) { flex: 1; }
-    &:nth-child(2) { flex: 3; }
-    &:nth-child(3) { flex: 1; }
-    &:nth-child(4) { flex: 2; }
-    &:nth-child(5) { flex: 2; }
-    &:nth-child(6) { flex: 1; }
+.alreadyUplName {
+ 
+  text-decoration: line-through;
+  &:after {
+    content: ' !!!!!! '
   }
 }
-
-.list-item:nth-child(even){ background:#ffa; }
-.list-item:nth-child(odd){ background:#ddd; }
-
-.selected_row {
-  background: rgba(17, 70, 247, 0.486) !important;
-    &:hover {
-    background: rgba(17, 70, 247, 0.386) !important;
-  }
-}
-.list-item {
-  padding: 5px 0 5px 0;
-  cursor:pointer;
-  transition: .1s;
-  &:hover {
-    background: rgba(119, 19, 19, 0.055)
-  }
-} */
 
 .list-item {
   cursor: pointer;

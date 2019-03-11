@@ -3,8 +3,8 @@
     <th scope="col">#</th>
     <th scope="col">Preview</th>
     <th scope="col">Name</th>
-    <th scope="col" v-if="selectedVideos.length>1"> <SelectedFilesHeadInfo/> </th>
-    <th scope="col" v-else> Info </th>
+      <th scope="col" v-if="selectedVideos.length>1"> <SelectedFilesHeadInfo/> </th>
+      <th scope="col" v-else> Info </th>
     <th scope="col">Comment</th>
     <th scope="col">
 
@@ -52,4 +52,9 @@ export default {
 </script>
  
 <style lang="scss" scoped>
+th {
+    position: sticky;
+    top: 0;
+  }
+  
 </style>
