@@ -1,0 +1,73 @@
+<!-- VUE s -->
+<link rel="stylesheet" type="text/css" href="./css/css4fileUploader.css"/>
+<link type="text/css" rel="stylesheet" href="./js/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="./js/bootstrap-vue.css"/>
+<script type="text/javascript" 		   src='./js/vue.js'>            </script>
+<script type="text/javascript"		   src="./js/polyfill.min.js">   </script>
+<script type="text/javascript" 		   src="./js/bootstrap-vue.js">  </script>
+<script type="text/javascript"		   src="./js/axios.min.js">	    </script>
+
+
+	 <div align="center" id="appVideoUploader"> 
+			<div>
+				<form  id="file-drag-drop" ref="fileform">
+					<span class="drop-files">Drop the files here!</span>		
+				</form> 
+					<label class="file-label" for="file">Or browse Files</label>
+			</div> 
+		<p align="center" >
+			<input type='file' id='file' v-bind:accept="this.formats" @change='someHandler' name='test' multiple=''/>
+		</p>
+		<br> 
+		<table align="center" width="1200px" v-if="filess[0]">
+			<caption>Here we assign header information to cells by setting the scope attribute.</caption>
+			 
+			<thead>
+				<tr>
+					<th align="center" scope="col">Preview</th>
+					<th scope="col" width="333px">Name</th>
+					<th scope="col">Info</th>
+					<th scope="col">Comment</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td> </td>
+					<td align="center">Summary:</td>
+					<td><b>Count:</b> {{sumVideos[0].length}}  	  </td>
+					<td v-html="sumVideos[0].size"></td>
+					<td> </td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr align="center" v-for="(file,index) in filess"> 
+					<td>
+						<video width='222px' controls=''>
+							<source v-bind:src="file.url" type="video/mp4"/>
+						</video>
+					</td>
+					<td align="center"><b>{{file.name}}</b></td>
+					<td align="left">
+						<b>Size: </b> {{(file.size/1000/1000).toFixed(1)}} Mb
+						<br/><b>Type: </b>{{file.type}}
+						<br/><b>Modified: </b>{{file.lastModifiedDate}}
+					</td>
+					<td align="center"><textarea v-bind:id="index" type='text' @keyup='commentHandler'></textarea></td>
+					<td align="center"><button style="margin:22px;cursor: pointer" v-bind:id="index" class="btn btn-warning" @click='deleteHandler'>x</button></td>
+				</tr> 
+			</tbody>
+		</table> 
+		 <div align="center">
+			<button style="width:77%; cursor: pointer " v-if="filess[0]" class="btn btn-primary" @click='sendHandlerfunction'>SEND</button>
+			<progress max="100" v-bind:value="uploadPercentage"></progress>
+			<p>{{uploadPercentage}}%</p>	
+			<p>{{transferStatus}}</p>
+		 </div>
+	   <hr/>
+ 
+	</div> 
+	
+	
+	   <script type="text/javascript"		   src="./js/dist/script.js"></script> 
+    <style> th {text-align:center !important}</style> 
