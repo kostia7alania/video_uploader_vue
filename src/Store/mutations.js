@@ -1,62 +1,101 @@
 const mutations = {
-  changeProp(store, { prop, state }) {
-    this._vm.$set( store, prop, state );
-    store[prop] = state;
-    console.log('changeProp=>', prop, state,store[prop])
-  },
   
-  appendToArray (state, {prop,  val}) {
+ async changeProp(store, { prop, state }) {
+    this._vm.$set(store, prop, state);
+    store[prop] = state;
+    return console.log("changeProp=>", prop, state, store[prop]);
+  },
+
+  appendToArray(state, { prop, val }) {
     state[prop].push(val);
   },
 
-  changeObj (store, {obj, prop, index, state}) {
+  changeObj(store, { obj, prop, index, state }) {
     //Vue.$set(store[obj], prop, state);
     store[obj][index][prop] = state;
-    console.log('changeObj->', obj,'prop->', prop,'state->',  state)
+    console.log("changeObj->", obj, "prop->", prop, "state->", state);
   },
 
-  
-  toogleSelectRow (store, {index}) {
+  toogleSelectRow(store, { index }) {
     //Vue.$set(store[obj], prop, state);
-    store.selectedVideos[index].userData.selected = !store.selectedVideos[index].userData.selected;//JUST inverting;
-    console.log('toogleSelectRow->', index,'state->',  store.selectedVideos[index].userData.selected)
+    store.selectedVideos[index].userData.selected = !store.selectedVideos[index]
+      .userData.selected; //JUST inverting;
+    console.log(
+      "toogleSelectRow->",
+      index,
+      "state->",
+      store.selectedVideos[index].userData.selected
+    );
   },
 
-
-  changeUserData (store, {index, prop, val}) {
-    let dataType = 'userData';
+  changeUserData(store, { index, prop, val }) {
+    let dataType = "userData";
     store.selectedVideos[index][dataType][prop] = val;
   },
 
-  deleteEntry (state, {index} ) {
-    console.log('deleteEntry',state.selectedVideos,'index=>',index,arguments)
-    state.selectedVideos.splice(index, 1);//this._vm.$delete(state.selectedVideos, index);
+  changeFileData(store, { index, prop, val }) {
+    let dataType = "fileData";
+
+    //store.selectedVideos[index][dataType][prop] = val;
+    this._vm.$set(store.selectedVideos[index][dataType], prop, val);
   },
 
-  removeAll(state) {
-    this._vm.$set(state, 'selectedVideos', []);
-    state.selectedVideos = [];
-    this._vm.$toast.success('We completely cleared the list!', state.getTime())
+  deleteEntry(state, { index }) {
+    console.log(
+      "deleteEntry",
+      state.selectedVideos,
+      "index=>",
+      index,
+      arguments
+    );
+    state.selectedVideos.splice(index, 1); //this._vm.$delete(state.selectedVideos, index);
   },
 
-  sortMutation(state, {key, type}) {
-    console.log('sortir', arguments);
-    let parseFunc = (key === 'selected' || key === 'comment') ?
-                    (obj) => obj.userData[key]
-                   :(obj) => obj.fileData.file[key]
-                  
-      let  asc = (a,b) => a>b?1:a<b?-1:0;
-      let desc = (a,b) => a>b?1:a<b?-1:0;
-      type?state.selectedVideos.sort((a,b)=>asc(parseFunc(a),parseFunc(b))):
-           state.selectedVideos.sort((a,b)=>desc(parseFunc(b),parseFunc(a)))
+  removeAllCommit(state) {
+    const len = state.selectedVideos.filter(
+      e => e.userData.percentCompleted == null
+    ).length;
+    const filtered = state.selectedVideos.filter(
+      e => e.userData.percentCompleted != null
+    ); //удалили все файлы, кроме тех, что уже находятся в стадии передачи;
+    this._vm.$set(state, "selectedVideos", filtered);
+    const f_len = filtered.length;
+    const res = f_len
+      ? `We removed ${len} file${
+          len > 1 ? "s" : ""
+        } from the list and didn't touch ${f_len} file${
+          f_len > 1 ? "s" : ""
+        } that were already transferred to the server`
+      : "We completely cleared the list!";
+    this._vm.$toast.success(res, state.getTime());
+  },
+
+  sortMutation(state, { key, type }) {
+    console.log("sortir", arguments);
+    const parseFunc =
+      key === "selected" || key === "comment"
+        ? obj => obj.userData[key]
+        : obj => obj.fileData.file[key];
+
+    const asc = (a, b) => {
+      [a, b] = nullToEmpty(a, b);
+      return a == null || b == null ? 0 : a > b ? 1 : a < b ? -1 : 0;
+    };
+    const desc = (a, b) => {
+      [a, b] = nullToEmpty(a, b);
+      return a > b ? 1 : a < b ? -1 : 0;
+    };
+    const nullToEmpty = (a, b) => [a == null ? "" : a, b == null ? "" : b];
+    type
+      ? state.selectedVideos.sort((a, b) => asc(parseFunc(a), parseFunc(b)))
+      : state.selectedVideos.sort((a, b) => desc(parseFunc(b), parseFunc(a)));
   }
 
-
-/*
+  /*
   stopTransfer ( store, { prop, state } ) {
     this._vm.$set(store.selectedVideos, prop, state );
   }
 -**/
-}
+};
 
 export default mutations;
