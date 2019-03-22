@@ -16,4 +16,12 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+  window.onload = function () {
+  const url_api   = "http://localhost:3000/backend/index.php"// "https://apcis.tmou.org/APCIS-Test/"
+  const watch_url = url_api + '?action=watch&dir=watch&v='
+  const gif_url   = url_api + '?action=watch&dir=gif&v='
+    initVue ({ url_api, watch_url, gif_url });
+  }
+  </script>
 </html>
