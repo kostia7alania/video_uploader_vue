@@ -1,0 +1,12 @@
+{
+    "require": {
+        "php-ffmpeg/php-ffmpeg": "^0.13.0",
+        "wolfcast/browser-detection": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Backend\\" : "backend/",
+            "Src\\" : "backend/src/"
+        }
+    }
+}
