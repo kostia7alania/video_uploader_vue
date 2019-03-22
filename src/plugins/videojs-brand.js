@@ -1,12 +1,12 @@
-import videojs from 'video.js';
+import videojs from "video.js";
 
 // Default options for the plugin.
 const defaults = {
   image: "https://apcis.tmou.org/img/tmou.gif",
   title: "APCIS",
-  destination: '#',///"http://www.google.com",
+  destination: "#", ///"http://www.google.com",
   destinationTarget: "_blank",
-  brandClick: ()=>console.log('brandClick not defined;) ')
+  brandClick: () => console.log("brandClick not defined;) ")
 };
 
 /**
@@ -21,19 +21,26 @@ const defaults = {
  * @param    {Object} [options={}]
  */
 const onPlayerReady = (player, options) => {
-	let containerElement = document.createElement("div");
-	containerElement.className = "vjs-brand-container";
- 
-	
-	let imageElement = document.createElement("img");
-	imageElement.src = options.image || defaults.image;
-    imageElement.addEventListener('click', options.brandClick || defaults.brandClick);
-    imageElement.setAttribute("title", options.title || defaults.title);
-    imageElement.setAttribute("target", options.destinationTarget || defaults.destinationTarget)
-    imageElement.className = "vjs-brand-container-link";
-	containerElement.appendChild(imageElement);
-	player.controlBar.el().insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
-  player.addClass('vjs-brand');
+  let containerElement = document.createElement("div");
+  containerElement.className = "vjs-brand-container";
+
+  let imageElement = document.createElement("img");
+  imageElement.src = options.image; // || defaults.image;
+  imageElement.addEventListener(
+    "click",
+    options.brandClick || defaults.brandClick
+  );
+  imageElement.setAttribute("title", options.title || defaults.title);
+  imageElement.setAttribute(
+    "target",
+    options.destinationTarget || defaults.destinationTarget
+  );
+  imageElement.className = "vjs-brand-container-link";
+  containerElement.appendChild(imageElement);
+  player.controlBar
+    .el()
+    .insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
+  player.addClass("vjs-brand");
 };
 
 /**
@@ -56,10 +63,9 @@ const brand = function(options) {
 
 // Register the plugin with video.js.
 //videojs.plugin('brand', brand);//old;
-videojs.registerPlugin('brand', brand);
-
+videojs.registerPlugin("brand", brand);
 
 // Include the version number.
-brand.VERSION = '__VERSION__';
+brand.VERSION = "__VERSION__";
 
 export default brand;
