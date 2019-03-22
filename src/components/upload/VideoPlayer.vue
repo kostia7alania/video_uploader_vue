@@ -1,6 +1,23 @@
 <template>
-  <div @click.stop class="video-player-div">
+  <div @click.stop="startShow = true" class="video-player-div">
+    <div
+      v-if="!isAvailabled"
+      class="video-unavailable"
+      v-b-tooltip.hover
+      title="The video preview is unavailable"
+    >
+      <div class="video-unavailable--message">
+        <i class="fas fa-video-slash fa-x"></i>
+        <span> &nbsp; N/A </span>
+      </div>
+    </div>
+
+    <div v-else-if="!startShow" class="image-placeholder">
+      <i class="fab fa-youtube fa-3x"></i>
+    </div>
+
     <video-player
+      v-else-if="startShow && isAvailabled"
       class="video-player-box"
       ref="videoPlayer"
       :options="playerOptions"
@@ -18,8 +35,11 @@
       @statechanged="statechanged($event)"
       @ready="ready($event)"
     />
+
+    <div class="status--message" v-if="showStatus && duration">
+      <DetectDuration :duration="duration" />
+    </div>
   </div>
-  <!---<source :src="createVideoSrc(obj.file)" type="video/mp4">-->
 </template>
 
 <script>
@@ -27,31 +47,42 @@ import "video.js/dist/video-js.css";
 import { videojs, videoPlayer } from "vue-video-player";
 import brand from "@/plugins/videojs-brand";
 
+import Status from "@/components/uploaded/Status";
+import DetectDuration from "./DetectDuration";
+
+import { mapState } from "vuex";
 export default {
-  name: "VideoPlayer",
-  components: { videoPlayer },
+  name: "My-VideoPlayer",
+  components: { videoPlayer, Status, DetectDuration },
   props: {
-    file: File
+    status: { type: null },
+    isAvailabled: { type: Boolean },
+    file: File,
+    src: String,
+    poster: {
+      type: String,
+      default: () => "http://placehold.jp/300x168.png"
+    },
+
+    file_type: {
+      type: String,
+      default: () => ""
+    },
+    modal: null,
+    duration: [String, Number]
   },
   data() {
     return {
-      playerOptions: {
-        // videojs options
-        muted: true,
-        language: "en",
-        playbackRates: [0.5, 1.0, 1.5, 2.0, 5, 16],
-        sources: [
-          {
-            type: this.file.type || "video/mp4",
-            src: window.URL.createObjectURL(this.file) // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-          }
-        ],
-        poster: "/static/images/author.jpg"
-      }
+      startShow: false,
+      showStatus: true,
+      ready_player: null
     };
   },
   mounted() {
-    console.log("this is current player instance object", this.player);
+    if (this.modal) {
+      this.startShow = true; // if modal --> starting playing!!;
+      // console.log("this is current player instance object", this.player);
+    }
   },
   methods: {
     brandClick() {
@@ -63,6 +94,7 @@ export default {
     },
     play(e) {
       console.log("play!", e);
+      this.showStatus = false;
     },
     pause(e) {
       console.log("pause!", e);
@@ -94,28 +126,75 @@ export default {
     ready(player) {
       console.log("ready", player);
       player.brand({
-        image: "https://apcis.tmou.org/img/tmou.gif",
-        title: "by APCIS Dev Team",
+        title: this.videoPlayerBrandTitle,
         destination: "#", //"http://www.google.com",
         destinationTarget: "", //"_top"
         brandClick: this.brandClick
       });
+      player.play();
+      this.ready_player = player;
+      ///player.one("loadedmetadata", () => this.duration = player.duration() );
     }
   },
   computed: {
+    ...mapState(["videoPlayerBrandTitle"]),
     player() {
-      return this.$refs.videoPlayer.player;
+      return (
+        this.isAvailabled &&
+        this.$refs.videoPlayer &&
+        this.$refs.videoPlayer.player
+      );
+    },
+    playerOptions() {
+      return {
+        // videojs options
+        muted: true,
+        language: "en",
+        playbackRates: [0.5, 1.0, 1.5, 2.0, 5, 16],
+        sources: [
+          {
+            type: this.file_type
+              ? this.file_type
+              : this.file.type || "video/mp4",
+            src: this.src
+              ? this.src
+              : (URL || webkitURL).createObjectURL(this.file) // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+          }
+        ],
+        poster: this.poster
+      };
     }
   }
 };
 </script>
- 
+
 <style lang="scss">
+.video-player-div {
+  transition: 0.4s;
+  &:hover i:not(.fa-tasks) {
+    color: red;
+    transform: scale(1.2);
+  }
+}
+
+.image-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 168px;
+  border: dashed 1px black;
+  i {
+    color: indigo;
+  }
+}
 .video-player-div,
 .video-player,
 .video-js {
+  /*
   height: 200px !important;
   width: 200px !important;
+  */
 }
 
 // Sass for videojs-brand
@@ -123,8 +202,8 @@ export default {
   // This class is added to the video.js element by the plugin by default.
   &.vjs-brand {
     display: block;
-    width: 300px !important;
-    height: 200px !important;
+    width: 300px;
+    height: 168px;
   }
 }
 
@@ -162,5 +241,35 @@ div.vjs-brand-container {
 }
 .vjs-modal-dialog-content {
   display: none;
+}
+
+.video-player-div {
+  position: relative;
+}
+
+.video-unavailable {
+  width: 300px;
+  height: 168px;
+  border: 1px dashed black;
+  display: block;
+  position: relative;
+  color: black;
+  cursor: not-allowed;
+}
+
+.video-unavailable--message {
+  position: absolute;
+  top: 43%;
+  left: 42%;
+}
+.modal .video-unavailable--message {
+  top: 48%;
+  left: 45%;
+}
+
+.status--message {
+  position: absolute;
+  bottom: 0.2em;
+  right: 0.2em;
 }
 </style>

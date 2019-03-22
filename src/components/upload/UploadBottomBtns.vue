@@ -1,56 +1,70 @@
 <template>
-  <div> 
-      <button
-        class="btn btn-danger progress_btn" 
-        @click="removeAll"
-        v-b-tooltip.hover
-        title="Remove selected videos from the list">
-        <i class="far fa-trash-alt"></i>
-        {{removeAllText}} ({{all_count}})
-      </button> 
+  <div>
+    <button
+      v-if="stopAllShown"
+      v-b-tooltip.hover
+      :title="stopAllTitle"
+      @click="stopAllHandler"
+      :class="stopAllClass"
+    >
+      <i :class="stopAllIcon"></i>
+      {{ stopAllText }}
+    </button>
 
-      <button
-        class="btn btn-danger progress_btn"
-        v-if="all_selected_count"
-        @click="removeSelectedAction"
-        v-b-tooltip.hover
-        title="Clear list">
-        <i class="far fa-trash-alt"></i>
-        {{removeSelectedText}} ({{all_selected_count}})
-      </button>
+    <button
+      v-if="removeAllShown"
+      v-b-tooltip.hover.left
+      :title="removeAllTitle"
+      @click="removeAllCommit"
+      :class="removeAllClass"
+    >
+      <i :class="removeAllIcon"></i>
+      {{ removeAllText }}
+    </button>
 
-      <button
-        class="btn btn-primary progress_btn"
-        v-if="all_valid_selected_count && all_selected_count"
-        @click="sendSelectedAction">
-        <i class="fas fa-upload"></i>
-      {{sendSelectedText}} 
-      </button>
+    <button
+      v-if="removeSelectedShown"
+      v-b-tooltip.hover
+      :title="removeSelectedTitle"
+      @click="removeSelectedAction"
+      :class="removeSelectedClass"
+    >
+      <i :class="removeSelectedIcon"></i>
+      {{ removeSelectedText }}
+    </button>
 
-      <button
-        v-if="all_valid_count"
-        class="btn btn-warning progress_btn"
-        v-b-tooltip.hover
-        :title="sendAllTitle"
-        @click="sendAllHandler">
-        <i class="fas fa-upload"></i>
-        {{sendAllText}} 
-      </button>
- 
+    <button
+      v-if="sendSelectedShown"
+      v-b-tooltip.hover
+      :title="sendSelectedTitle"
+      @click="sendSelectedAction"
+      :class="sendSelectedClass"
+    >
+      <i :class="sendSelectedIcon"></i>
+      {{ sendSelectedText }}
+    </button>
+
+    <button
+      v-if="sendAllShown"
+      v-b-tooltip.hover
+      :title="sendAllTitle"
+      @click="sendAllHandler"
+      :class="sendAllClass"
+    >
+      <i :class="sendAllIcon"></i>
+      {{ sendAllText }}
+    </button>
   </div>
 </template>
 
 <script>
-import { filters, selectedFilesCounts} from "@/mixins.js";
-
+import { filters, selectedFilesCounts } from "@/mixins.js";
 export default {
   name: "Action-Btns",
-  mixins: [filters, selectedFilesCounts],
-  props: {},
-  computed: { /*migrated to MIXINS! */}
+  mixins: [filters, selectedFilesCounts]
 };
 </script>
- 
+
 <style scoped lang="scss">
 .block {
   cursor: not-allowed;

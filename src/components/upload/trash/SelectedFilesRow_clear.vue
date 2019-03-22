@@ -1,19 +1,17 @@
 <template>
-  <b-row :class=" obj.class + ' list-item'">
-    <b-col cols="1">{{index+1}}</b-col>
+  <b-row :class="obj.class + ' list-item'">
+    <b-col cols="1">{{ index + 1 }}</b-col>
 
     <b-col>
-      <VideoPlayer v-if="file.type === 'video/mp4'" :file="file"/>
+      <VideoPlayer v-if="file.type === 'video/mp4'" :file="file" />
       <span v-else v-b-tooltip.hover title="The video preview is unavailable">
-        <i class="fas fa-ban"/> N/A
+        <i class="fas fa-ban" /> N/A
       </span>
     </b-col>
 
     <b-col>
-      <b>{{file.name}}</b>
+      <b>{{ file.name }}</b>
     </b-col>
-
-
 
     <b-col>
       <textarea type="text" @input="comment($event, index)"></textarea>
@@ -82,10 +80,11 @@ export default {
   }
 };
 </script>
- 
-<style scoped lang="scss">
 
-.list-item { transition: all 0.5s; }
+<style scoped lang="scss">
+.list-item {
+  transition: all 0.5s;
+}
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s;
@@ -93,9 +92,12 @@ export default {
   right: 0px;
   left: 0px;
 }
-.list-enter { transform: translateY(-60px); }
-.list-leave-to /* .list-leave-active до версии 2.1.8 */ { opacity: 0;}
+.list-enter {
+  transform: translateY(-60px);
+}
+.list-leave-to /* .list-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
 /*.list-transitionend {  background: red}*/
 /*.list-move {transition: transform 1s; }*/
-
 </style>

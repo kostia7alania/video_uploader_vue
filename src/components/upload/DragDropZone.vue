@@ -1,21 +1,27 @@
 <template>
   <div class="Drag-Drop-Zone">
-    <form v-if="dragAndDropCapable" 
-      id="file-drag-drop" 
-      :class="{dropped}"
+    <form
+      v-if="dragAndDropCapable"
+      id="file-drag-drop"
+      :class="{ dropped }"
       @dragleave.stop.prevent="dragEvent(0)"
       @drop.stop.prevent="dragEvent(0, $event)"
       @dragover.stop.prevent="dragEvent(1)"
       @dragenter.stop.prevent="dragEvent(1)"
     >
-      <template v-if="!dropped">Drop your files in this area ...</template>
-      <template v-else>Now you can release mouse button!</template>
+      <template v-if="!dropped"
+        >Drop your files in this area ...</template
+      >
+      <template v-else
+        >Now you can release mouse button!</template
+      >
     </form>
-    <DragDropZoneButton/>
+    <DragDropZoneButton />
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import DragDropZoneButton from "./DragDropZoneButton";
 export default {
   name: "Drag-Drop-Zone",
@@ -23,13 +29,13 @@ export default {
     return { dropped: false };
   },
   components: { DragDropZoneButton },
-  watch: { 
-  },
-  methods: { 
-    dragEvent(e, dropEvent) { 
-      if(dropEvent) this.$store.dispatch("filesSelected", dropEvent); //send files to Vuex action
+  watch: {},
+  methods: {
+    ...mapActions(["filesSelected"]),
+    dragEvent(e, dropEvent) {
+      if (dropEvent) this.filesSelected(dropEvent); //send files to Vuex action
       this.dropped = e ? true : false;
-    }, 
+    }
   },
   computed: {
     dragAndDropCapable() {
@@ -43,11 +49,15 @@ export default {
     }
   },
   mounted() {
-    let prevent = e => { e.preventDefault(); e.stopPropagation();};
+    let prevent = e => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
     if (this.dragAndDropCapable) {
       "drag,dragstart,dragend,dragover,dragenter,dragleave,drop"
-      .split(",") .forEach(evt =>  window.addEventListener(evt, prevent, false) );
-      window.addEventListener("drop", this.selectFilesHandler);
+        .split(",")
+        .forEach(evt => window.addEventListener(evt, prevent, false));
+      //window.addEventListener("drop", this.selectFilesHandler);
     }
     //через VUE-фичи .stop.prevent реализовал потом: https://ru.vuejs.org/v2/api/index.html#v-on
     /*
@@ -63,9 +73,9 @@ export default {
   }
 };
 </script>
- 
+
 <style scoped lang="scss">
-#file-drag-drop:NOT(.dropped) {
+#file-drag-drop:not(.dropped) {
   background: #ccc;
   width: 400px;
 }
@@ -114,5 +124,66 @@ export default {
     yellow,
     black
   ); /* Стандартный синтаксис */
-} 
+}
+
+#file-drag-drop {
+  animation: yourAnimation 2s;
+}
+
+@keyframes yourAnimation {
+  0% {
+    transform-origin: 50% 50%;
+  }
+  10% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: black;
+    opacity: 1;
+  }
+  18% {
+    transform-origin: 20% 30%;
+  }
+  31% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: white;
+    opacity: 0.6;
+    color: black;
+  }
+  45% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: black;
+    opacity: 0.5;
+  }
+  61% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: red;
+  }
+  73% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: black;
+    opacity: 0.6;
+    color: white;
+  }
+  78% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: black;
+    opacity: 0.5;
+  }
+  98% {
+    transform: rotate(0);
+    transform-origin: 20% 30%;
+    background: gray;
+    color: black;
+    opacity: 1;
+  }
+}
+
+.elementToAnimate {
+  animation: yourAnimation 3s infinite 0s linear;
+}
 </style>

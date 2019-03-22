@@ -14,3 +14,172 @@ th {	text-align:center !important }
       background-position: 0 200px;
     }
   }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
+
+
+tr.list-item:focus-within {
+  outline: solid 2px red;
+}
+
+
+
+
+
+
+/*
+.table-headers {
+  font-weight: bold;
+  margin: 10px 0 30px 0;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  & > div {
+    flex: auto;
+    &:nth-child(1) { flex: 1; }
+    &:nth-child(2) { flex: 3; }
+    &:nth-child(3) { flex: 1; }
+    &:nth-child(4) { flex: 2; }
+    &:nth-child(5) { flex: 2; }
+    &:nth-child(6) { flex: 1; }
+  }
+}
+
+.list-item:nth-child(even){ background:#ffa; }
+.list-item:nth-child(odd){ background:#ddd; }
+
+.selected_row {
+  background: rgba(17, 70, 247, 0.486) !important;
+    &:hover {
+    background: rgba(17, 70, 247, 0.386) !important;
+  }
+}
+.list-item {
+  padding: 5px 0 5px 0;
+  cursor:pointer;
+  transition: .1s;
+  &:hover {
+    background: rgba(119, 19, 19, 0.055)
+  }
+} */
+
+
+
+.pointer {
+  cursor: pointer;
+}
+
+
+
+.list-enter { /* 1) перед вставкой элемента и удаляется */
+  opacity: 0;
+}
+.list-enter-active {/* 1-2) Общее состояние 1-2 - для плавности, длительности или задержки */
+  transition: all .8s ease;
+}
+.list-enter-to { /* 2) анимация добавления завершена */
+  opacity: 1;
+}
+
+/* при УДАЛЕНИИ, применяются 3 класса: */
+.list-leave { /* 1) начало анимации исчезновения эл-та */
+  opacity: 1;
+}
+.list-leave-active {  /* 2) общее состояние исчезнования */
+    transition: all .8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.list-leave-to {/* .list-leave-active до версии 2.1.8 
+                  3) завершение анимации */
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+
+/*** A N I M A T I O N ***/
+
+.v-enter-active, .v-leave-active {
+  transition-property: opacity; /*выбор св эл,необходимого для изменения*/
+  transition-duration: 0.8s;
+  /*transition-timing-function - скорость перехода от 1 знач к другому
+  transition-delay - задержка перед началом перехода*/
+}
+.v-enter, .v-leave-to { /*начало и конец-одинаковое*/
+  opacity: 0;
+}
+
+
+.slide-enter-active {
+   transition-duration: 0.3s;
+   transition-timing-function: ease-in;
+}
+
+.slide-leave-active {
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slide-enter-to, .slide-leave {
+  max-height: 100px;
+  overflow: hidden;/*скрыть потраха(то,что внутри анимируемого дива), которые палятся при анимации!*/
+}
+
+.slide-enter, .slide-leave-to {
+  max-height: 0;
+  overflow: hidden;
+}
+
+
+
+
+/***** TABLE *****/
+tbody tr:hover {
+  background: rgba(0, 0, 0, 0.15) !important; 
+}
+.width200 {width: 200px;}
+.info-column {min-width: 200px;}
+.comments {max-width: 20em; }
+td { vertical-align: middle; }
+.non-valid {
+  text-decoration: line-through;
+  &:after { /*  content: ' !!!!!! '*/
+  }
+}
+
+.list-item {
+  cursor: pointer;
+  &:hover { background: rgba(0, 0, 0, 0.13) }
+  &.row--context-active {
+    background-color:#5c81d673 !important;
+  }
+}
+.selected_row {
+  td { //чеб и выделение было видно и наведение;
+    background-color: #0062cc73 !important;
+  }  
+}
+
+.rowWithErrors {
+    background: #911d3a17;
+    &:hover {
+      background: #694b5242;
+    }
+}
+
+ 

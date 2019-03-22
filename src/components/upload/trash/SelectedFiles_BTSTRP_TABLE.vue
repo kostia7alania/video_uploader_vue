@@ -2,7 +2,7 @@
   <div class="SelectedFiles">
     <b-container fluid>
       <!--<SelectedFilesRows v-for="(obj, index) in selectedVideos":key="obj.hash":obj="obj":index="index"/>-->
-       <!--<b-table
+      <!--<b-table
         striped
         small
         show-empty
@@ -31,7 +31,7 @@
         <template slot="Actions" slot-scope="data"><ActionBtns :obj="data.value" /></template>
 
       </b-table>-->
-      <SelectedFilesRow/>
+      <SelectedFilesRow />
     </b-container>
   </div>
 </template>
@@ -41,12 +41,12 @@
 
 import ActionBtns from "./ActionBtns";
 import VideoPlayer from "./VideoPlayer";
-import checkMixins from '@/mixins.js'
+import checkMixins from "@/mixins.js";
 
-import { mapMutations } from 'vuex'; 
+import { mapMutations } from "vuex";
 
 import InfoCol from "./Info_col";
-import SelectedFilesRow from './SelectedFilesRow'
+import SelectedFilesRow from "./SelectedFilesRow";
 export default {
   name: "Selected-Videos",
   mixins: [checkMixins],
@@ -58,58 +58,58 @@ export default {
   },
   components: { ActionBtns, VideoPlayer, InfoCol, SelectedFilesRow },
   methods: {
-    ...mapMutations([
-      'toogleSelectRow',
-      'changeUserData'
-    ]),
-    rowClick(e){
+    ...mapMutations(["toogleSelectRow", "changeUserData"]),
+    rowClick(e) {
       let index = e.index;
-      this.toogleSelectRow ( { index } )
+      this.toogleSelectRow({ index });
     },
     rowSelected(arr_rows) {
-      console.log(arr_rows)
-      this.selected_rows = arr_rows
+      console.log(arr_rows);
+      this.selected_rows = arr_rows;
       //this.selected_rows[hash] = true;
     },
 
     comment(ev, index) {
       //this.$store.state.selectedVideos[index].userData.comment = ev.target.value
-     // this.$forceUpdate();
+      // this.$forceUpdate();
       this.changeUserData({
         prop: "comment",
         index,
         val: ev.target.value
       });
-    },
+    }
   },
   computed: {
-   fields: () => [
-        { key: "index", label: "#", formatter: e => e + 1 },
-        "Preview",
-        "Name",
-        "Info",
-        "Comment",
-        "Actions"
+    fields: () => [
+      { key: "index", label: "#", formatter: e => e + 1 },
+      "Preview",
+      "Name",
+      "Info",
+      "Comment",
+      "Actions"
     ],
     items() {
       return this.selectedVideos.map((el, i) => {
         let e = el.fileData;
-        console.log(e.file.name,e);
+        console.log(e.file.name, e);
         return {
           index: i,
           Preview: e.file,
           Name: e.file.name,
           Info: { ...e, file: e.file, index: i },
           Comment: "",
-          Actions: { ...e,file: e.file, index: i },
-          _rowVariant: this.selectedVideos[i].userData.class === "alert alert-danger"?'danger':''
+          Actions: { ...e, file: e.file, index: i },
+          _rowVariant:
+            this.selectedVideos[i].userData.class === "alert alert-danger"
+              ? "danger"
+              : ""
         };
       });
     }
   }
 };
 </script>
- 
+
 <style lang="scss">
 .table-headers {
   font-weight: bold;

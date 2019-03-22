@@ -1,29 +1,40 @@
-<template> 
-    <div class="Drag-Drop-Zone-Button">
-      <label class="file-label" for="file">
-        <i class="far fa-folder-open"></i>
-        Browse</label>
-      <input type="file" id="file" :accept="formats" @change="filesSelected" multiple>
-    </div>
+<template>
+  <div class="Drag-Drop-Zone-Button">
+    <label class="file-label" for="file">
+      <i class="far fa-folder-open"></i>
+      Browse</label
+    >
+    <input
+      type="file"
+      id="file"
+      :accept="accept_formats"
+      @change="sel($event)"
+      multiple
+    />
+  </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Drag-Drop-Zone-Button",
   methods: {
-    filesSelected(event) {
-      this.$store.dispatch("filesSelected", event);
-      event.target.value = '';
-    }
+    async sel(event) {
+     let a =  await this.filesSelected(event);
+     console.log('a',a)
+      event.target.value = "";
+    },
+    ...mapActions(["filesSelected"])
   },
   computed: {
-    formats() {
-      return this.$store.state.formats.replace(/(\w{1,99})/gim, ".$1");
+    ...mapState(["formats"]),
+    accept_formats() {
+      return this.formats.replace(/(\w{1,99})/gim, ".$1");
     }
   }
 };
 </script>
- 
+
 <style scoped lang="scss">
 .file-label {
   display: inline-block;
@@ -38,5 +49,7 @@ export default {
   color: #fff;
   background-color: #74b9ff;
 }
-#file {display: none; }
+#file {
+  display: none;
+}
 </style>
