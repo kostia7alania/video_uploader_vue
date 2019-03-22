@@ -3,10 +3,6 @@
 
 .DS_Store
 node_modules
-/dist
-*/soap.php 
-*/soap.php 
-/backend/soap.php 
 # local env files
 .env.local
 .env.*.local
@@ -29,3 +25,13 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+
+
+/dist
+*/video-config.php 
+*/video-config.php 
+/backend/video-config.php 
+composer.phar
+/vendor/
+
