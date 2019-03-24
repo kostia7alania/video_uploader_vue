@@ -1,6 +1,20 @@
 module.exports = {
-  publicPath: "./",
-  assetsDir: "./dist/",
+  lintOnSave: process.env.NODE_ENV !== "production",
+  devServer: {
+    overlay: {
+      warnings: false,
+      errors: true,
+      proxy: "http://localhost:3000/backend/index.php" //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
+    }
+  },
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "./" //По умолчанию: '/'
+      : "/",
+  assetsDir: "./", //По умолчанию: '' - Каталог (относительно outputDir) для хранения сгенерированных статических ресурсов (js, css, img, fonts).
+  outputDir: "dist",
+  indexPath: "index.html", //умолч -'index.html'-относительно outputDir
+  filenameHashing: false,
 
   chainWebpack: config => {
     config.module
@@ -20,16 +34,37 @@ module.exports = {
         };
         return options;
       });
-       
+
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type("javascript/auto")
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end();
+
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
+    svgRule.use("vue-svg-loader").loader("vue-svg-loader");
   },
 
   pluginOptions: {
     i18n: {
-      locale: 'en',
-      fallbackLocale: 'ru',
-      localeDir: 'locales',
+      locale: "ru",
+      fallbackLocale: "en",
+      localeDir: "locales",
       enableInSFC: true
-    }
+    },
+
+    foo: {}
+  },
+
+  // ...other vue-cli plugin options...
+  pwa: {
+    name: "Video uploader",
+    msTileColor: "#00FF3C",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "black"
   }
 };
 
