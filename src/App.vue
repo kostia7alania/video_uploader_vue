@@ -3,7 +3,7 @@
     <div class="wrapper d-flex flex-column">
       <header-section />
       <main>
-        <Tabs />
+        <router-view />
         <BackToTop />
       </main>
       <footer-section />
@@ -14,20 +14,22 @@
 <script>
 import header from "@/Views/Header";
 import footer from "@/Views/Footer";
-import Tabs from "@/Views/Tabs";
 import BackToTop from "@/components/BackToTop/BackToTop";
 
 import { mapMutations } from "vuex";
 export default {
   name: "app",
   components: {
-    Tabs,
     "header-section": header,
     "footer-section": footer,
     BackToTop
   },
   methods: {
     ...mapMutations(["changeProp"])
+  },
+  mounted() {
+    window.App = this;
+    window.$t = (args, obj = {}) => this.$t(args, obj);
   },
   created() {
     let p = this.$options._parentVnode.data.props;
