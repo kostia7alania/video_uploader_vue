@@ -1,3 +1,176 @@
 {
-  "message": "hello i18n !!"
+  "i18n": "Using i18n",
+  
+  "drop": "Drop your files in this area ...",
+  "release":"Now you can release mouse button!",
+
+  "--> Хедер и футер:":" <-- ",
+  "Information Coordination Center of State Port Control":"Information Coordination Center of State Port Control",
+  "ICCSPC": "ICCSPC",
+  "Copyright":"Copyright",
+  "The feature will be implemented soon":"The feature was implemented soon",
+  
+  "-->вкладки":"",
+  "Tabs_vue": {
+  "Upload":"Upload",
+  "Uploaded":"Already uploaded",
+  "You-already-in-the-tab":"You already in the tab",
+  "open-upload-section":"Click for open upload section",
+  "already-uploaded-section":"Click for open already uploaded section"
+  },
+
+  "Header_vue": {
+    "About": "About",
+    "About_article":"Information Coordination Center of State Port Control",
+    "Help": "Help",
+    "How-To-Use": "How-To-Use",
+    "Settings":"Settings",
+    "Feedback":"Feedback",
+    "Brand": "APCIS Video Uploader",
+    "Brand_title":"",
+    "Back-to-site":"Back to site",
+    "Back-to-site_title":"Close this tab",
+    "already-ru":"You are already in the language",
+    "already-en":"You are already in the language",
+    "choose-ru-lang":"Изменить интерфейс на русский",
+    "choose-en-lang":"Change interface to ENGLISH"
+  },
+
+  "Uploaded_vue": {
+    "Uploaded":"Uploaded",
+    "Already":"Already uploaded video list to server",
+    "Total duration":"Total duration:",
+    "Number of videos": "Number of videos",
+    "Last updated":"Last updated"
+  },
+  
+  "--> модальное окно ==>":"...",
+  "Prev":"Prev",
+  "Next":"Next",
+  
+  "--> всплывающие подсказки ==>":"...",
+  "already uploaded":"It seems you have already uploaded this file to the server",
+  "Cancelled": "Operation canceled by the user",
+  "Comment":"Comment",
+  "File name":"File name",
+
+  "--> заголовки таблицы ==>":"...",
+  "Name":"Name",
+  "#":"#",
+  "Preview": "Preview",
+  "Status":"Status",
+  "Date":"Date", 
+  "Comments":"Comments",
+  "Status":"Status",
+  "Info":"Info",
+  "Actions":"Actions",
+  "Date of uploading":"Date of uploading",
+
+  "--> Логика в заголовках таблицы":"",  
+  "Sort by Name":"Sort by Name",
+  "Sort the list by Name column":"Sort the list by Name column",
+  "Sort by Size":"Sort by Size",
+  "Sort the list by file sizes":"Sort the list by file sizes",
+  "Sort by Type":"Sort by Type",
+  "Group the list by file formats":"Group the list by file formats",
+  "Sort by Date":"Sort by Date",
+  "Sort the list by Modified":"Sort the list by Modified",
+  "Sort by Selected":"Sort by Selected",
+  "Group the list by selected files":"Group the list by selected files",
+  "Sort by Comment":"Sort by Comment",
+  "Sort the list by Comment column":"Sort the list by Comment column",
+  "Sort by added":"Sort by added",
+  "Sort the list by added":"Sort the list by added",
+  
+  "Remove all":"Remove all",
+  "other":"other",
+
+  "Clear the list":"Clear the list",
+  "skip":"skip",
+  "transfering file":"transfering file",
+  "transfering files":"transfering files",
+  "Remove selected" :"Remove selected",
+  
+  "Remove Selected Title 1": "Remove {count} selected file:\n{valid} - valid, {nonvalid} - non valid",
+  "Remove Selected Title 2": "Remove {count} selected files:\n{valid} - valid, {nonvalid} - non valid",
+  
+  "Stop all title 1": "Stop tranfer ({count})",
+  "Stop all title 2": "Stop all tranfers ({count})",
+
+  "-->actions":"-->",
+  "corrupt file":"The file <b>{filename}</b> is corrupt",
+  "unsupported format": "The file <b>{file.name}</b> has an unsupported format. See the list of supported formats",
+  "Format not supported": "Format not supported",
+  "Max size exceeded": "Max size exceeded. Limit - {maxSize} GB.",
+  "Size-is-OK":"Size is OK",
+  "Type is OK":"Type is OK",
+  "file is already selected":"The file <b>{filename}</b> is already selected",
+  "Cancelled by user":"Cancelled by user",
+  "Error while preparing to send the file":"Error while preparing to send the file",
+  "Url params is wrong":"Url params is wrong",
+  "File already transferring":"File already transferring",
+  "Sucessifely uploaded":"<b>Sucessifely uploaded</b> - {OrigFileName}",
+  "Is not uploaded":"Is not uploaded {name}",
+  "Default displaying error in the table":"Erorr while upload the file",
+  "Network Error":"Network Error",
+
+  "==> SelectedFiles_vue->":"",
+  "You can't send this file":"You can't send this file",
+  "Upload the file":"Upload the file", 
+  "Delete the file":"Delete the file", 
+  "Stop":"Stop",
+
+  "==> rowTextArea_vue": "",  
+  "Comments need to be reduced":"The comment will be reduced to {maxLen} characters",
+  "The comment max size is": "The comment max size is {maxLen} characters",
+  "Size has been exceeded":"Size has been exceeded",
+  "Limit size":"Limit size",
+
+  "==>>VideoPlayer_vue":"",
+  "Brand click":"You are welcomed by the APCIS development team. Have a nice day",
+  "The video preview is unavailable": "The video preview is unavailable",
+  
+  "Bytes": "B",
+  "KB": "KB",
+  "MB": "MB",
+  "GB": "GB",
+
+
+  "Message sent successfully": "Message sent successfully",
+  "An error occurred while sending the request": "An error occurred while sending the request",
+  
+  " ====> actions.js ":"",
+  "Successively uploaded":"Successively uploaded - {suc_count}. ",
+  "Uploaded with fail":"Failed - {fail_count}",
+  "Upload all done with error":"Upload all done with error {err}",
+  "Send all report":"Send all: {report}",
+
+  "===> mixins":"",
+  "Remove all completely 1": "We completely cleared the list ({deleted} file)",
+  "Remove all completely 2": "We completely cleared the list ({deleted} files)",
+  "Remove all report 1": "Removed: {deleted} file.",
+  "Remove all report 2": "Removed: {deleted} files.",
+  "Remove all report skipped 1": "Skipped: {skipped} file",
+  "Remove all report skipped 2": "Skipped: {skipped} files",
+  
+  "Upload selected 1": "Upload {count} selected file",
+  "Upload selected 2": "Upload {count} selected files",
+  "Upload selected without 1":"without ({count}) selected non valid file",
+  "Upload selected without 2":"without ({count}) selected non valid files",
+
+  "Send all text": "Send all  {count} valid ({size})",
+  "Send all text ignor": "Send all other {count} ({size})",
+  
+  "Send all other title 1": "We will append all other {count} file",
+  "Send all other title 2": "We will append all other {count} files",
+  "sendAllTitle 1": "We will upload {count} file ({size})",
+  "sendAllTitle 2": "We will upload {count} files ({size})",
+  "sendAllTitle ignore 1": "\nand ignore {count} invalid file",
+  "sendAllTitle ignore 2": "\nand ignore {count} invalid files",
+
+  " ===> UploadedRefreshBtn_VUE":"",
+  "Network Error":"Network Error"
+
+  
+    
 }

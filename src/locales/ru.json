@@ -1,3 +1,175 @@
 {
+    "i18n": "Используем i18n",
+
+    "drop": "Перетащите сюда Ваши файлы ...",
+    "release":"Теперь Вы можете отпустить мышку!",
+
+    "--> Хедер и футер:":" <-- ",
+    "Information Coordination Center of State Port Control": "Информационно-координационный центр государственного портового контроля",
+    "ICCSPC": "ИЦГПК",
+    "Copyright":"Все права защищены",
+    "The feature was implemented soon":"Функция будет реализована в ближайшее время",
+    
+  "-->вкладки":"",
+  "Tabs_vue": {
+    "Upload":"Загрузить видео",
+    "Uploaded":"Загруженные видео",
+    "You-already-in-the-tab":"Вы уже находитесь в этом разделе",
+    "open-upload-section":"Нажмите, чтобы перейти в раздел загрузки видео",
+    "already-uploaded-section":"Нажмите, чтобы перейти в раздел просмотра загруженных видео"
+  },
+
+  "Header_vue": {
+    "About": "О нас",
+    "About_article":"Информационно-координационный центр государственного портового контроля",
+    "Help": "Помощь",
+    "How-To-Use":"Как пользоваться",
+    "Settings":"Настройки",
+    "Feedback":"Обратная связь",
+    "Brand": "Видео-хостинг",
+    "Brand_title":"",
+    "Back-to-site": "Вернуться на сайт",
+    "Back-to-site_title":"Текущая вкладка закроется",
+    "already-ru":"Вы уже в русском интерфейсе",
+    "already-en":"Вы уже в английском интерфейсе",
+    "choose-ru-lang":"Изменить интерфейс на русский",
+    "choose-en-lang":"Change interface to ENGLISH"
+  },
+
+  "Uploaded_vue": {
+    "Uploaded":"Загруженные",
+    "Already":"Список уже загруженных видео-файлов",
+    "Total duration": "Длительность, всего:",
+    "Number of videos":"Количество, всего:",
+    "Last updated":"Последнее обновление"
+  },
+    "--> модальное окно ==>":"...",
+    "Prev":"Предыдущий",
+    "Next":"Следующий",
   
-}
+    "--> всплывающие подсказки ==>":"...",
+    "already uploaded":"Похоже, Вы уже загружали данное видео в рамках данного замечания",
+    "Cancelled": "Операция отменена пользователем",
+    "Comment":"Комментарий",
+    "File name":"Имя файла",
+
+  "--> заголовки таблицы ==>":"...",
+    "Name":"Имя",
+    "#":"№",
+    "Preview":"Превью",
+    "Status": "Статус",
+    "Date":"Дата", 
+    "Comments":"Комментарии",
+    "Status":"Статус",
+    "Info":"Информация",
+    "Actions":"Действия",
+    "Date of uploading":"Дата загрузки",
+
+    "--> Логика в заголовках таблицы":"",
+    "Sort by Name":"Сортировать по имени",
+    "Sort the list by Name column":"Сортировать список по полю Имя",
+    "Sort by Size":"Сортировать по размеру",
+    "Sort the list by file sizes":"Сортировать список по параметру Размер",
+    "Sort by Type":"Группировать по типу",
+    "Group the list by file formats":"Группировать список по типу файла",
+    "Sort by Date":"Сортировать по дате",
+    "Sort the list by Modified":"Сортировать список по дате изменения",
+    "Sort by Selected":"Группировать выделенные",
+    "Group the list by selected files":"Группировать по выделенным",
+    "Sort by Comment":"Сортировать по комментариям",
+    "Sort the list by Comment column":"Сортировать по полю Комментарии",
+    "Sort by added":"Сортировать по добавлению",
+    "Sort the list by added":"Сортировать по порядку добавления файлов",
+    
+    "Remove all":"Удалить все",
+    "other":"остальные",
+    
+    "Clear the list":"Очистить список",
+    "skip":"пропуская",
+    "transfering file":"передающийся файл",
+    "transfering files":"передающихся файлов",
+    "Remove selected" :"Удалить выделенные",
+
+    "Remove Selected Title 1": "Удалить {count} выделенный файл:\n{valid} - валидных, {nonvalid} - не валидных",
+    "Remove Selected Title 2": "Удалить {count} выделенных файла:\n{valid} - валидных, {nonvalid} -не валидных",
+   
+    "Stop all title 1": "Остановить загрузку ({count})",
+    "Stop all title 2": "Остановить все загрузки ({count})",
+    
+  "-->actions":"-->",
+  "corrupt file":"Файл поврежден - <b>{filename}</b>",
+  "unsupported format": "Файл имеет неподдерживаемый нашей системой формат - <b>{file.name}</b",
+  "Format not supported": "Формат не поддерживается",
+  "Max size exceeded": "Лимит размера файла превышен. Лимит - {maxSize} GB.",
+  "Size-is-OK":"Размер в пределах лимита",
+  "Type is OK":"Тип файла поддерживается",
+  "file is already selected":"Файл уже в списке - <b>{filename}</b>",
+  "Cancelled by user":"Отменено пользователем!",
+  "Error while preparing to send the file":"Ошибка при подготовке файла к отправке!",
+  "Url params is wrong":"Параметры ссылки неверны. Попробуйте перезайти в учетную запись.",
+  "File already transferring":"Файл уже отправляется...",
+  "Sucessifely uploaded":"<b>Успешно загружен файл</b> - {OrigFileName}",
+  "Is not uploaded":"Файл не загружен {name}",
+  "Default displaying error in the table" : "Произошла ошибка при загрузке файла",
+  "Network Error":"Сетевая ошибка",
+
+  
+  "==> SelectedFiles_vue->":"",
+  "You can't send this file":"Вы не можете отправить этот файл",
+  "Upload the file":"Загрузить файл", 
+  "Delete the file":"Удалить файл", 
+  "Stop":"Остановить текущую операцию",
+
+  "==> rowTextArea_vue": "",  
+  "Comments need to be reduced":"Комментарий должен быть сокращен до {maxLen} символов",
+  "The comment max size is": "Максимальный размер комментария - {maxLen} символов",
+  "Size has been exceeded":"Размер превышен",
+  "Limit size":"Лимит размера файла",
+
+  
+  "==>>VideoPlayer_vue":"",
+  "Brand click":"Вас приветствует команда разработчиков этого приложения и желает хорошего дня!",
+  "The video preview is unavailable": "Превью недоступно",
+  
+  "Bytes": "Б",
+  "KB": "КБ",
+  "MB": "МБ",
+  "GB": "ГБ",
+
+
+  "Message sent successfully": "Сообщение успешно отправлено",
+  "An error occurred while sending the request": "Произошла ошибка при выполнении запроса",
+  
+  " ====> actions.js ":"",
+  "Successively uploaded":"Успешно отправлено - {suc_count}. ",
+  "Uploaded with fail":"Отправлено с ошибкой - {fail_count}",
+  "Upload all done with error":"Загрузка всех файлов завершилась с ошибкой: {err}",
+  "Send all report":"Загрузить все: {report}",
+
+  "===> mixins":"",
+  "Remove all completely 1": "Очистили список ({deleted} файл был удален)",
+  "Remove all completely 2": "Мы полностью очистили список ({deleted} файла было удалено)",
+  "Remove all report 1": "Удален: {deleted} файл.",
+  "Remove all report 2": "Удалено: {deleted} файла.",
+  "Remove all report skipped 1": "Пропущен: {skipped} файл",
+  "Remove all report skipped 2": "Пропущено: {skipped} файла",
+  
+  "Upload selected 1": "Загрузить {count} выделенный файл",
+  "Upload selected 2": "Загрузить {count} выделенных файла",
+  "Upload selected without 1":"без ({count}) выделенного невалидного файла",
+  "Upload selected without 2":"без ({count})  выделенных невалидных файла",
+
+  "Send all text": "Отправить все {count} ({size})",
+  "Send all text ignor": "Отправить все остальные {count} ({size})",
+  
+  "Send all other title 1": "Мы добавим в загрузку {count} файл",
+  "Send all other title 2": "Мы добавим в загрузку остальные {count} файла",
+  "sendAllTitle 1": "Мы загрузим {count} файл ({size})",
+  "sendAllTitle 2": "Мы загрузим {count} файла ({size})",
+  "sendAllTitle ignore 1": "\nи проигнорируем {count} неподдерживаемых файл",
+  "sendAllTitle ignore 2": "\nи проигнориуем {count} неподдерживаемых файла",
+
+  " ===> UploadedRefreshBtn_VUE":"",
+  "Network Error": "Сетевая ошибка"
+
+  }
