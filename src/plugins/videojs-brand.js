@@ -6,7 +6,7 @@ const defaults = {
   title: "APCIS",
   destination: "#", ///"http://www.google.com",
   destinationTarget: "_blank",
-  brandClick: () => console.log("brandClick not defined;) ")
+  brandClick: () => console.log("brandClick default handler;) ")
 };
 
 /**
@@ -23,7 +23,6 @@ const defaults = {
 const onPlayerReady = (player, options) => {
   let containerElement = document.createElement("div");
   containerElement.className = "vjs-brand-container";
-
   let imageElement = document.createElement("img");
   imageElement.src = options.image; // || defaults.image;
   imageElement.addEventListener(
@@ -31,6 +30,7 @@ const onPlayerReady = (player, options) => {
     options.brandClick || defaults.brandClick
   );
   imageElement.setAttribute("title", options.title || defaults.title);
+  imageElement.setAttribute("v-b-tooltip.hover", "");
   imageElement.setAttribute(
     "target",
     options.destinationTarget || defaults.destinationTarget
