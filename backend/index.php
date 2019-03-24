@@ -45,7 +45,7 @@ if ( $action == 'watch' ) {
     if ($status==2) $videoDir = vid_cfg['convertedDir'];
     else            $videoDir = vid_cfg['realDir'];
     //$stream = new VideoStream($videoDir.$v);
-    $stream = new VideoStream('c://PHP PARSER 2019-02-25_19-03-14.mp4');
+    $stream = new \Sources\VideoStream('c://PHP PARSER 2019-02-25_19-03-14.mp4');
     $stream->start();  
   }
 }
