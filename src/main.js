@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import "./registerServiceWorker";
-import "@babel/polyfill";
+//import "@babel/polyfill";
 import "./assets/globalStyles.scss";
 
 import router from "@/Router";
@@ -59,7 +59,8 @@ const Listtener = withHooks( h => {
 */
 import { hooks } from "vue-hooks";
 
-import i18n from './i18n'
+import i18n from "./i18n";
+import "./registerServiceWorker";
 Vue.use(hooks);
 
 window.initVue = props =>
