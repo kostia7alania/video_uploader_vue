@@ -1,3 +1,12 @@
+<i18n>
+{
+  "en": { 
+   },
+  "ru": { 
+   }
+}
+</i18n>
+
 <template>
   <!-- Modal Component -->
   <b-modal v-model="shown" id="modal-center" centered scrollable size="lg" lazy>
@@ -38,7 +47,7 @@
     <b-container fluid class="modal-description">
       <b-row>
         <b-col sm="2">
-          <label for="textarea-small">Comment:</label>
+          <label for="textarea-small">{{ $t("Comment") }}:</label>
         </b-col>
         <b-col sm="10">
           <span v-html="modalActiveFileGetter.Comments"></span>
@@ -46,7 +55,7 @@
       </b-row>
       <b-row>
         <b-col sm="2">
-          <label for="textarea-small">File name:</label>
+          <label for="textarea-small">{{ $t("File name") }}:</label>
         </b-col>
         <b-col sm="10">
           {{ modalActiveFileGetter.OrigFileName }}
@@ -54,7 +63,7 @@
       </b-row>
       <b-row>
         <b-col sm="2">
-          <label for="textarea-small">Info:</label>
+          <label for="textarea-small">{{ $t("Info") }}:</label>
         </b-col>
         <b-col sm="10">
           <InfoCol
@@ -67,7 +76,7 @@
       </b-row>
       <b-row>
         <b-col sm="2">
-          <label>Status:</label>
+          <label>{{ $t("Status") }}:</label>
         </b-col>
         <b-col sm="10" class="modal-status">
           <Status :status="modalActiveFileGetter.Status" />
@@ -82,7 +91,7 @@
         variant="primary"
         @click="changeModal(false)"
       >
-        <i class="fa fa-angle-left"></i> Prev</b-button
+        <i class="fa fa-angle-left"></i> {{ $t("Prev") }}</b-button
       >
       <b-button
         size="sm"
@@ -90,7 +99,7 @@
         :class="{ disabled: nextAllow }"
         variant="primary"
         @click="changeModal(true)"
-        >Next <i class="fa fa-angle-right"></i
+        >{{ $t("Next") }} <i class="fa fa-angle-right"></i
       ></b-button>
     </div>
   </b-modal>
@@ -102,15 +111,8 @@ import VideoPlayer from "../upload/VideoPlayer";
 import InfoCol from "@/components/Common/Info_col";
 import BugReport from "./BugReport";
 import Status from "./Status";
-import { withHooks, useState, useEffect } from "vue-hooks";
-import {
-  useData,
-  useComputed,
-  useWatch,
-  useMounted,
-  useUpdated,
-  useDestroyed
-} from "vue-hooks";
+import { /*withHooks,*/ useState, useEffect } from "vue-hooks";
+//import {useData,useComputed,useWatch,useMounted,useUpdated,useDestroyed} from "vue-hooks";
 
 export default {
   name: "My-Modal",
@@ -131,8 +133,10 @@ export default {
   hooks() {
     const [высота, изменитьВысоту] = useState(window.innerWidth); //срабатывает при инициализации
     const handleResize = () => {
-      window.hand = store;
-      store.commit("changeProp", { prop: "height", state: window.innerHeight });
+      window.store.commit("changeProp", {
+        prop: "height",
+        state: window.innerHeight
+      });
       console.warn("Resize!!");
       изменитьВысоту(window.innerHeight);
     }; //срабатывает при изменении
@@ -174,17 +178,19 @@ export default {
       this.changeProp({ prop: "modalActiveIndex", state: index });
     },
     srcHandler(VidUID, OrigFileName, status) {
+      if (!OrigFileName) return;
+      const spl = OrigFileName.split(".");
+
       let out = this.watch_url;
       if (status == 2) out += VidUID + ".mp4";
       //2-значит готово и надо искать в папке CONVERTED
-      else out += OrigFileName;
+      else out += VidUID + spl[spl.length - 1];
       return `${out}&status=${status}`;
     }
   },
   computed: {
     ...mapGetters(["uploadedList", "modalActiveFileGetter"]),
     ...mapState([
-      "isLoadedList",
       "uploadedListSort",
       "uploadedListSortType",
       "watch_url",

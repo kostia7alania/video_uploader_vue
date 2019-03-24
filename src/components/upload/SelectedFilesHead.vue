@@ -1,19 +1,19 @@
 <template>
   <tr class="list-item table-active">
-    <th scope="col">#</th>
-    <th scope="col">Preview</th>
-    <th scope="col">Name</th>
-    <th scope="col" v-if="selectedVideos.length > 1">
+    <th scope="col">{{ $t("#") }}</th>
+    <th scope="col">{{ $t("Preview") }}</th>
+    <th scope="col">{{ $t("Name") }}</th>
+    <th scope="col" v-if="selectedVideosGetter.length > 1">
       <SelectedFilesHeadInfo />
     </th>
-    <th scope="col" v-else>Info</th>
-    <th scope="col">Comment</th>
+    <th scope="col" v-else>{{ $t("Info") }}</th>
+    <th scope="col">{{ $t("Comment") }}</th>
     <th scope="col"><SelectedFilesHeadActions /></th>
   </tr>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { filters, selectedFilesCounts } from "@/mixins.js";
 import SelectedFilesHeadInfo from "./SelectedFilesHeadInfo";
 import SelectedFilesHeadActions from "./SelectedFilesHeadActions";
@@ -28,9 +28,7 @@ export default {
   },
   methods: {},
   watch: {},
-  computed: {
-    ...mapState(["selectedVideos"])
-  }
+  computed: { ...mapGetters(["selectedVideosGetter"]) }
 };
 </script>
 

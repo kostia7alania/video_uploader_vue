@@ -1,9 +1,9 @@
 <template>
   <div id="appVideoUploader">
     <DragDropZone />
-    <SelectedFiles  />
-    <UploadBottomBtns v-if="selectedVideos.length" />
-    <MultiProgressBar />
+    <SelectedFiles />
+    <UploadBottomBtns v-if="selectedVideosGetter.length" />
+    <MultiProgressBar class="mt-2" />
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import DragDropZone from "../components/upload/DragDropZone";
 import MultiProgressBar from "../components/upload/MultiProgressBar";
 import UploadBottomBtns from "../components/upload/UploadBottomBtns";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   name: "Upload",
   components: {
@@ -30,15 +30,15 @@ export default {
       btnalreadyuploaded: "Load already uploaded videos"
     };
   },
+  methods: {
+    ...mapActions(["getVideoList"])
+  },
+  mounted() {
+    if (!this.isLoadedList) this.getVideoList();
+  },
   computed: {
-    ...mapState(["selectedVideos"])
+    ...mapGetters(["selectedVideosGetter"]),
+    ...mapState(["isLoadedList"])
   }
 };
 </script>
-
-<style scoped lang="scss">
-.progress_btn {
-  width: 100%;
-  cursor: pointer;
-}
-</style>

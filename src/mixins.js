@@ -1,3 +1,5 @@
+const $t = window.$t;
+
 export default {
   methods: {
     sizeCheck(e) {
@@ -12,67 +14,75 @@ export default {
   type: e => (e && e.split("/")[0] == "video" ? true : false)
 };
 
-import { mapMutations, mapState, mapActions } from "vuex";
+import { mapMutations, mapState, mapActions, mapGetters } from "vuex";
 
-export const selectedFilesCounts = {
-  data() {
-    return {
-      sendingToAll: false
-    };
+export const selectedFilesMethods = {
+  computed: {
+    ...mapGetters(["selectedVideosGetter"])
   },
   methods: {
-    ...mapMutations(["changeProp"]),
     ...mapActions([
       "prepareToUploadAll",
       "removeSelectedAction",
-      "sendSelectedAction"
+      "removeAllAction",
+      "sendSelectedAction" /*<=используЮтся в компонентах*/
     ]),
-    ...mapMutations(["removeAllCommit", "deleteEntry"]),
-    sendAllHandler() {
+    ...mapMutations([
+      "changeProp",
+      "deleteFromSelectedVideos" /*<=используется в компонентах*/
+    ]),
+    sendAll_Mixin() {
       this.prepareToUploadAll();
     },
-    deleteHandler() {
-      this.deleteEntry({
-        prop: "selectedVideos",
-        index: this.index
-      });
+    delete_Mixin() {
+      this.stop_Mixin();
+      this.deleteFromSelectedVideos({ hash: this.obj.hash });
     },
-    stopAllHandler() {
+    stop_Mixin() {
+      this.obj.source
+        ? this.obj.source.cancel(this.$t("Cancelled by user"))
+        : "";
+    },
+    stopAll_Mixin() {
       this.changeProp({ prop: "uploadAllInProgress", state: false });
-      let cancelled = this.selectedVideos.filter(e =>
-        e.userData.source
-          ? e.userData.source.cancel("cancelled by user..")
-          : false
+      return this.selectedVideosGetter.filter(e =>
+        e.source ? e.source.cancel(this.$t("Cancelled by user")) : false
       ).length;
-      console.log("cancelled -> ", cancelled);
     }
-  },
+  }
+};
+
+export const selectedFilesCounts = {
   computed: {
-    ...mapState(["selectedVideos", "uploadAllInProgress"]),
+    ...mapGetters(["selectedVideosGetter"]),
+    ...mapState(["uploadAllInProgress"]),
 
     isAllValidTransferingInManual__mixin() {
-      const s = this.selectedVideos;
-      const f = s.filter(e => e.userData.percentCompleted != null).length;
+      const s = this.selectedVideosGetter;
+      const f = s.filter(e => e.percentCompleted != null).length;
       return s.length && f && this.all_valid_count && s.length == f;
     },
-
     countTransferingFiles() {
-      const s = this.selectedVideos;
-      return s.filter(e => e.userData.percentCompleted != null).length;
+      const s = this.selectedVideosGetter;
+      return s.filter(e => e.percentCompleted != null).length;
     },
 
     /*REMOVE ALL BTN*/
     removeAllText() {
-      return `Remove all ${
-        this.countTransferingFiles > 0 ? "other " : ""
+      return `${this.$t("Remove all")} ${
+        this.countTransferingFiles > 0 ? this.$t("other") + " " : ""
       } (${this.all_count - this.countTransferingFiles})`;
     },
     removeAllTitle() {
-      return `Clear the list ${
-        this.countTransferingFiles
-          ? "(skip " + this.countTransferingFiles + " transfering file)"
-          : ""
-      }`;
+      const $t = e => ("$t" in this ? this.$t(e) : e);
+      const count = this.countTransferingFiles;
+      let ret = $t("Clear the list");
+      ret += count
+        ? ` (${$t("skip")} ${count} ${$t(
+            count > 1 ? "transfering files" : "transfering file"
+          )})`
+        : "";
+      return ret;
     },
     removeAllClass: () => "btn btn-danger progress_btn",
     removeAllIcon: () => "far fa-trash-alt",
@@ -82,12 +92,15 @@ export const selectedFilesCounts = {
       return this.all_selected_count;
     },
     removeSelectedText() {
-      return `Remove selected (${this.all_selected_count})`;
+      return `${$t("Remove selected")} (${this.all_selected_count})`;
     },
     removeSelectedTitle() {
-      return `Remove ${this.all_selected_count} selected files: \n${
-        this.all_valid_selected_count
-      } - valid, ${this.all_bad_selected_count} - non valid`;
+      const count = this.all_selected_count;
+      return $t(`Remove Selected Title ${count == 1 ? 1 : 2}`, {
+        count,
+        valid: this.all_valid_selected_count,
+        nonvalid: this.all_bad_selected_count
+      });
     },
     removeSelectedClass: () => "btn btn-danger progress_btn",
     removeSelectedIcon: () => "far fa-trash-alt",
@@ -98,24 +111,18 @@ export const selectedFilesCounts = {
     },
     sendSelectedIcon: () => "fas fa-upload",
     sendSelectedText() {
-      let avsc = this.all_valid_selected_count;
-      let abc = this.all_bad_count;
-      let avss = this.all_valid_selected_size;
-      return `Upload ${avsc} ${abc ? "valid" : ""} selected (${this.sizeMethod(
-        avss
-      )})`;
+      return this.sendSelectedTitle;
     },
     sendSelectedTitle() {
       let avsc = this.all_valid_selected_count;
-      let avss = this.sizeMethod(this.all_valid_selected_size);
+      //let avss = this.sizeMethod(this.all_valid_selected_size);
       let abc = this.all_bad_count;
-      let out = `Upload ${avsc} selected file${
-        avsc > 1 ? "s" : ""
-      } \n(${avss})`;
+
+      let out = $t(`Upload selected ${avsc == 1 ? 1 : 2}`, { count: avsc });
       if (abc)
-        out += `\n(without ${abc} selected non valid file${
-          abc > 1 ? "s" : ""
-        })`;
+        out +=
+          "\n" +
+          $t(`Upload selected without ${abc == 1 ? 1 : 2}`, { count: avsc });
       return out;
     },
     sendSelectedClass: () => "btn btn-primary progress_btn",
@@ -135,112 +142,134 @@ export const selectedFilesCounts = {
     sendAllClass: () => "btn btn-warning progress_btn",
     sendAllText() {
       if (this.countTransferingFiles) {
-        const diff = this.all_valid_count - this.countTransferingFiles;
-        return `Send all other  ${diff} valid`;
+        return $t("Send all text ignor", {
+          count: this.all_valid_count - this.countTransferingFiles,
+          size: this.sizeMethod(this.all_valid_noneTransfering_size)
+        });
       }
-      return `Send all ${this.all_valid_count ? "valid" : ""} ${
-        this.all_valid_count
-      } (${this.sizeMethod(this.all_valid_size)})`;
+      return $t("Send all text", {
+        count: this.all_valid_count,
+        size: this.sizeMethod(this.all_valid_size)
+      });
     },
     sendAllIcon: () => "fas fa-upload",
     sendAllTitle() {
       if (this.countTransferingFiles) {
-        return "We will append all other files..";
+        const count = this.all_valid_count - this.countTransferingFiles;
+        return $t(`Send all other title ${count == 1 ? 1 : 2}`, { count });
       }
       let avc = this.all_valid_count;
       let avs = this.all_valid_size;
-      let abc = this.all_bad_count;
-      let abs = this.all_bad_size;
-      let out = `We will upload  ${avc} file${
-        avc > 1 ? "s" : ""
-      } \n(${this.sizeMethod(avs)})`;
+      let abc = this.all_bad_count; //let abs = this.all_bad_size;
+
+      let out = $t(`sendAllTitle ${avc == 1 ? 1 : 2}`, {
+        count: avc,
+        size: this.sizeMethod(avs)
+      });
       if (abc)
-        out += `\nand ignore ${abc} invalid file${
-          abc > 1 ? "s" : ""
-        }  \n(${this.sizeMethod(abs)})`;
+        out += $t(`sendAllTitle ignore ${abc == 1 ? 1 : 2}`, {
+          count: abc,
+          size: this.sizeMethod(abc)
+        });
       return out;
     },
 
     all() {
-      return this.selectedVideos;
+      return this.selectedVideosGetter;
     },
     all_count() {
       return this.all.length;
     },
     all_size() {
-      return this.all.reduce((sum, cur) => cur.fileData.file.size + sum, 0);
+      return this.all.reduce((sum, cur) => cur.file.size + sum, 0);
     },
 
     all_selected() {
-      return this.all.filter(e => e.userData.selected);
+      return this.all.filter(e => e.selected && e.percentCompleted == null);
     },
     all_selected_count() {
       return this.all_selected.length;
     },
     all_selected_size() {
-      return this.all_selected.reduce(
-        (sum, cur) => cur.fileData.file.size + sum,
-        0
-      );
+      return this.all_selected.reduce((sum, cur) => cur.file.size + sum, 0);
     },
 
     all_valid() {
-      return this.all.filter(e => e.fileData.sizeOK && e.fileData.typeOK);
+      return this.all.filter(e => e.sizeOK && e.typeOK);
     },
     all_valid_count() {
       return this.all_valid.length;
     },
     all_valid_size() {
-      return this.all_valid.reduce(
-        (sum, cur) => cur.fileData.file.size + sum,
-        0
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+
+    all_valid_transfering() {
+      return this.all.filter(
+        e => e.sizeOK && e.typeOK && e.percentCompleted != null
       );
+    },
+    all_valid_transfering_count() {
+      return this.all_valid_transfering.length;
+    },
+    all_valid_transfering_size() {
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+
+    all_valid_noneTransfering() {
+      return this.all.filter(
+        e => e.sizeOK && e.typeOK && e.percentCompleted == null
+      );
+    },
+    all_valid_noneTransfering_count() {
+      return this.all_valid_transfering.length;
+    },
+    all_valid_noneTransfering_size() {
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
     },
 
     all_valid_selected() {
-      return this.all_valid.filter(e => e.userData.selected);
+      return this.all_valid.filter(
+        e => e.selected && e.percentCompleted == null
+      );
     },
     all_valid_selected_count() {
       return this.all_valid_selected.length;
     },
     all_valid_selected_size() {
       return this.all_valid_selected.reduce(
-        (sum, cur) => cur.fileData.file.size + sum,
+        (sum, cur) => cur.file.size + sum,
         0
       );
     },
 
     all_bad() {
-      return this.all.filter(e => !e.fileData.sizeOK || !e.fileData.typeOK);
+      return this.all.filter(e => !e.sizeOK || !e.typeOK);
     },
     all_bad_count() {
       return this.all_bad.length;
     },
     all_bad_size() {
-      return this.all_bad.reduce((sum, cur) => cur.fileData.file.size + sum, 0);
+      return this.all_bad.reduce((sum, cur) => cur.file.size + sum, 0);
     },
 
     all_bad_selected() {
-      return this.all_bad.filter(e => e.userData.selected);
+      return this.all_bad.filter(e => e.selected);
     },
     all_bad_selected_count() {
       return this.all_bad_selected.length;
     },
     all_bad_selected_size() {
-      return this.all_bad_selected.reduce(
-        (sum, cur) => cur.fileData.file.size + sum,
-        0
-      );
+      return this.all_bad_selected.reduce((sum, cur) => cur.file.size + sum, 0);
     },
 
     stopAllClass: () => "btn btn-danger",
     stopAllIcon: () => "far fa-hand-paper",
     stopAllTitle() {
-      //let p = this.uploadAllInProgress; if(!p) return;
-      let c = this.selectedVideos.filter(
-        e => e.userData.percentCompleted != null
+      const count = this.selectedVideosGetter.filter(
+        e => e.percentCompleted != null
       ).length;
-      return `stop ${c > 1 ? "all" : ""} ${c} transfer${c > 1 ? "s" : ""}`;
+      return this.$t(`Stop all title ${count == 1 ? 1 : 2}`, { count });
     },
     stopAllText() {
       return this.stopAllTitle;
@@ -250,43 +279,27 @@ export const selectedFilesCounts = {
 
 export const filters = {
   methods: {
-    sizeMethod: e => {
+    sizeMethod(e) {
       let round = d =>
         d - Math.floor(d) > 0.1 && d - Math.floor(d) < 0.95
           ? d.toFixed(1)
           : d.toFixed(0); //убираем дробную часть где она не носит смысловую нагрузку (n.0, где n - число);
       return e < 1000
-        ? e + " B"
+        ? e + " " + this.$t("Bytes")
         : e < 1000000
-        ? round(e / 1000) + " KB"
+        ? round(e / 1000) + " " + this.$t("KB")
         : e < 1000000000
-        ? round(e / 1000 / 1000) + " MB"
-        : round(e / 1000 / 1000 / 1000) + " GB";
-    }
-  },
-  filters: {
-    sizeFilter: e => {
-      let round = d =>
-        d - Math.floor(d) > 0.1 && d - Math.floor(d) < 0.95
-          ? d.toFixed(1)
-          : d.toFixed(0); //убираем дробную часть где она не носит смысловую нагрузку (n.0, где n - число);
-      return e < 1000
-        ? e + " B"
-        : e < 1000000
-        ? round(e / 1000) + " KB"
-        : e < 1000000000
-        ? round(e / 1000 / 1000) + " MB"
-        : round(e / 1000 / 1000 / 1000) + " GB";
+        ? round(e / 1000 / 1000) + " " + this.$t("MB")
+        : round(e / 1000 / 1000 / 1000) + " " + this.$t("GB");
     }
   }
 };
 
 export const localCheckers = {
   computed: {
+    ...mapState(["maxSize"]),
     sizeCheck_comp() {
-      return this.$store.state.maxSize > this.file.size
-        ? "size-success"
-        : "size-error";
+      return this.maxSize > this.file.size ? "size-success" : "size-error";
     },
     typeCheck_comp() {
       return this.file.type && this.file.type.split("/")[0] == "video"

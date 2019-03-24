@@ -4,7 +4,7 @@
       v-if="stopAllShown"
       v-b-tooltip.hover
       :title="stopAllTitle"
-      @click="stopAllHandler"
+      @click="stopAll_Mixin"
       :class="stopAllClass"
     >
       <i :class="stopAllIcon"></i>
@@ -15,7 +15,7 @@
       v-if="removeAllShown"
       v-b-tooltip.hover.left
       :title="removeAllTitle"
-      @click="removeAllCommit"
+      @click="removeAllAction"
       :class="removeAllClass"
     >
       <i :class="removeAllIcon"></i>
@@ -48,7 +48,7 @@
       v-if="sendAllShown"
       v-b-tooltip.hover
       :title="sendAllTitle"
-      @click="sendAllHandler"
+      @click="sendAll_Mixin"
       :class="sendAllClass"
     >
       <i :class="sendAllIcon"></i>
@@ -58,10 +58,14 @@
 </template>
 
 <script>
-import { filters, selectedFilesCounts } from "@/mixins.js";
+import {
+  filters,
+  selectedFilesCounts,
+  selectedFilesMethods
+} from "@/mixins.js";
 export default {
   name: "Action-Btns",
-  mixins: [filters, selectedFilesCounts]
+  mixins: [filters, selectedFilesCounts, selectedFilesMethods]
 };
 </script>
 

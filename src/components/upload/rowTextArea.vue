@@ -26,22 +26,22 @@
 </template>
 
 <script>
-import ActionBtns from "./ActionBtns";
-import VideoPlayer from "./VideoPlayer";
-import checkMixins from "@/mixins.js";
-
-import InfoCol from "@/components/Common/Info_col";
-
 import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Row-text-area",
-  props: { index: Number, comment: null },
+  props: {
+    hash: {
+      type: String,
+      required: true
+    },
+    comment: null
+  },
   data() {
     return {};
   },
   methods: {
-    ...mapMutations(["changeUserData"])
+    ...mapMutations(["changeSelectedVideos"])
   },
   watch: {},
   computed: {
@@ -53,13 +53,13 @@ export default {
     },
     commentLimitTooltip() {
       if (this.len > this.maxLen)
-        return `The comment will be reduced to ${this.maxLen} characters.`;
-      else return `The comment max size is ${this.maxLen} characters.`;
+        return this.$t("Comments need to be reduced", { maxLen: this.maxLen });
+      else return this.$t("The comment max size is", { maxLen: this.maxLen });
     },
     commentLimitText() {
       return this.len > this.maxLen
-        ? "The size has been exceeded"
-        : "Limit size";
+        ? this.$t("Size has been exceeded")
+        : this.$t("Limit size");
     },
     variant() {
       return this.lengthMaxPercent < 85
@@ -85,9 +85,9 @@ export default {
         val = val.replace(/\r/gim, "\r");
         console.log(val, c);
         if (c == null || c.trim() !== val.trim())
-          this.changeUserData({
+          this.changeSelectedVideos({
             prop: "comment",
-            index: this.index,
+            hash: this.hash,
             val: val
           });
       }

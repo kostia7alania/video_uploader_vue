@@ -4,7 +4,7 @@
       v-if="!isAvailabled"
       class="video-unavailable"
       v-b-tooltip.hover
-      title="The video preview is unavailable"
+      :title="$t('The video preview is unavailable')"
     >
       <div class="video-unavailable--message">
         <i class="fas fa-video-slash fa-x"></i>
@@ -29,7 +29,6 @@
       @waiting="waiting($event)"
       @playing="playing($event)"
       @loadeddata="loadeddata($event)"
-      @timeupdate="timeupdate($event)"
       @canplay="canplay($event)"
       @canplaythrough="canplaythrough($event)"
       @statechanged="statechanged($event)"
@@ -43,19 +42,18 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import "video.js/dist/video-js.css";
-import { videojs, videoPlayer } from "vue-video-player";
+import { videojs,videoPlayer } from "vue-video-player";
 import brand from "@/plugins/videojs-brand";
 
-import Status from "@/components/uploaded/Status";
 import DetectDuration from "./DetectDuration";
 
 import { mapState } from "vuex";
 export default {
   name: "My-VideoPlayer",
-  components: { videoPlayer, Status, DetectDuration },
+  components: { videoPlayer, DetectDuration },
   props: {
-    status: { type: null },
     isAvailabled: { type: Boolean },
     file: File,
     src: String,
@@ -86,11 +84,7 @@ export default {
   },
   methods: {
     brandClick() {
-      console.log("brandClick");
-      this.$toast.info(
-        "You are welcomed by the APCIS development team. Have a nice day!",
-        this.$store.state.getTime()
-      );
+      this.$toast.info( this.$t("Brand click"), this.$store.state.getTime() );
     },
     play(e) {
       console.log("play!", e);
@@ -111,9 +105,7 @@ export default {
     loadeddata(e) {
       console.log("loadeddata", e);
     },
-    timeupdate(e) {
-      /*console.log("timeupdate", e);*/
-    },
+    //timeupdate(e) {console.log("timeupdate", e);},
     canplay(e) {
       console.log("canplay", e);
     },
@@ -158,7 +150,7 @@ export default {
               : this.file.type || "video/mp4",
             src: this.src
               ? this.src
-              : (URL || webkitURL).createObjectURL(this.file) // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+              : (URL || window.webkitURL).createObjectURL(this.file) // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
           }
         ],
         poster: this.poster

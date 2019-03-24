@@ -14,10 +14,11 @@
 </template>
 
 <script>
+/*eslint-disable */
 import Popper from "popper.js";
-import ClickOutside from "vue-click-outside"; 
+import ClickOutside from "vue-click-outside";
 
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "Context-Menu",
   props: {
@@ -26,36 +27,32 @@ export default {
       default: "body"
     }
   },
-  components: {
-    Popper
-  },
+  components: { Popper },
   data() {
     return {
       opened: false,
-      contextData: {}, 
+      contextData: {}
     };
   },
   directives: {
     ClickOutside
   },
   computed: {
-    ...mapState([
-      'selectedActiveContextRowHash'
-    ]),
+    ...mapState(["selectedActiveContextRowHash"]),
     isVisible() {
       return this.opened;
     }
   },
   methods: {
-    ...mapMutations([
-      'changeProp'
-    ]),
+    ...mapMutations(["changeProp"]),
     open(evt, contextData) {
-      const h = contextData.fileData.hash
-      if(this.selectedActiveContextRowHash != h) this.changeProp({prop: 'selectedActiveContextRowHash', state: h})
+      const h = contextData.hash;
+      if (this.selectedActiveContextRowHash != h)
+        this.changeProp({ prop: "selectedActiveContextRowHash", state: h });
       this.opened = true;
       this.contextData = contextData;
       if (this.popper) this.popper.destroy();
+
       this.popper = new Popper(this.referenceObject(evt), this.$refs.popper, {
         placement: "right-start",
         modifiers: {
@@ -68,7 +65,8 @@ export default {
       this.$nextTick(() => this.popper.scheduleUpdate());
     },
     close() {
-      if(this.selectedActiveContextRowHash != null) this.changeProp({prop: 'selectedActiveContextRowHash', state:null})    
+      if (this.selectedActiveContextRowHash != null)
+        this.changeProp({ prop: "selectedActiveContextRowHash", state: null });
       if (this.popper !== undefined) {
         this.opened = false;
         this.contextData = null;
@@ -93,8 +91,9 @@ export default {
     }
   },
   beforeDestroy() {
-      if(this.selectedActiveContextRowHash != null) this.changeProp({prop: 'selectedActiveContextRowHash', state:null})    
-      if (this.popper !== undefined) {
+    if (this.selectedActiveContextRowHash != null)
+      this.changeProp({ prop: "selectedActiveContextRowHash", state: null });
+    if (this.popper !== undefined) {
       this.popper.destroy();
     }
   }

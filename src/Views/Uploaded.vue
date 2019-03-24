@@ -1,6 +1,9 @@
 <template>
   <div>
-    <b-jumbotron header="Uploaded" lead="Already uploaded video list to server">
+    <b-jumbotron
+      :header="$t('Uploaded_vue.Uploaded')"
+      :lead="$t(`Uploaded_vue.Already`)"
+    >
       <b-container class="bv-example-row">
         <b-row align-h="center" align-v="center">
           <div><UploadedRefreshBtn /></div>
@@ -12,17 +15,19 @@
           >
             <div class="statistics" v-if="showStatistics">
               <div v-if="durationTotal">
-                <b>Total duration: </b>{{ duration_comp(durationTotal) }}
+                <b>{{ $t("Uploaded_vue['Total duration']") }} </b
+                >{{ duration_comp(durationTotal) }}
               </div>
               <div v-if="alreadyUploaded.length">
-                <b>Number of videos: </b>{{ alreadyUploaded.length }}
+                <b>{{ $t("Uploaded_vue['Number of videos']") }} </b
+                >{{ alreadyUploaded.length }}
               </div>
             </div>
           </transition>
         </b-row>
       </b-container>
     </b-jumbotron>
- 
+
     <UploadedVideos />
   </div>
 </template>
@@ -36,14 +41,13 @@ import { mapState } from "vuex";
 export default {
   name: "Uploaded",
   mixins: [duration_comp_mixin],
-  components: { UploadedRefreshBtn, UploadedVideos,  },
+  components: { UploadedRefreshBtn, UploadedVideos },
   computed: {
     ...mapState(["alreadyUploaded"]),
     showStatistics() {
       return this.durationTotal || this.alreadyUploaded.length;
     },
     durationTotal() {
-      window.ee = this;
       let out = this.alreadyUploaded.reduce(
         (sum, e) => (isNaN(+e.Duration) ? 0 : +e.Duration + sum),
         0
@@ -99,7 +103,7 @@ export default {
 }
 
 .statistics {
-    text-align: left;
-    padding-left: 1em;
+  text-align: left;
+  padding-left: 1em;
 }
 </style>

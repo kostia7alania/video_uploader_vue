@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const $t = window.$t;
+
 export default {
   async getVideoList({ state, commit, dispatch }) {
     let params = await dispatch("params");
@@ -10,14 +12,19 @@ export default {
 
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
-    
-    commit("changeProp", { prop: "percentCompleted",val:0 })
+
+    commit("changeProp", { prop: "percentCompleted", val: 0 });
     const options = {
       headers: { Accept: "application/json" },
-      onUploadProgress: e =>{
-        console.log('onUploadProgress=>',e)
-          e.lengthComputable ? commit("changeProp", { prop: "percentCompleted",val: Math.round((e.loaded * 100) / e.total)})
-          : ""},
+      onUploadProgress: e => {
+        console.log("onUploadProgress=>", e);
+        e.lengthComputable
+          ? commit("changeProp", {
+              prop: "percentCompleted",
+              val: Math.round((e.loaded * 100) / e.total)
+            })
+          : "";
+      }, //в .GET прогресс не палится пока что
       cancelToken: source.token
     };
     commit("changeProp", { prop: "source", state: source });
@@ -40,7 +47,7 @@ export default {
         });
         return res.data;
       })
-      .catch( err => {
+      .catch(err => {
         let res;
         if (axios.isCancel(err)) {
           res = err.message;
@@ -49,13 +56,14 @@ export default {
           res = "Network Error";
           console.warn("OTHER =>", res);
         }
+        res = $t(res); ///TRANSLATE D! ! ! !
         this._vm.$toast.warning(res, state.getTime());
         return res;
       })
-      .finally( e => {
-        console.warn('finally e=>', e);
+      .finally(e => {
+        console.warn("finally e=>", e);
+        commit("changeProp", { prop: "percentCompleted", val: null });
         return e;
-        commit("changeProp", {prop: "percentCompleted",val:  null,})
       });
   }
 };

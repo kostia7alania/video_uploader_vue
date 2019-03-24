@@ -1,5 +1,5 @@
 <template>
-  <b-progress v-if="progress.length" class="mt-2" :max="max" show-value>
+  <b-progress v-if="progress.length" :max="max" show-value>
     <b-progress-bar
       v-for="prog in progress"
       :key="prog.i"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -23,16 +23,16 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapState(["selectedVideos"]),
+    ...mapGetters(["selectedVideosGetter"]),
     progress() {
       let a = [];
-      this.selectedVideos.forEach(e => {
-        if (e.userData.percentCompleted != null) {
+      this.selectedVideosGetter.forEach(e => {
+        if (e.percentCompleted != null) {
           a.push({
-            percentCompleted: e.userData.percentCompleted,
-            variant: e.userData.variant,
-            striped: e.userData.striped,
-            animated: e.userData.animated
+            percentCompleted: e.percentCompleted,
+            variant: e.variant,
+            striped: e.striped,
+            animated: e.animated
           });
         }
       });

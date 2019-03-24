@@ -1,42 +1,52 @@
 <template>
-  <b-tabs fill content-class="mt-3">
-    <b-tab :active="activeTab == '/'" @click="routeChange('/')">
-      <template slot="title">
+  <ul fill class="nav nav-pills nav-justified tab-line">
+    <li class="nav-item" sm="6">
+      <a
+        href="#"
+        @click.prevent="routeChange('/')"
+        v-b-tooltip.hover
+        :title="uploadTabTitle"
+        class="nav-link"
+        :class="uploadTabClass"
+      >
         <i :class="uploadIcon"></i>
-        {{ uploadTabName }}
+        {{ $t("Tabs_vue.Upload") }}
         <b-badge
           v-if="all_valid_count"
           pill
-          :variant="activeTab == '/' ? 'dark' : 'primary'"
+          :variant="
+            activeTab == '/' || activeTab == 'Home' ? 'info' : 'primary'
+          "
           >{{ all_valid_count }}</b-badge
         >
-        <MultiProgressBar v-show="progressShow" />
-      </template>
-      <router-view />
-    </b-tab>
-    <b-tab :active="activeTab == 'uploaded'" @click="routeChange('uploaded')">
-      <template slot="title">
+      </a>
+      <MultiProgressBar v-show="progressShow" />
+    </li>
+    <li class="nav-item second-tab" sm="6">
+      <a
+        href="#"
+        @click.prevent="routeChange('uploaded')"
+        v-b-tooltip.hover
+        :title="alreadyUploadedTabTitle"
+        class="nav-link"
+        :class="alreadyUploadedTabClass"
+      >
         <i :class="alreadyUploadedIcon"></i>
-        {{ alreadyUploadedTabName }}
+        {{ $t("Tabs_vue.Uploaded") }}
         <b-badge
           v-if="alreadyUploaded.length"
           pill
-          :variant="activeTab == 'uploaded' ? 'dark' : 'primary'"
+          :variant="activeTab == 'uploaded' ? 'info' : 'primary'"
+          >{{ alreadyUploaded.length }}</b-badge
         >
-          {{ alreadyUploaded.length }}</b-badge
-        >
-      </template>
-
-      <router-view />
-    </b-tab>
-  </b-tabs>
+      </a>
+    </li>
+  </ul>
 </template>
 
 <script>
-import { mapState } from "vuex";
-
+import { mapState, mapGetters } from "vuex";
 import MultiProgressBar from "../components/upload/MultiProgressBar";
-
 import { selectedFilesCounts } from "@/mixins.js";
 
 export default {
@@ -60,17 +70,24 @@ export default {
     this.$router.onReady(route => (this.activeTab = route.name));
   },
   computed: {
-    ...mapState([
-      "selectedVideos",
-      "alreadyUploaded_btn_status",
-      "alreadyUploaded"
-    ]),
+    ...mapGetters(["selectedVideosGetter"]),
+    ...mapState(["alreadyUploaded_btn_status", "alreadyUploaded"]),
 
-    uploadTabName() {
-      return "Upload video";
+    uploadTabClass() {
+      return this.activeTab == "/" || this.activeTab == "Home" ? "active" : "";
     },
-    alreadyUploadedTabName() {
-      return "Already uploaded";
+    alreadyUploadedTabClass() {
+      return this.activeTab == "uploaded" ? "active" : "";
+    },
+    uploadTabTitle() {
+      return this.activeTab == "/" || this.activeTab == "Home"
+        ? this.$t("Tabs_vue.You-already-in-the-tab")
+        : this.$t("Tabs_vue.open-upload-section");
+    },
+    alreadyUploadedTabTitle() {
+      return this.activeTab == "uploaded"
+        ? this.$t("Tabs_vue.You-already-in-the-tab")
+        : this.$t("Tabs_vue.already-uploaded-section");
     },
 
     progressShow() {
@@ -78,9 +95,8 @@ export default {
     },
 
     isLoadingUploader() {
-      return this.selectedVideos.filter(
-        e => e.userData.percentCompleted != null
-      ).length;
+      return this.selectedVideosGetter.filter(e => e.percentCompleted != null)
+        .length;
     },
     alreadyUploadedIcon() {
       return this.alreadyUploaded_btn_status == 2
@@ -97,11 +113,31 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.nav-tabs .nav-item {
-  width: 50%;
+<style lang="scss" scoped>
+.active {
+  cursor: not-allowed !important;
 }
 a.nav-link.active {
-  cursor: not-allowed !important;
+  background-color: #343a40 !important;
+}
+.nav-item {
+  a {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  background-color: rgba(0, 0, 0, 0.2);
+  &:hover {
+    background: hsla(0, 0%, 60%, 0.5);
+  }
+}
+.second-tab,
+.second-tab:hover {
+  background-color: transparent;
+}
+ul.nav.nav-pills.nav-justified.tab-line {
+  position: -webkit-sticky;
+  position: sticky !important;
+  z-index: 1000;
+  top: 270px !important;
 }
 </style>

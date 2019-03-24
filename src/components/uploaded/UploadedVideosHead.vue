@@ -1,22 +1,27 @@
+<i18n>
+ {"/*в глобалку мигрировали*/":""}
+</i18n>
+
 <template>
   <tr class="list-item table-active">
-    <th width="22">#</th>
-    <th scope="col">Preview</th>
+    <th width="22">{{ $t("#") }}</th>
+    <th scope="col">{{ $t("Preview") }}</th>
     <th class="pointer" @click="sortHandler('Status')" scope="col">
-      <i class="fas fa-sort"></i> Status
+      <i class="fas fa-sort"></i> {{ $t("Status") }}
     </th>
     <th
       class="pointer"
       @click="sortHandler('Date')"
       scope="col"
       v-b-tooltip.hover
-      title="Date of unloading "
+      :title="$t('Date of uploading')"
     >
-      <i class="fas fa-sort"></i> Date
+      <i class="fas fa-sort"></i> {{ $t("Date") }}
     </th>
-    <th scope="col">Info</th>
-    <th class="pointer" @click="sortHandler('Comments')" scope="col">
-      <i class="fas fa-sort"></i> Comments
+    <th scope="col">{{ $t("Info") }}</th>
+    <th class="pointer width200" @click="sortHandler('Comments')" scope="col">
+      <i class="fas fa-sort"></i>
+      {{ $t("Comments") }}
     </th>
   </tr>
 </template>
@@ -26,7 +31,6 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Uploaded-Videos-Head",
-  components: {},
   props: {},
   mixins: [],
   data() {

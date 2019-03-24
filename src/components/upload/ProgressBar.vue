@@ -18,32 +18,30 @@ export default {
   name: "Progress-Bar",
   props: {
     percent: { type: Number, default: () => 0 },
-    fileUserIndexData: Object
+    obj: Object
   },
   data() {
     return {};
   },
   beforeMount() {
-    this.changeUserData({
-      index: this.fileUserIndexData.index,
+    this.changeSelectedVideos({
+      hash: this.obj.hash,
       prop: "variant",
       val: this.variantGen()
     });
-
-    this.changeUserData({
-      index: this.fileUserIndexData.index,
+    this.changeSelectedVideos({
+      hash: this.obj.hash,
       prop: "striped",
       val: !!this.randomInteger(0, 1)
     });
-
-    this.changeUserData({
-      index: this.fileUserIndexData.index,
+    this.changeSelectedVideos({
+      hash: this.obj.hash,
       prop: "animated",
       val: !!this.randomInteger(0, 1)
     });
   },
   methods: {
-    ...mapMutations(["changeUserData"]),
+    ...mapMutations(["changeSelectedVideos"]),
     randomInteger(min, max) {
       var rand = min + Math.random() * (max + 1 - min);
       rand = Math.floor(rand);
@@ -65,14 +63,13 @@ export default {
   computed: {
     ...mapState(["selectedVideos"]),
     variant() {
-      return this.selectedVideos[this.fileUserIndexData.index].userData.variant;
+      return this.obj.variant;
     },
     striped() {
-      return this.selectedVideos[this.fileUserIndexData.index].userData.striped;
+      return this.obj.striped;
     },
     animated() {
-      return this.selectedVideos[this.fileUserIndexData.index].userData
-        .animated;
+      return this.obj.animated;
     }
   }
 };

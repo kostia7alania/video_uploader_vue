@@ -1,7 +1,32 @@
+<i18n>
+{
+  "en": {
+    "In queue":"In queue",
+    "Converting":"Converting..",
+    "Converted":"Converted!",
+    "Error":"Error",
+    "N/A":"N/A",
+    "The video queued for conversion":"The video queued for conversion",
+    "Converting the file":"Converting the file"
+  },
+  "ru": {
+    "In queue":"В очереди",
+    "Converting":"Конвертация..",
+    "Converted":"Сконвертировано",
+    "Error":"Ошибка",
+    "N/A":"Н/И",
+    
+    "The video queued for conversion":"Данное видео поставлено в очередь на конвертацию",
+    "Converting the file":"В данный момент происходит конвертация видео в общий формат (mp4)"
+  }
+}
+</i18n>
+
 <template>
   <div class="status">
     <span :class="spanClass" v-b-tooltip.hover.left :title="toolTip">
-      <i :class="iconComp" /> {{ text }}
+      <i :class="iconComp" />
+      <span class="status-text"> {{ text }}</span>
     </span>
   </div>
 </template>
@@ -32,26 +57,26 @@ export default {
     text() {
       let e = this.status;
       return e == 0
-        ? "In queue"
+        ? this.$t("In queue")
         : e == 1
-        ? "Converting..."
+        ? this.$t("Converting")
         : e == 2
-        ? "Converted!"
+        ? this.$t("Converted")
         : e == 3
-        ? "Error"
-        : "N/A";
+        ? this.$t("Error")
+        : this.$t("N/A");
     },
     toolTip() {
       let e = this.status;
       return e == 0
-        ? "[0] - The video queued for conversion"
+        ? `[0] - ${this.$t("The video queued for conversion")}`
         : e == 1
-        ? "[1] - Converting the file..."
+        ? `[1] - ${this.$t("Converting the file")}`
         : e == 2
-        ? "[2] - Converted!"
+        ? `[2] - ${this.$t("Converted")}`
         : e == 3
-        ? "[3] - Error"
-        : "N/A";
+        ? `[3] - ${this.$t("Error")}`
+        : this.$t("N/A");
     }
   }
 };
@@ -64,10 +89,11 @@ export default {
   }
 }
 i {
-  transform: scale(1.3);
+  padding-right: 2px;
+  font-size: 20px;
   transition: 1s;
   &:hover {
-    transform: scale(1.6);
+    transform: scale(1.1);
   }
 }
 .inProgress {
@@ -81,5 +107,9 @@ i {
 }
 .inBlock {
   cursor: not-allowed;
+}
+.status-text {
+  display: inline-block;
+  min-width: 5em;
 }
 </style>

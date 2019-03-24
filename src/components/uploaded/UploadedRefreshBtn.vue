@@ -1,26 +1,46 @@
-<template> 
-    <b-button-group>
-      <b-button
-        v-b-tooltip.hover.left
-        :title="lastUpdatedTitle"
-        :class="btn_class"
-        class="btn"
-        @click="load"
-      >
-        <i :class="btn_icon_class" class="fa" />
-        {{ btn_text }}
-      </b-button>
+<i18n>
+{
+  "en": {
+    "Show list":"Show list",
+    "Cancelled":"Cancelled",
+    "Loading":"Loading..",
+    "Error":"Error",
+    "Success":"Success",
+    "Refresh list":"Refresh list",
+    "The list is empty":"The list is empty"
+  },
+  "ru": {
+    "Show list":"Показать список",
+    "Cancelled":"Отменено",
+    "Loading":"Загрузка..",
+    "Error":"Ошибка",
+    "Success":"Успешно",
+    "Refresh list":"Обновить" 
+   }
+}
+</i18n>
 
-      <!--<b-dropdown v-if="shown" right text="Menu">
+<template>
+  <b-button-group>
+    <b-button
+      v-b-tooltip.hover.left
+      :title="lastUpdatedTitle"
+      :class="btn_class"
+      class="btn"
+      @click="load"
+    >
+      <i :class="btn_icon_class" class="fa" />
+      {{ btn_text }}
+    </b-button>
+
+    <!--<b-dropdown v-if="shown" right text="Menu">
       <b-dropdown-item @click="hide"><i class="far fa-eye-slash"></i> Hide list</b-dropdown-item>
-      <!--<b-dropdown-divider />-- >
+      <! --<b-dropdown-divider />-- >
     </b-dropdown>-->
-    </b-button-group> 
+  </b-button-group>
 </template>
 
 <script>
-import axios from "axios";
-
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   name: "Uploaded-Refresh-Btn",
@@ -50,10 +70,12 @@ export default {
     },
     lastUpdatedTitle() {
       if (!this.shown) return "Show already uploaded list";
-      if (this.lastUpdatedAlsoLoaded)
-        return (
-          "Last updated: \n " + this.lastUpdatedAlsoLoaded.toLocaleString()
-        );
+      let loaded = this.lastUpdatedAlsoLoaded;
+      return loaded
+        ? this.$t("Uploaded_vue['Last updated']") +
+            "\n" +
+            this.lastUpdatedAlsoLoaded.toLocaleString()
+        : "";
     },
     btn_class() {
       let s = this.status;
@@ -82,12 +104,13 @@ export default {
     btn_text() {
       let status = this.status;
       let shown = this.shown;
-      if (!shown) return "Show list";
-      if (status == 6) return "Cancelled";
-      if (status == 2) return "Loading...";
-      if (status == 4) return "Error";
-      if (status == 5) return "Success";
-      if (shown) return "Refresh list";
+      if (!shown) return this.$t("Show list");
+      if (status == 6) return this.$t("Cancelled");
+      if (status == 2) return this.$t("Loading");
+      if (status == 4) return this.$t("Error");
+      if (status == 5) return this.$t("Success");
+      if (shown) return this.$t("Refresh list");
+      return false;
     }
   },
   methods: {
@@ -103,7 +126,7 @@ export default {
     },
     cancel() {
       if (!this.source) return;
-      this.source.cancel("Operation canceled by the user.");
+      this.source.cancel(this.$t("Cancelled"));
       this.tmp_change_btn({ now: 6 });
     },
     tmp_change_btn({ now = 1, after = 3 }) {
@@ -117,12 +140,15 @@ export default {
       this.changeStatus(2);
       let list = await this.getVideoList();
       if (typeof list === "string") {
-        if (list == "Network Error") this.tmp_change_btn({ now: 4 });
+        if (list == this.$t("Network Error")) this.tmp_change_btn({ now: 4 });
         return;
       }
       this.tmp_change_btn(list ? { now: 5 } : { now: 4 });
       if (list instanceof Array && list.lenght === 0)
-        this._vm.$toast.warning("The list is empty", state.getTime());
+        this._vm.$toast.warning(
+          this.$t("The list is empty"),
+          this.$store.state.getTime()
+        );
     }
   }
 };

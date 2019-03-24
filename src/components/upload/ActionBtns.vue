@@ -15,19 +15,19 @@
       <button
         class="btn"
         v-if="!isInProgress"
-        @click.stop="deleteHandler"
+        @click.stop="delete_Mixin"
         v-b-tooltip.hover
-        title="Delete the file"
+        :title="$t('Delete the file')"
       >
         <i class="far fa-trash-alt"></i>
       </button>
 
       <button
         class="btn"
-        v-if="!isInProgress && fileUserIndexData.error"
+        v-if="!isInProgress && obj.error"
         @click.stop
         v-b-tooltip.hover
-        :title="fileUserIndexData.error"
+        :title="$t(obj.error)"
       >
         <i class="fas fa-exclamation text-danger"></i>
       </button>
@@ -35,9 +35,9 @@
       <button
         class="btn"
         v-if="isInProgress"
-        @click.stop="stopHandler"
+        @click.stop="stop_Mixin"
         v-b-tooltip.hover
-        title="Stop"
+        :title="$t('Stop')"
       >
         <i class="far fa-stop-circle"></i>
       </button>
@@ -46,74 +46,57 @@
     <div class="progress-bar">
       <progressBar
         v-if="isInProgress"
-        :percent="+fileUserIndexData.percentCompleted"
-        :fileUserIndexData="fileUserIndexData"
+        :percent="+obj.percentCompleted"
+        :obj="obj"
       />
     </div>
   </div>
 </template>
 
 <script>
-import checkMixins from "@/mixins.js";
-import { localCheckers } from "@/mixins.js";
 import progressBar from "./ProgressBar";
-
 import { mapMutations, mapActions, mapState } from "vuex";
+
+import checkMixins from "@/mixins.js";
+import { localCheckers, selectedFilesMethods } from "@/mixins.js";
 
 export default {
   name: "Action-Btns",
   components: { progressBar },
-  mixins: [checkMixins, localCheckers],
-  props: { fileUserIndexData: Object },
+  mixins: [checkMixins, localCheckers, selectedFilesMethods],
+  props: {
+    obj: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {};
   },
   methods: {
     ...mapActions(["upload", "getVideoList"]),
     ...mapMutations([
-      "deleteEntry" // `this.incrementBy(amount)` будет вызывать `this.$store.commit('incrementBy', amount)`
+      "deleteFromSelectedVideos" // `this.incrementBy(amount)` будет вызывать `this.$store.commit('incrementBy', amount)`
     ]),
 
     async sendHandler() {
-      let up = await this.upload({
-        index: this.fileUserIndexData.index,
-        data: this.selectedVideos[this.fileUserIndexData.index]
-      });
+      let up = await this.upload({ hash: this.obj.hash });
       if (up && up.status === 1) this.getVideoList();
       else console.warn("Upload was winished with errors!");
-    },
-
-    deleteHandler() {
-      this.deleteEntry({
-        prop: "selectedVideos",
-        index: this.fileUserIndexData.index
-      });
-    },
-
-    stopHandler() {
-      this.selectedVideos[this.fileUserIndexData.index].userData.source.cancel(
-        "Cancelled by user!"
-      );
     }
-  },
-  mounted() {
-    //  console.log('OBJ.>>>',this.fileUserIndexData)
   },
   computed: {
     ...mapState(["selectedVideos", "getTime"]),
-
     isInProgress() {
-      return !isNaN(parseInt(this.fileUserIndexData.percentCompleted));
+      return !isNaN(parseInt(this.obj.percentCompleted));
     },
     sendClass() {
-      return !this.fileUserIndexData.sizeOK || !this.fileUserIndexData.typeOK
-        ? "block"
-        : "";
+      return !this.obj.sizeOK || !this.obj.typeOK ? "block" : "";
     },
     send_btn_tooltip() {
-      return !this.fileUserIndexData.sizeOK || !this.fileUserIndexData.typeOK
-        ? "You can't send this file"
-        : "Send the file";
+      return !this.obj.sizeOK || !this.obj.typeOK
+        ? this.$t("You can't send this file")
+        : this.$t("Upload the file", { filename: this.obj.file.name });
     }
   }
 };

@@ -54,20 +54,6 @@ export default {
   },
   filters: {
     dateFilter: e => new Date(e).toLocaleDateString(),
-    sizeFilter: e => {
-      let round = d =>
-        d - Math.floor(d) > 0.1 && d - Math.floor(d) < 0.95
-          ? d.toFixed(1)
-          : d.toFixed(0); //убираем дробную часть где она не носит смысловую нагрузку (n.0, где n - число);
-      return e < 1000
-        ? e + " B"
-        : e < 1000000
-        ? round(e / 1000) + " KB"
-        : e < 1000000000
-        ? round(e / 1000 / 1000) + " MB"
-        : round(e / 1000 / 1000 / 1000) + " GB";
-    },
-
     typeFilter: e => (e ? `${e.split("/")[1]} (${e.split("/")[0]})` : "N/A")
   },
   computed: {

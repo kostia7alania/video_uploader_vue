@@ -1,3 +1,16 @@
+<i18n>
+{
+  "en": {
+    "The video list is empty":"The video list is empty", 
+    "Click the button": "Click the button to get the list with uploaded videos"
+  },
+  "ru": {
+    "The video list is empty":"Список пуст",
+    "Click the button": "Для получения списка видео нажмите на кнопку"
+   }
+}
+</i18n>
+
 <template>
   <div>
     <b-container fluid class="table-responsive">
@@ -14,7 +27,7 @@
           <UploadedVideosHead />
         </thead>
 
-        <tbody>
+        <transition-group mode="in-out" tag="tbody" name="table-row">
           <tr
             @click="videoRowClickHandler(index2)"
             class="list-item"
@@ -63,15 +76,16 @@
               <span v-html="file2.Comments"></span>
             </td>
           </tr>
-        </tbody>
+        </transition-group>
+
         <tfoot class="sticky table-dark">
           <UploadedVideosHead />
         </tfoot>
       </table>
       <h1 v-else-if="isLoadedList && !uploadedList.length" class="table">
-        The video list is empty
+        {{ $t("The video list is empty") }}
       </h1>
-      <p v-else>Click the button to get the list with uploaded videos!</p>
+      <p v-else>{{ $t("Click the button") }}</p>
     </b-container>
 
     <modal

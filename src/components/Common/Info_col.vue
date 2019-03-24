@@ -1,3 +1,20 @@
+<i18n>
+{
+  "en": {
+    "Size":"Size",
+    "Type":"Type",
+    "Modified":"Modified",
+    "Duration":"Duration"
+  },
+  "ru": {
+    "Size":"Размер",
+    "Type":"Тип",
+    "Modified":"Изменен",
+    "Duration":"Длительность"
+  }
+}
+</i18n>
+
 <template>
   <b-col class="info-column">
     <div
@@ -5,26 +22,26 @@
       v-b-tooltip.hover
       :title="sizeTitle"
     >
-      <b>Size:</b>
-      {{ file.size | sizeFilter }}
+      <b>{{ $t("Size") }}:</b>
+      {{ sizeMethod(file.size) }}
     </div>
     <div
       :class="'type ' + typeCheck(file.type)"
       v-b-tooltip.hover
       :title="typeTitle"
     >
-      <b>Type:</b>
+      <b>{{ $t("Type") }}:</b>
       {{ file.type | typeFilter }}
     </div>
     <div>
-      <b>Modified:</b>
+      <b>{{ $t("Modified") }}:</b>
       {{ file.lastModifiedDate || file.lastModified | dateFilter }}
       <br v-if="!inRow" />
       <span v-else> - </span>
       {{ file.lastModifiedDate || file.lastModified | dateFilterTime }}
     </div>
     <div>
-      <b v-if="duration">Duration:</b>
+      <b v-if="duration">{{ $t("Duration") }}:</b>
       {{ duration_comp(duration) }}
     </div>
   </b-col>
@@ -39,8 +56,8 @@ export default {
   mixins: [checkMixins, filters, duration_comp_mixin],
   props: {
     inRow: {
-      type:null,
-      default: () => false,
+      type: null,
+      default: () => false
     },
     duration: null,
     obj: { type: Object }, //default: () => { return { fileData: '' } }
@@ -54,16 +71,16 @@ export default {
     sizeTitle() {
       return this.skipVerify
         ? ""
-        : this.obj.fileData.sizeOK
-        ? "Size is OK"
-        : "File size exceeded";
+        : this.obj.sizeOK
+        ? this.$t("Size-is-OK")
+        : this.$t("Max size exceeded");
     },
     typeTitle() {
       return this.skipVerify
         ? ""
-        : this.obj.fileData.typeOK
-        ? "Type is OK"
-        : "The format is not supported";
+        : this.obj.typeOK
+        ? this.$t("Type is OK")
+        : this.$t("Format not supported");
     }
   },
   filters: {

@@ -9,12 +9,12 @@
       @dragover.stop.prevent="dragEvent(1)"
       @dragenter.stop.prevent="dragEvent(1)"
     >
-      <template v-if="!dropped"
-        >Drop your files in this area ...</template
-      >
-      <template v-else
-        >Now you can release mouse button!</template
-      >
+      <template v-if="!dropped">
+        {{ $t("drop") }}
+      </template>
+      <template v-else>
+        {{ $t("release") }}
+      </template>
     </form>
     <DragDropZoneButton />
   </div>

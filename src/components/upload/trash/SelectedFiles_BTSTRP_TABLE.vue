@@ -39,13 +39,10 @@
 <script>
 //import SelectedFilesRows from "./SelectedFilesRows";
 
-import ActionBtns from "./ActionBtns";
-import VideoPlayer from "./VideoPlayer";
 import checkMixins from "@/mixins.js";
 
 import { mapMutations } from "vuex";
 
-import InfoCol from "./Info_col";
 import SelectedFilesRow from "./SelectedFilesRow";
 export default {
   name: "Selected-Videos",
@@ -56,7 +53,7 @@ export default {
       selected_rows: []
     };
   },
-  components: { ActionBtns, VideoPlayer, InfoCol, SelectedFilesRow },
+  components: { SelectedFilesRow },
   methods: {
     ...mapMutations(["toogleSelectRow", "changeUserData"]),
     rowClick(e) {

@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   props: { abusingFile: [Object, Boolean] },
@@ -129,7 +129,7 @@ export default {
       else return "Send bug-report about the video to developers";
     },
     btnClassComp() {
-      if (this.sending) return "disabled";
+      return this.sending ? "disabled" : false;
     },
     iconComp() {
       if (this.sending) return "fas fa-stopwatch";

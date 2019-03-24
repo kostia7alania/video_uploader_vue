@@ -1,29 +1,33 @@
 <template>
   <b-container fluid class="table-responsive">
     <table class="table table-hover table-bordered table-striped">
-      <thead v-show="selectedVideos.length || system_isLoading_comp" class="sticky table-dark">
+      <thead
+        v-show="selectedVideosGetter.length || system_isLoading_comp"
+        class="sticky table-dark"
+      >
         <SelectedFilesHead />
       </thead>
 
       <transition-group mode="in-out" tag="tbody" name="table-row">
         <SelectedFilesRow
-          @contextmenu.prevent="$refs.menu.open($event, { ...obj, index })"
-          v-for="(obj, index) in selectedVideos"
+          @contextmenu.prevent="$refs.menu.open($event, { ...obj })"
+          v-for="(obj, index) in selectedVideosGetter"
           :obj="obj"
+          :hash="obj.hash"
+          :key="obj.hash"
           :index="index"
-          :key="obj.fileData.hash"
           @beforeDestroy="$refs.menu.close()"
         />
       </transition-group>
 
       <SelFilesLoading v-show="system_isLoading_comp" />
 
-      <tfoot v-show="selectedVideos.length || system_isLoading_comp" >
+      <tfoot v-show="selectedVideosGetter.length || system_isLoading_comp">
         <SelectedFilesHead />
       </tfoot>
     </table>
 
-<!-- CONTEXT>> -->
+    <!-- CONTEXT>> -->
     <ContextMenu ref="menu">
       <template slot-scope="{ contextData }">
         <ContextMenuItem
@@ -35,7 +39,7 @@
         >
           <span
             ><i class="far fa-share-square"></i>
-            Upload the file
+            {{ $t("Upload the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
 
@@ -43,11 +47,11 @@
           v-if="whatShow({ name: 'delete', obj: contextData })"
           @click.native="slot_click({ name: 'delete', obj: contextData })"
           v-b-tooltip.hover.left
-          :title="`Delete: ${parseVal(contextData, 'name')}`"
+          :title="$t('Delete the file')"
         >
           <span
             ><i class="far fa-trash-alt"></i>
-            Delete the file
+            {{ $t("Delete the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
 
@@ -59,13 +63,12 @@
         >
           <span
             ><i class="far fa-stop-circle"></i>
-            Stop
+            {{ $t("Stop") }}
           </span>
         </ContextMenuItem>
       </template>
     </ContextMenu>
-<!-- <<CONTEXT-->
-
+    <!-- <<CONTEXT-->
   </b-container>
 </template>
 
@@ -77,102 +80,86 @@ import ContextMenu from "@/components/ContextMenu/ContextMenu";
 import ContextMenuItem from "@/components/ContextMenu/ContextMenuItem";
 import { filters, selectedFilesCounts } from "@/mixins.js";
 
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
-import SelFilesLoading from './SelectedFiles__loading'
+import SelFilesLoading from "./SelectedFiles__loading";
 
 export default {
-  name: "Selected-Videos", 
+  name: "Selected-Files",
   mixins: [filters, selectedFilesCounts],
   components: {
     SelectedFilesRow,
     SelectedFilesHead,
     ContextMenu,
     ContextMenuItem,
-    SelFilesLoading,
+    SelFilesLoading
   },
   data() {
     return {};
   },
   computed: {
-    ...mapState([
-      "selectedVideos",
-      "SelectedFiles__IsLoading",
-    ]),
+    ...mapGetters(["selectedVideosGetter"]),
+    ...mapState(["selectedVideos", "SelectedFiles__IsLoading"]),
     system_isLoading_comp() {
       let t = this.SelectedFiles__IsLoading;
-      return t?t:false;
-    },
+      return t ? t : false;
+    }
   },
   methods: {
-    ...mapActions([
-      "upload",
-      "getVideoList"
-    ]),
-    ...mapMutations([
-      "deleteEntry"
-    ]),
-    parseVal(e, name) {
-      if (!name || typeof e != "object" || e === null || !("fileData" in e))
-        return;
-      console.log(e, name);
-      if (name == "name") return e.fileData.file.name;
-    },
-    whatShow({ name, obj }) {
-      if (
-        typeof obj !== "object" ||
+    ...mapActions(["upload", "getVideoList"]),
+    ...mapMutations(["deleteFromSelectedVideos"]),
+    isInValid(obj) {
+      return (
+        this.selectedVideosGetter.length === 0 ||
         obj === null ||
-        typeof obj.fileData !== "object"
-      )
-        return;
-      const perc = obj.userData.percentCompleted;
+        typeof obj !== "object" ||
+        !("file" in obj)
+      );
+    },
+
+    parseVal(obj, name = "") {
+      if (this.isInValid(obj)) return "";
+      if (name == "name") return obj.file.name;
+      return "";
+    },
+
+    whatShow({ obj, name = "" }) {
+      if (this.isInValid(obj)) return;
+      const perc = obj.percentCompleted;
       if (name === "upload") return perc == null;
       if (name === "delete") return perc == null;
       if (name === "stop") return perc != null;
     },
 
-    async slot_click({ name, obj }) {
+    async slot_click({ obj, name = "" }) {
       this.$refs.menu.close();
-      const index = obj.index;
-      console.log("click=?", obj);
-
+      const hash = obj.hash;
       if (name == "upload") {
-        let up = await this.upload({ index, data: this.selectedVideos[index] });
-        if (up && up.status === 1) this.getVideoList();
-        else console.warn("Upload was winished with errors!");
+        let up = await this.upload({ hash });
+        if (up && up.status === 1) return this.getVideoList();
+        console.warn("Upload was winished with errors!");
+        return;
       }
-
       if (name == "delete") {
-        this.deleteEntry({ prop: "selectedVideos", index });
+        if (obj.source) obj.source.cancel(this.$t("Cancelled by user"));
+        this.deleteFromSelectedVideos({ hash });
+        return;
       }
-
       if (name == "stop") {
-        obj.userData.source.cancel("Cancelled by user!");
+        obj.source.cancel(this.$t("Cancelled by user"));
+        return;
       }
     },
 
     sendClass({ obj }) {
-      if (
-        typeof obj !== "object" ||
-        obj === null ||
-        typeof obj.fileData !== "object"
-      )
-        return;
-      const fd = obj.fileData;
-      return !fd.sizeOK || !fd.typeOK ? "block text-muted" : "";
+      if (this.isInValid(obj)) return;
+      return !obj.sizeOK || !obj.typeOK ? "block text-muted" : "";
     },
-
     send_btn_tooltip({ obj }) {
-      if (
-        typeof obj !== "object" ||
-        obj === null ||
-        typeof obj.fileData !== "object"
-      )
-        return;
-      const fd = obj.fileData;
-      return !fd.sizeOK || !fd.typeOK
-        ? "You can't send this file"
-        : `Upload: ${this.parseVal(obj, "name")}`;
+      if (this.isInValid(obj)) return;
+      return !obj.sizeOK || !obj.typeOK
+        ? this.$t("You can't send this file")
+        : this.$t("Upload the file", { filename: obj.file.name });
     }
   }
 };
@@ -185,26 +172,6 @@ export default {
   &:hover {
     background: gray;
     color: black;
-  }
-}
-
-.table-row {
-  overflow: hidden;
-  transition: height 350ms;
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-  &-leave,
-  &-enter-to {
-    opacity: 1;
-  }
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 200ms ease-in-out;
-  }
-  &-enter-active {
-    transition-delay: 100ms;
   }
 }
 </style>

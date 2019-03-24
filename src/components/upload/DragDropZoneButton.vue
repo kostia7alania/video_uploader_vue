@@ -2,8 +2,9 @@
   <div class="Drag-Drop-Zone-Button">
     <label class="file-label" for="file">
       <i class="far fa-folder-open"></i>
-      Browse</label
-    >
+      {{ $t("Browse") }}
+    </label>
+
     <input
       type="file"
       id="file"
@@ -14,14 +15,24 @@
   </div>
 </template>
 
+<i18n>
+{
+  "en": {
+    "Browse": "Browse"
+  },
+  "ru": {
+    "Browse": "Обзор"
+   }
+}
+</i18n>
+
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Drag-Drop-Zone-Button",
   methods: {
     async sel(event) {
-     let a =  await this.filesSelected(event);
-     console.log('a',a)
+      await this.filesSelected(event);
       event.target.value = "";
     },
     ...mapActions(["filesSelected"])

@@ -7,8 +7,8 @@
         {{ new Date().getFullYear() }}
         <span
           v-b-tooltip.hover.topleft
-          title="Information Coordination Center of State Port Control"
-          >ICCSPC</span
+          :title="$t('Information Coordination Center of State Port Control')"
+          >{{ $t("ICCSPC") }}</span
         >
       </footer>
     </div>
@@ -17,9 +17,7 @@
 
 <script>
 export default {
-  name: "my-footer",
-  components: {},
-  props: {}
+  name: "my-footer"
 };
 </script>
 
