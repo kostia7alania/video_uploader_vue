@@ -1,21 +1,19 @@
 <template>
   <a
+    href="#"
     v-show="!modalActiveIndex"
     class="cd-top js-cd-top"
     ref="js-cd-top"
     @click.prevent="backToTopClickHandler"
-    href="#0"
   >
-    Back to top
   </a>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "BackToTop",
-  props: {},
   data() {
     return {
       scrollDuration: 700,
@@ -92,7 +90,7 @@ export default {
   },
 
   mounted() {
-    window.addEventListener("scroll", e => {
+    window.addEventListener("scroll", () => {
       //update back to top visibility on scrolling
       if (!this.scrolling) {
         this.scrolling = true;
@@ -125,8 +123,12 @@ export default {
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  background: rgba(232, 98, 86, 0.8) url(./cd-top-arrow.svg) no-repeat center
-    50%;
+  background: rgba(232, 98, 86, 0.8)
+    url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='16px' height='16px' viewBox='0 0 16 16' enable-background='new 0 0 16 16' xml:space='preserve'%3E%3Cpolygon fill='%23FFFFFF' points='8,2.8 16,10.7 13.6,13.1 8.1,7.6 2.5,13.2 0,10.7 '/%3E%3C/svg%3E%0A")
+    no-repeat center 50%;
+  /*background: rgba(232, 98, 86, 0.8)
+    url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='16px' height='16px' viewBox='0 0 16 16' enable-background='new 0 0 16 16' xml:space='preserve'%3E%3Cpolygon fill='%23FFFFFF' points='8,2.8 16,10.7 13.6,13.1 8.1,7.6 2.5,13.2 0,10.7 '/%3E%3C/svg%3E%0A")
+    no-repeat center 50%;*/
   visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s,
