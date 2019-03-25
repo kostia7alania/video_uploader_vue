@@ -16,7 +16,7 @@ import header from "@/Views/Header";
 import footer from "@/Views/Footer";
 import BackToTop from "@/components/BackToTop/BackToTop";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   name: "app",
   components: {
@@ -27,6 +27,11 @@ export default {
   methods: {
     ...mapMutations(["changeProp"])
   },
+  computed: {
+    ...mapGetters([
+      'selectedVideosGetter'
+    ])
+  },
   mounted() {
     window.App = this;
     window.$t = (args, obj = {}) => this.$t(args, obj);
@@ -34,6 +39,14 @@ export default {
   created() {
     let p = this.$options._parentVnode.data.props;
     Object.keys(p).forEach(prop => this.changeProp({ prop, state: p[prop] })); //Записываем конфиг в стор; из initVue({prop:state})
+  
+  window.addEventListener('beforeunload', e => {
+    if(this.selectedVideosGetter.filter(ee=>ee.percentCompleted != null).length) {
+      e.preventDefault();// Cancel the event
+      e.returnValue = '';// Chrome requires returnValue to be set
+    }
+  });
+
   }
 };
 </script>
