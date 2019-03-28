@@ -1,0 +1,1 @@
+php-cgi -f C:\inetpub\wwwroot\ffmpeg\4cmd.php >> C:\inetpub\wwwroot\ffmpeg\logs.log

@@ -1,0 +1,58 @@
+﻿﻿[2019-03-26 15:28:22]: ﻿<hr> <b>=> checkStatus():</b> <br>inProccess=>1 (5), <br>inQueue=>6, <br>success=>11, <br>error=>2;<hr><br />
+<b>Warning</b>:  file_get_contents(temp_file): failed to open stream: No such file or directory in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>41</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>42</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>42</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>44</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>44</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>45</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>45</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>46</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>46</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>47</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>47</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>48</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>48</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>49</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>49</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>50</b><br />
+<br />
+<b>Notice</b>:  Trying to get property of non-object in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>50</b><br />
+<br />
+<b>Notice</b>:  Array to string conversion in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>51</b><br />
+ffprobe OUTPUT=>Array;
+          size        > 0;
+          width       > ;
+          height      > ;
+          ratio       > ;
+          video_codec > ;
+          audio_codec > ;
+          rate        > ;
+          <br />
+<b>Notice</b>:  Array to string conversion in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>141</b><br />
+goExec(c:\ffmpeg\bin\ffmpeg.exe -v error -y -iE:\fsc_videos\real\83453B28-6E43-4FF4-A5CE-12132B80D918.AVI -pix_fmt yuvj422p -deinterlace -an -ss 0 -f mjpeg -t 1 -r 1 -y -s 200x200 -y E:\fsc_videos\img\83453B28-6E43-4FF4-A5CE-12132B80D918.jpg 2>&1, pic): out1=>Array;
+ out2=>1;<br />
+<b>Notice</b>:  Array to string conversion in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>141</b><br />
+goExec(c:\ffmpeg\bin\ffmpeg.exe -v error -y -iE:\fsc_videos\real\83453B28-6E43-4FF4-A5CE-12132B80D918.AVI -ss 0 -t 1 -vf fps=5,scale=300:-1:sws_dither=ed -gifflags -transdiff -y E:\fsc_videos\gif\83453B28-6E43-4FF4-A5CE-12132B80D918.gif 2>&1, gif): out1=>Array;
+ out2=>1;<br />
+<b>Notice</b>:  Array to string conversion in <b>E:\fsc_videos\converter\src\functions.php</b> on line <b>141</b><br />
+goExec(c:\ffmpeg\bin\ffmpeg.exe -v error -y -iE:\fsc_videos\real\83453B28-6E43-4FF4-A5CE-12132B80D918.AVI -vf drawtext="fontfile=E\\:/fsc_videos/converter/src/Comili-Book.otf: text='ISGS': fontcolor=white: fontsize=24: box=1: boxcolor=black@0.4: x=w-tw:y=h-th" -c:v libx264 -crf 18 -y E:\fsc_videos\converted\83453B28-6E43-4FF4-A5CE-12132B80D918.mp4	2>&1, vid): out1=>Array;
+ out2=>1;[=>>isExist(path,name)=>FILE NOT EXIST!!!<br>
+   name=>NEW;<br> 
+   path=>E:\fsc_videos\converted\83453B28-6E43-4FF4-A5CE-12132B80D918.mp4;
+    ]<br />
+<b>Notice</b>:  Undefined variable: stmt in <b>E:\fsc_videos\converter\converter.php</b> on line <b>40</b><br />
