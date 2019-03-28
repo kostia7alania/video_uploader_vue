@@ -32,6 +32,7 @@ yarn-error.log*
 */video-config.php 
 */video-config.php 
 /backend/video-config.php 
+/converter/converter-config.php
 composer.phar
 /vendor/
 
