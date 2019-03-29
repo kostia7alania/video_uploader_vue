@@ -3,9 +3,9 @@
 
 
 const vid_cfg = [
-    'AuthUserName'  => 'name',
-    'AuthPassword'  => 'pass',
-    'soapServer'    => 'https://localhost/service.asmx',
+    'AuthUserName'  => 'test',
+    'AuthPassword'  => 'pswd',
+    'soapServer'    => '/TEST.asmx',
     'newPath'       => 'c://test//',//"\\\\media\\videos\\real/"; 
     'maxSize'       => 2000000000,
     'maxCommentLen' => 3000,
@@ -13,6 +13,8 @@ const vid_cfg = [
     'convertedDir'  => '//converted//',
     'realDir'       => '//real//',
     'gifDir'        => '//gif//',
+    'webpDir'        => '//webp//',
+    'imgDir'        => '//img//',,
     'tmp_gif_src'   => 'http://placehold.jp/006699/cccc00/200x200.png'
 ];
 
