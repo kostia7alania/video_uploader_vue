@@ -3,7 +3,7 @@ const object_hash = require("object-hash");
 import alreadyActions from "./modules/alreadyUploaded_actions";
 import uploadActions from "./modules/upload_actions";
 
-const $t = window.$t;
+//const $t = window.$t;
 
 export default {
   ...alreadyActions,
@@ -201,36 +201,23 @@ export default {
 
   async prepareToUploadAll({ getters, commit, dispatch }) {
     await commit("changeProp", { prop: "uploadAllInProgress", state: true });
-    let arr = await getters.selectedVideosGetter.filter(
-      async e => e.percentCompleted == null
-    );
-    arr = arr.map(async e => await dispatch("upload", { hash: e.hash }));
+    let arr = getters.selectedVideosGetter.filter(e => e.percentCompleted == null);
+    arr = arr.map(e => dispatch("upload", { hash: e.hash }));
     Promise.all(arr)
       .then(e => {
-        console.log("Promise.all suc", e);
-        let suc = 0,
-          fail = 0;
+        let suc = 0, fail = 0;
         e.forEach(el => (el && el.status ? suc++ : fail++));
-
-        let res =
-          suc > 0 ? $t("Successively uploaded", { suc_count: suc }) : "";
+        let res = suc > 0 ? $t("Successively uploaded", { suc_count: suc }) : "";
         res += $t("Uploaded with fail", { fail_count: fail });
-        dispatch("toast", {
-          text: $t("Send all report", { report: res }),
-          type: suc > 0 && fail == 0 ? "success" : "warning"
-        });
+        dispatch("toast", {text: $t("Send all report", { report: res }), type: suc>0&&fail==0?"success":"warning" });
       })
-      .catch(err =>
-        dispatch("toast", {
-          text: $t("Upload all done with error", { err: err }),
-          type: "warning"
-        })
-      )
+      .catch(err =>{
+        dispatch("toast", {text: $t("Upload all done with error", { err: err }),type: "warning"})
+      })
       .finally(() => {
         commit("changeProp", { prop: "uploadAllInProgress", state: false });
         dispatch("getVideoList"); // for  refresh duplicate list -> HUIDs;
       });
-    console.log("arr!!!!!");
   },
 
   /********/

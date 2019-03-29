@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const $t = window.$t;
+//const $t = window.$t;
 
 export default {
   async getVideoList({ state, commit, dispatch }) {

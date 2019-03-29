@@ -6,8 +6,13 @@ const state = {
   url_api: null,
   watch_url: null,
   gif_url: null,
-  videoPlayerBrandTitle: "by APCIS Dev Team",
-
+  webp_url: null,
+  img_url: null,
+  show_menu: false,
+  upload_action: 'savevid',
+  video_brand_img_title: " ",//"by VUE.js Dev Team",
+  video_brand_click_msg: "Brand click",//Значение из перевода
+  "video_brand_img_src":"",
   /**** LIMITS 4 upload ****/
   formats: "mp4,avi,flv,3gp,mpg,mov,qt,wmv,mkv",
   maxSize: +"2 000 000 000".split(" ").join(""), //2gb.

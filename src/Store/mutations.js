@@ -9,7 +9,7 @@ const mutations = {
     else this._vm.$set(arr, obj.hash, obj);
   },
 
-  async deleteFromSelectedVideos(state, { hash }) {
+  deleteFromSelectedVideos(state, { hash }) {
     //deleteEntry
     //return state.selectedVideos.splice(index, 1);
     return this._vm.$delete(state.selectedVideos, hash);
