@@ -205,3 +205,28 @@ td { vertical-align: middle; }
     transition: transform 1s;
   }
 }
+
+
+.nopointer {
+  cursor: not-allowed;
+}  
+
+
+
+/* PROGRESS BAR LOADING CURSOR */
+.progress { cursor: progress; }
+
+
+.btn-active {
+  transition: .5s;
+  &:active {
+    transition:.3s;
+    transform: scale(.8) !important;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+  &.disabled {
+    transform:  none !important;
+  }
+}
