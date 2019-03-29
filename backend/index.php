@@ -1,7 +1,13 @@
-
-
-
 <?php
+/* //PROD ::: INDEX.PHP ::: =>
+if ( in_array( $_GET['action'],['video-list-json', 'viewvideo', 'savevid', 'watch','get-uploaded-video-list','abusingFile'] ) )  { 
+	header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
+	require('./video-hosting/backend/index.php');; 
+	die;
+}
+*/
+if (!isset($_SESSION)) session_start();
+
 require('./src/options.php');//CORS policy
 require '../vendor/autoload.php';
 require('./video-config.php');
@@ -10,6 +16,7 @@ require('./src/browserDetection.php');
 if(!isset($_GET['action'])) {/*http_response_code(500);*/exit('{status: 0, msg: "Wrong action"}');}
 $action = $_GET['action'];
 
+/*
 if($action == 'ffmpeg') {
   $file  = 'C:\Users\dev\Downloads\Fifa_Fan_Dance_in_da_Red_Square_2018_____.mp4'; 
   $ffprobe = \FFMpeg\FFProbe::create(libs);
@@ -20,26 +27,40 @@ if($action == 'ffmpeg') {
     ->format($file) // extracts file informations
     ->get('duration');  // returns the duration property
   echo $duration;
-
   die;
 }
+*/
 
 if ( $action == 'watch' ) {
   if(!isset($_GET['v']) || !isset($_GET['dir']) ) { echo '{"status":0, "msg":"Wrong URL parameters"}'; die; }
     $v = $_GET['v']; // filename
     $dir = $_GET['dir'];
     $status = $_GET['status'];// status > 2-значит готово и надо искать в папке CONVERTED
+    ob_clean();
 
-  if($dir=='gif') {
-    if( $status == 2) $gif = vid_cfg['gifDir'] . $v;
-    else              $gif = vid_cfg['tmp_gif_src'];
-    $imginfo = getimagesize($gif);
-    header("Content-type: {$imginfo['mime']}");
-    readfile($gif);
-    die;
-  }
+    if($dir=='gif') {                                                                                
+      if( $status == 2) $gif = vid_cfg['gifDir'] . $v;
+      else              $gif = vid_cfg['tmp_gif_src'];
+      $imginfo = getimagesize($gif);
+      header("Content-type: {$imginfo['mime']}");
+      readfile($gif);
+      die;
+    } 
+    if($dir=='webp') {    
+      if( $status == 2) $gif = vid_cfg['webpDir'] . $v;
+      $imginfo = getimagesize($gif);
+      header("Content-type: image/webp");
+      readfile($gif);
+      die;
+    }
+    if($dir=='img') {                                                                                
+      if( $status == 2) $gif = vid_cfg['imgDir'] . $v; 
+      $imginfo = getimagesize($gif);
+      header("Content-type: {$imginfo['mime']}");
+      readfile($gif);
+      die;
+    }
   
-
   if($dir=='watch') {
     require('./src/VideoStream.php');
     if ($status==2) $videoDir = vid_cfg['convertedDir'];
