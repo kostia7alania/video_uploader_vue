@@ -2,11 +2,11 @@ import videojs from "video.js";
 
 // Default options for the plugin.
 const defaults = {
-  image: "https://apcis.tmou.org/img/tmou.gif",
-  title: "APCIS",
+  image: "https://img.icons8.com/color/48/000000/full-image.png",
+  title: "made by Kostia7Alania",
   destination: "#", ///"http://www.google.com",
   destinationTarget: "_blank",
-  brandClick: () => console.log("brandClick default handler;) ")
+  brandClick: () => console.log("hi from kostia7alania;) ")
 };
 
 /**
@@ -24,22 +24,14 @@ const onPlayerReady = (player, options) => {
   let containerElement = document.createElement("div");
   containerElement.className = "vjs-brand-container";
   let imageElement = document.createElement("img");
-  imageElement.src = options.image; // || defaults.image;
-  imageElement.addEventListener(
-    "click",
-    options.brandClick || defaults.brandClick
-  );
-  imageElement.setAttribute("title", options.title || defaults.title);
+  imageElement.src = options.video_brand_img_src || defaults.image;
+  imageElement.addEventListener( "click", options.brandClick || defaults.brandClick );
+  imageElement.setAttribute("title", options.video_brand_img_title || defaults.title);
   imageElement.setAttribute("v-b-tooltip.hover", "");
-  imageElement.setAttribute(
-    "target",
-    options.destinationTarget || defaults.destinationTarget
-  );
+  imageElement.setAttribute( "target", options.destinationTarget || defaults.destinationTarget );
   imageElement.className = "vjs-brand-container-link";
   containerElement.appendChild(imageElement);
-  player.controlBar
-    .el()
-    .insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
+  player.controlBar .el() .insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
   player.addClass("vjs-brand");
 };
 
