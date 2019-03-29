@@ -16,7 +16,16 @@
   "Uploaded":"Already uploaded",
   "You-already-in-the-tab":"You already in the tab",
   "open-upload-section":"Click for open upload section",
-  "already-uploaded-section":"Click for open already uploaded section"
+  "already-uploaded-section":"Click for open already uploaded section",
+
+  "Already uploaded number in tab 1":"There is {count} already uploaded file",
+  "Already uploaded number in tab 2":"There is {count} already uploaded files",
+  "Selected files number in tab --- как памятка --- ": "На вкладке:\n- всего: {all_count}  - ({all_size_beauty})\n- валидных: {all_valid_count} - {all_valid_size_beauty}\n- не валидных: {all_bad_count} - {all_bad_size_beauty}\n- выделено: {all_selected_count} - {all_selected_size_beauty}\n- выделено (валид): {all_valid_selected_count} - {all_valid_selected_size_beauty}\n- выделено (невалид): {all_bad_selected_count} - {all_bad_selected_size_beauty}\n- отправляется: {all_valid_transfering_count} - {all_valid_transfering_size_beauty}\n- не отправляется: {all_valid_noneTransfering_count} - {all_valid_noneTransfering_size_beauty}",
+  "Selected files number in tab":"There is {all_count} file  ({all_size_beauty})", 
+  "Stop transfer 1":"Stop uploading file",
+  "Stop transfer 2":"Stop uploading files",
+  "Selected files number tranfering in tab 1":"Currently, {all_valid_transfering_count} file is being uploaded to server",
+  "Selected files number tranfering in tab 2":"Currently, {all_valid_transfering_count} files are being uploaded to server"
   },
 
   "Header_vue": {
@@ -28,12 +37,13 @@
     "Feedback":"Feedback",
     "Brand": "APCIS Video Uploader",
     "Brand_title":"",
-    "Back-to-site":"Back to site",
+    "Back-to-site":"Close tab",
     "Back-to-site_title":"Close this tab",
     "already-ru":"You are already in the language",
     "already-en":"You are already in the language",
     "choose-ru-lang":"Изменить интерфейс на русский",
-    "choose-en-lang":"Change interface to ENGLISH"
+    "choose-en-lang":"Change interface to ENGLISH",
+    "cant-close-window":"Can't close window"
   },
 
   "Uploaded_vue": {
@@ -81,21 +91,7 @@
   "Sort the list by Comment column":"Sort the list by Comment column",
   "Sort by added":"Sort by added",
   "Sort the list by added":"Sort the list by added",
-  
-  "Remove all":"Remove all",
-  "other":"other",
 
-  "Clear the list":"Clear the list",
-  "skip":"skip",
-  "transfering file":"transfering file",
-  "transfering files":"transfering files",
-  "Remove selected" :"Remove selected",
-  
-  "Remove Selected Title 1": "Remove {count} selected file:\n{valid} - valid, {nonvalid} - non valid",
-  "Remove Selected Title 2": "Remove {count} selected files:\n{valid} - valid, {nonvalid} - non valid",
-  
-  "Stop all title 1": "Stop tranfer ({count})",
-  "Stop all title 2": "Stop all tranfers ({count})",
 
   "-->actions":"-->",
   "corrupt file":"The file <b>{filename}</b> is corrupt",
@@ -117,7 +113,8 @@
   "==> SelectedFiles_vue->":"",
   "You can't send this file":"You can't send this file",
   "Upload the file":"Upload the file", 
-  "Delete the file":"Delete the file", 
+  "Delete the file":"Delete the file",
+  "Stop transfering":"Stop transfering",
   "Stop":"Stop",
 
   "==> rowTextArea_vue": "",  
@@ -140,8 +137,8 @@
   "An error occurred while sending the request": "An error occurred while sending the request",
   
   " ====> actions.js ":"",
-  "Successively uploaded":"Successively uploaded - {suc_count}. ",
-  "Uploaded with fail":"Failed - {fail_count}",
+  "Successively uploaded":"<br>- successively uploaded: {suc_count}. ",
+  "Uploaded with fail":"<br>- failed: {fail_count}",
   "Upload all done with error":"Upload all done with error {err}",
   "Send all report":"Send all: {report}",
 
@@ -152,11 +149,14 @@
   "Remove all report 2": "Removed: {deleted} files.",
   "Remove all report skipped 1": "Skipped: {skipped} file",
   "Remove all report skipped 2": "Skipped: {skipped} files",
+   
+  "Upload selected text 1": "Upload selected",
+  "Upload selected text 2": "Upload selected ({count})",
   
-  "Upload selected 1": "Upload {count} selected file",
-  "Upload selected 2": "Upload {count} selected files",
-  "Upload selected without 1":"without ({count}) selected non valid file",
-  "Upload selected without 2":"without ({count}) selected non valid files",
+  "Upload selected title 1": "Upload {count} selected file",
+  "Upload selected title 2": "Upload {count} selected files",
+  "Upload selected title without 1":"without ({all_bad_selected_count}) selected non valid file",
+  "Upload selected title without 2":"without ({all_bad_selected_count}) selected non valid files",
 
   "Send all text": "Send all  {count} valid ({size})",
   "Send all text ignor": "Send all other {count} ({size})",
@@ -168,8 +168,42 @@
   "sendAllTitle ignore 1": "\nand ignore {count} invalid file",
   "sendAllTitle ignore 2": "\nand ignore {count} invalid files",
 
+  "Remove all text":"Remove all ({all_noneTransfering_count}, {all_noneTransfering_size_beauty})",
+
+  "Clear the list":"Clear the list",
+  "skip":"skip",
+  "transfering file":"transfering file",
+  "transfering files":"transfering files",
+  "Remove selected" :"Remove selected ({all_valid_noneTransfering_count})",
+  
+  "Remove Selected Title 1": "Remove {count} selected file: \n- valid: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty});\n- non valid - {all_bad_selected_count} ({all_bad_selected_size_beauty})",
+  "Remove Selected Title 2": "Remove {count} selected files:\n- valid: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty});\n- non valid - {all_bad_selected_count} ({all_bad_selected_size_beauty})",
+  
+  "Stop all title 1": "Stop tranfer ({count})",
+  "Stop all title 2": "Stop all tranfers ({count})",
+
+
   " ===> UploadedRefreshBtn_VUE":"",
-  "Network Error":"Network Error"
+  "Network Error":"Network Error",
+
+  " ==> BugReport_vue":"...",
+  "Please wait while sending message":"Please wait while sending message",
+  "Send bug-report about the video to developers":"Send bug-report about the video to developers",
+
+  "Last report reason":"Last report reason:",
+  "File name":"File name:",
+  "Report form":"Report form",
+
+  "Cancel-btn-text":"Close",
+  "Cancel-btn-title ":"Close the form",
+
+  "Send-btn-text":"Send",
+  "Send-btn-title":"Send report for the file",
+  
+  "All-fine-btn-text":"All fine",
+  "All-fine-btn-title":"All fine"
+
+
 
   
     

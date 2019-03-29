@@ -16,7 +16,16 @@
     "Uploaded":"Загруженные видео",
     "You-already-in-the-tab":"Вы уже находитесь в этом разделе",
     "open-upload-section":"Нажмите, чтобы перейти в раздел загрузки видео",
-    "already-uploaded-section":"Нажмите, чтобы перейти в раздел просмотра загруженных видео"
+    "already-uploaded-section":"Нажмите, чтобы перейти в раздел просмотра загруженных видео",
+
+    "Already uploaded number in tab 1":"На сервере - {count} видео",
+    "Already uploaded number in tab 2":"На сервере - {count} видео",
+
+    "Selected files number in tab": "На вкладке:\n- всего: {all_count}  - ({all_size_beauty})\n- валидных: {all_valid_count} - {all_valid_size_beauty}\n- не валидных: {all_bad_count} - {all_bad_size_beauty}\n- выделено: {all_selected_count} - {all_selected_size_beauty}\n- выделено валид: {all_valid_selected_count} - {all_valid_selected_size_beauty}\n- выдел. невалид: {all_bad_selected_count} - {all_bad_selected_size_beauty}\n- отправляется: {all_valid_transfering_count} - {all_valid_transfering_size_beauty}\n- не отправляется: {all_valid_noneTransfering_count} - {all_valid_noneTransfering_size_beauty}",
+    "Stop transfer 1":"Остановить загрузку файла",
+    "Stop transfer 2":"Остановить загрузку всех файлов",
+    "Selected files number tranfering in tab 1":"Загружается {all_valid_transfering_count} файл",
+    "Selected files number tranfering in tab 2":"Загружается {all_valid_transfering_count} файла"
   },
 
   "Header_vue": {
@@ -28,14 +37,15 @@
     "Feedback":"Обратная связь",
     "Brand": "Видео-хостинг",
     "Brand_title":"",
-    "Back-to-site": "Вернуться на сайт",
+    "Back-to-site": "Закрыть вкладку",
     "Back-to-site_title":"Текущая вкладка закроется",
     "already-ru":"Вы уже в русском интерфейсе",
     "already-en":"Вы уже в английском интерфейсе",
     "choose-ru-lang":"Изменить интерфейс на русский",
-    "choose-en-lang":"Change interface to ENGLISH"
+    "choose-en-lang":"Change interface to ENGLISH",
+    "cant-close-window":"Судя по всему, вкладка не закрылась. Попробуйте самостоятельно его закрыть."
   },
-
+ 
   "Uploaded_vue": {
     "Uploaded":"Загруженные",
     "Already":"Список уже загруженных видео-файлов",
@@ -81,21 +91,7 @@
     "Sort by added":"Сортировать по добавлению",
     "Sort the list by added":"Сортировать по порядку добавления файлов",
     
-    "Remove all":"Удалить все",
-    "other":"остальные",
-    
-    "Clear the list":"Очистить список",
-    "skip":"пропуская",
-    "transfering file":"передающийся файл",
-    "transfering files":"передающихся файлов",
-    "Remove selected" :"Удалить выделенные",
 
-    "Remove Selected Title 1": "Удалить {count} выделенный файл:\n{valid} - валидных, {nonvalid} - не валидных",
-    "Remove Selected Title 2": "Удалить {count} выделенных файла:\n{valid} - валидных, {nonvalid} -не валидных",
-   
-    "Stop all title 1": "Остановить загрузку ({count})",
-    "Stop all title 2": "Остановить все загрузки ({count})",
-    
   "-->actions":"-->",
   "corrupt file":"Файл поврежден - <b>{filename}</b>",
   "unsupported format": "Файл имеет неподдерживаемый нашей системой формат - <b>{file.name}</b",
@@ -117,7 +113,8 @@
   "==> SelectedFiles_vue->":"",
   "You can't send this file":"Вы не можете отправить этот файл",
   "Upload the file":"Загрузить файл", 
-  "Delete the file":"Удалить файл", 
+  "Delete the file":"Удалить файл",
+  "Stop transfering":"Остановить отправку",
   "Stop":"Остановить текущую операцию",
 
   "==> rowTextArea_vue": "",  
@@ -141,9 +138,9 @@
   "An error occurred while sending the request": "Произошла ошибка при выполнении запроса",
   
   " ====> actions.js ":"",
-  "Successively uploaded":"Успешно отправлено - {suc_count}. ",
-  "Uploaded with fail":"Отправлено с ошибкой - {fail_count}",
-  "Upload all done with error":"Загрузка всех файлов завершилась с ошибкой: {err}",
+  "Successively uploaded":"<br>- успешно отправлено: {suc_count};",
+  "Uploaded with fail":"<br>- отправлено с ошибкой: {fail_count};",
+  "Upload all done with error":"Возникла ошибка при загрузке всех файлов: {err}",
   "Send all report":"Загрузить все: {report}",
 
   "===> mixins":"",
@@ -153,11 +150,14 @@
   "Remove all report 2": "Удалено: {deleted} файла.",
   "Remove all report skipped 1": "Пропущен: {skipped} файл",
   "Remove all report skipped 2": "Пропущено: {skipped} файла",
-  
-  "Upload selected 1": "Загрузить {count} выделенный файл",
-  "Upload selected 2": "Загрузить {count} выделенных файла",
-  "Upload selected without 1":"без ({count}) выделенного невалидного файла",
-  "Upload selected without 2":"без ({count})  выделенных невалидных файла",
+   
+  "Upload selected text 1": "Загрузить выделенный",
+  "Upload selected text 2": "Загрузить выделенные ({count})",
+
+  "Upload selected title 1": "Загрузить {count} выделенный файл",
+  "Upload selected title 2": "Загрузить {count} выделенных файла",
+  "Upload selected title without 1":"без {all_bad_selected_count} выделенного невалидного файла",
+  "Upload selected title without 2":"без {all_bad_selected_count}  выделенных невалидных файла",
 
   "Send all text": "Отправить все {count} ({size})",
   "Send all text ignor": "Отправить все остальные {count} ({size})",
@@ -166,10 +166,43 @@
   "Send all other title 2": "Мы добавим в загрузку остальные {count} файла",
   "sendAllTitle 1": "Мы загрузим {count} файл ({size})",
   "sendAllTitle 2": "Мы загрузим {count} файла ({size})",
-  "sendAllTitle ignore 1": "\nи проигнорируем {count} неподдерживаемых файл",
+  "sendAllTitle ignore 1": "\nи проигнорируем {count} невалидный файл",
   "sendAllTitle ignore 2": "\nи проигнориуем {count} неподдерживаемых файла",
 
+  "Remove all text":"Удалить все ({all_noneTransfering_count}, {all_noneTransfering_size_beauty})",
+    
+  "Clear the list":"Очистить список",
+  "skip":"пропуская",
+  "transfering file":"передающийся файл",
+  "transfering files":"передающихся файлов",
+  "Remove selected" :"Удалить выделенные ({all_valid_noneTransfering_count})",
+
+  "Remove Selected Title 1": "Удалить {count} выделенный файл: \n- валидных: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty}); \n- не валидных: {all_bad_selected_count} ({all_bad_selected_size_beauty})",
+  "Remove Selected Title 2": "Удалить {count} выделенных файла:\n- валидных: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty}); \n- не валидных: {all_bad_selected_count} ({all_bad_selected_size_beauty})",
+ 
+  "Stop all title 1": "Остановить загрузку ({count})",
+  "Stop all title 2": "Остановить все загрузки ({count})",
+  
+
   " ===> UploadedRefreshBtn_VUE":"",
-  "Network Error": "Сетевая ошибка"
+  "Network Error": "Сетевая ошибка",
+
+  " ==> BugReport_vue":"...",
+  "Report form":"Форма оповещения",
+  "Please wait while sending message":"Подождите, идет отправка сообщения",
+  "Send bug-report about the video to developers":"Оповестить разработчиков об ошибке",
+
+  "Last report reason":"Предыдущее сообщение об ошибке:",
+  "File name":"Имя файла:",
+
+  "Cancel-btn-text":"",
+  "Cancel-btn-title":"Закрыть форму",
+
+  "Send-btn-text":"Отправить",
+  "Send-btn-title":"Отправить ошибку разработчикам",
+  
+  "All-fine-btn-text":"",
+  "All-fine-btn-title":"Ошибки нет или была исправлена"
+
 
   }
