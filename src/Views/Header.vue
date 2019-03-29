@@ -1,7 +1,7 @@
 <template>
   <header class="header-content sticky-header">
     <transition name="slide">
-      <div class="bg-dark" v-show="isShown">
+      <div class="bg-dark" v-show="isShown & show_menu">
         <div class="container">
           <div class="row">
             <div class="col-sm-8 col-md-7 py-4 menu-sections">
@@ -49,37 +49,31 @@
 
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container d-flex justify-content-between">
-        <a
-          href="#"
-          @click.prevent
-          v-b-tooltip
-          :title="$t('Header_vue.Brand_title')"
-          class="navbar-brand d-flex align-items-center"
-        >
-          <i class="fab fa-youtube logotip"></i>
+
+        <a href="#" @click.prevent v-b-tooltip :title="$t('Header_vue.Brand_title')" class="navbar-brand d-flex align-items-center">
+          <font-awesome-icon :icon="['fab','youtube']" class="logotip"/>
+         <!--<i class="fab fa-youtube logotip"></i>-->
           <strong>{{ $t("Header_vue.Brand") }}</strong>
         </a>
+      <template v-if="show_menu"> 
         <button
-          class="navbar-toggler back-to-size-btn"
-          v-b-tooltip.hover
-          :title="$t('Header_vue.Back-to-site_title')"
+          class="navbar-toggler back-to-size-btn" type="button"
+          v-b-tooltip.hover :title="$t('Header_vue.Back-to-site_title')"
           @click="closeWindow($event)"
-          type="button"
         >
           <span class="navbar-toggler-close">
-            <i class="fas fa-angle-double-left"></i>
+            <font-awesome-icon icon="angle-double-left"/>
+            <!--<i class="fas fa-angle-double-left"></i>-->
             {{ $t("Header_vue.Back-to-site") }}
-            <i class="fas fa-times"></i>
+            <font-awesome-icon icon="times"/>
+            <!--<i class="fas fa-times"></i>--> 
           </span>
         </button>
-        <button
-          class="navbar-toggler"
-          @click="isShown = !isShown"
-          type="button"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div></div>
+        <button class="navbar-toggler" @click="isShown = !isShown" type="button">
+        <span class="navbar-toggler-icon"></span>
+        </button> 
+      </template>
+      
       </div>
     </div>
 
@@ -87,6 +81,9 @@
   </header>
 </template>
 <script>
+
+import { mapState } from 'vuex'
+
 import Language from "./Language";
 import Tabs from "./Tabs";
 export default {
@@ -100,8 +97,10 @@ export default {
   methods: {
     closeWindow() {
       try {
-        var customWindow = window.open("https://2ip.ru", "_blank", "");
-        setTimeout(() => customWindow.close(), 1110);
+        window.close()
+        setTimeout(e=>this.$toast.error(this.$t("Header_vue['cant-close-window']")),1000);
+        //var customWindow = window.open("https://2ip.ru", "_blank", "");
+        //setTimeout(() => customWindow.close(), 1110);
       } catch (e) {
         console.log("ERRR!!1111..1.1.");
         this.$toast.info(e);
@@ -110,6 +109,11 @@ export default {
     soonAlert() {
       this.$toast.info(this.$t("The feature was implemented soon"));
     }
+  },
+  computed: {
+    ...mapState([
+      'show_menu'
+    ])
   }
 };
 </script>
@@ -125,17 +129,20 @@ ul.help-menu > li:not(.language) {
   }
 }
 
+
 .logotip {
   color: #dc3545;
   font-size: 30px;
-  padding: 10px;
+  padding: 2px;
+  &:active {
+    transform: scale(.8);
+  }
 }
 .sticky-header {
   z-index: 1000;
   position: sticky;
   top: 0;
 }
-
 @media (max-width: 767px) {
   .back-to-size-btn {
     font-size: 0.99em;
