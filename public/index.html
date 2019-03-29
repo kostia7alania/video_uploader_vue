@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <title>video-uploader-new</title>
   </head>
@@ -18,10 +17,16 @@
   </body>
   <script>
   window.onload = function () {
-  const url_api   = "http://localhost:3000/backend/index.php"// "https://apcis.tmou.org/APCIS-Test/"
+  const url_api   = "./index.php"//"http://localhost:3000/backend/index.php"
   const watch_url = url_api + '?action=watch&dir=watch&v='
   const gif_url   = url_api + '?action=watch&dir=gif&v='
-    initVue ({ url_api, watch_url, gif_url });
+  const webp_url  = url_api + '?action=watch&dir=webp&v='
+  const img_url   = url_api + '?action=watch&dir=img&v='
+  const show_menu = false;
+  video_brand_img_title = 'ISGS';
+  video_brand_click_msg = 'Brand click';//Значение из перевода , если не будет перевода, то выведет как есть;
+  video_brand_img_src = ''; //ссылка на значек в плеере
+    initVue ({ url_api, watch_url, gif_url, webp_url, img_url, video_brand_img_title, video_brand_click_msg, video_brand_img_src  });
   }
   </script>
 </html>
