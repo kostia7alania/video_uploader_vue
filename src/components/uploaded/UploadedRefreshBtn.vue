@@ -26,10 +26,11 @@
       v-b-tooltip.hover.left
       :title="lastUpdatedTitle"
       :class="btn_class"
-      class="btn"
+      class="btn btn-active"
       @click="load"
     >
-      <i :class="btn_icon_class" class="fa" />
+    <font-awesome-icon :icon="btn_icon_class" :class="status==2?'fa-spin':''" />
+      <!--<i :class="btn_icon_class" class="fa" />-->
       {{ btn_text }}
     </b-button>
 
@@ -87,19 +88,13 @@ export default {
     },
     btn_icon_class() {
       let s = this.status;
-      return s == 0
-        ? "fa-cloud-download-alt"
-        : s == 1
-        ? "fa-sync-alt"
-        : s == 2
-        ? "fa-splotch fa-spin"
-        : s == 3
-        ? "fa-splotch"
-        : s == 4
-        ? "fa-skull-crossbones"
-        : s == 6
-        ? "fa-skull-crossbones"
-        : "fa-smile-wink";
+      return s == 0 ? "cloud-download-alt"//все были с приставкой fa-
+        : s == 1 ? "sync-alt"
+        : s == 2 ? "splotch"//fa-spin
+        : s == 3 ? "splotch"
+        : s == 4 ? "skull-crossbones"
+        : s == 6 ? "skull-crossbones"
+                 : "smile-wink";
     },
     btn_text() {
       let status = this.status;
@@ -158,4 +153,5 @@ export default {
 .loading {
   cursor: progress;
 }
+
 </style>

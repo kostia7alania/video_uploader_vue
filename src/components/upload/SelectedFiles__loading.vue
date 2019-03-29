@@ -15,7 +15,7 @@
             class="video-unavailable"
             title="The video preview is unavailable"
           >
-            <div class="video-unavailable--message">
+            <div class="video-unavailable--message"> 
               <i class="fas fa-video-slash fa-x"></i><span> &nbsp; N/A </span>
             </div>
           </div>
@@ -48,9 +48,10 @@
         <div align="center">
           <div>
             <button class="btn" title="Send the file">
-              <i class="far fa-share-square"></i></button
-            ><button class="btn">
-              <i class="far fa-trash-alt"></i>
+              <font-awesome-icon :icon="['fa','share-square']"/><!--<i class="far fa-share-square"></i>-->
+            </button>
+            <button class="btn">
+              <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
             </button>
           </div>
         </div>

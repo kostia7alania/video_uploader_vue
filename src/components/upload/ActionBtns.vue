@@ -9,7 +9,7 @@
         v-b-tooltip.hover
         :title="send_btn_tooltip"
       >
-        <i class="far fa-share-square"></i>
+       <font-awesome-icon :icon="['fa','share-square']"/> <!--<i class="far fa-share-square"></i>-->
       </button>
 
       <button
@@ -19,7 +19,7 @@
         v-b-tooltip.hover
         :title="$t('Delete the file')"
       >
-        <i class="far fa-trash-alt"></i>
+      <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
       </button>
 
       <button
@@ -29,7 +29,7 @@
         v-b-tooltip.hover
         :title="$t(obj.error)"
       >
-        <i class="fas fa-exclamation text-danger"></i>
+      <font-awesome-icon :icon="['fas','exclamation']" class="text-danger"/><!--<i class="fas fa-exclamation text-danger"></i>-->
       </button>
 
       <button
@@ -39,7 +39,7 @@
         v-b-tooltip.hover
         :title="$t('Stop')"
       >
-        <i class="far fa-stop-circle"></i>
+      <font-awesome-icon :icon="['fas','stop-circle']"/><!--<i class="far fa-stop-circle"></i>-->
       </button>
     </div>
 

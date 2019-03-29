@@ -2,56 +2,51 @@
   <div>
     <button
       v-if="stopAllShown"
-      v-b-tooltip.hover
-      :title="stopAllTitle"
+      v-b-tooltip.hover :title="stopAllTitle"
       @click="stopAll_Mixin"
       :class="stopAllClass"
     >
-      <i :class="stopAllIcon"></i>
+      <font-awesome-icon :icon="stopAllIcon_vue_awesome"/> <!--<i :class="stopAllIcon"></i>-->
       {{ stopAllText }}
     </button>
 
     <button
       v-if="removeAllShown"
-      v-b-tooltip.hover.left
-      :title="removeAllTitle"
+      v-b-tooltip.hover.left :title="removeAllTitle"
       @click="removeAllAction"
       :class="removeAllClass"
     >
-      <i :class="removeAllIcon"></i>
+      <font-awesome-icon :icon="removeAllIcon_vue_awesome"/><!--<i :class="removeAllIcon"></i>-->
       {{ removeAllText }}
     </button>
 
     <button
       v-if="removeSelectedShown"
-      v-b-tooltip.hover
-      :title="removeSelectedTitle"
+      v-b-tooltip.hover :title="removeSelectedTitle"
       @click="removeSelectedAction"
       :class="removeSelectedClass"
     >
-      <i :class="removeSelectedIcon"></i>
+      <font-awesome-icon :icon="removeSelectedIcon_vue_awesome"/><!--<i :class="removeSelectedIcon"></i>-->
       {{ removeSelectedText }}
     </button>
 
     <button
       v-if="sendSelectedShown"
-      v-b-tooltip.hover
-      :title="sendSelectedTitle"
+      v-b-tooltip.hover :title="sendSelectedTitle"
       @click="sendSelectedAction"
       :class="sendSelectedClass"
     >
-      <i :class="sendSelectedIcon"></i>
+      
+       <font-awesome-icon :icon="sendSelectedIcon_vue_awesome"/><!--<i :class="sendSelectedIcon"></i>-->
       {{ sendSelectedText }}
     </button>
 
     <button
-      v-if="sendAllShown"
-      v-b-tooltip.hover
-      :title="sendAllTitle"
+      v-if="sendAllShown" v-b-tooltip.hover :title="sendAllTitle"
       @click="sendAll_Mixin"
       :class="sendAllClass"
     >
-      <i :class="sendAllIcon"></i>
+      <font-awesome-icon :icon="sendAllIcon_vue_awesome"/><!--<i :class="sendAllIcon"></i>-->
       {{ sendAllText }}
     </button>
   </div>

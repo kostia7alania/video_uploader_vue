@@ -8,15 +8,11 @@
       ref="button"
       size="sm"
       :variant="abusingFile.Report ? 'danger' : 'outline-danger'"
-      v-b-tooltip.hover.left
-      :title="!sending ? tooltipComp : ''"
+      v-b-tooltip.hover.left :title="tooltipComp"
     >
-      <i
-        v-b-tooltip.hover.left
-        :title="sending ? tooltipComp : ''"
-        :class="iconComp"
-      ></i
-    ></b-button>
+      <!--<i v-b-tooltip.hover.left :title="sending ? tooltipComp : ''" :class="iconComp"></i>-->
+      <font-awesome-icon :icon="sending ? ['fas','stopwatch'] : ['fas','bell']"/>
+      </b-button>
 
     <!-- Our popover title and content render container -->
     <!-- We use placement 'auto' so popover fits in the best spot on viewport -->
@@ -36,14 +32,13 @@
         <b-button @click="onClose" class="close" aria-label="Close">
           <span class="d-inline-block" aria-hidden="true">&times;</span>
         </b-button>
-        Report form
+        
       </template>
-
       <div>
         <b-row>
           <b-col sm="12">
             <b-alert show class="small">
-              <strong>File name:</strong><br />
+              <strong>{{$t('File name')}}</strong><br />
               {{ abusingFile.OrigFileName }}
             </b-alert>
             <b-form-textarea
@@ -60,8 +55,9 @@
         <b-row v-if="abusingFile.Report">
           <b-col sm="12">
             <b-alert show class="small">
-              <strong>Last report reason:</strong><br />
-              <i class="far fa-calendar-alt"></i>
+              <strong>{{$t('Last report reason')}}</strong><br />
+              <!--<i class="far fa-calendar-alt"></i>--> 
+              <font-awesome-icon :icon="['fas','calendar-alt']"/>
               {{ new Date(abusingFile.ReportDate).toLocaleString() }}: <br />
               <span v-html="abusingFile.Report"></span>
             </b-alert>
@@ -72,31 +68,33 @@
           @click="onClose"
           size="sm"
           variant="danger"
-          v-b-tooltip.hover
-          title="Close the form"
-          ><i class="fas fa-ban"></i>
-          Close
+          v-b-tooltip.hover.bottomleft :title="$t('Cancel-btn-title')"
+        >
+          <font-awesome-icon :icon="['fas','ban']"/>
+          <!--<i class="fas fa-ban"></i>-->
+          {{$t('Cancel-btn-text')}}
         </b-button>
 
         <b-button
           @click="onOk"
           size="sm"
           variant="primary"
-          v-b-tooltip.hover
-          title="Send report for the file"
+          v-b-tooltip.hover.bottomleft :title="$t('Send-btn-title')"
         >
-          <i class="fab fa-telegram-plane"></i>
-          Send
-        </b-button>
+        <font-awesome-icon :icon="['fab','telegram-plane']"/>
+          <!--<i class="fab fa-telegram-plane"></i>-->
+            {{$t('Send-btn-text')}} </b-button>
 
         <b-button
           @click="onAllRight"
           size="sm"
           variant="success"
-          v-b-tooltip.hover
-          title="The file is fine"
-          ><i class="fas fa-check"></i>
-          All fine
+          v-b-tooltip.hover.bottomleft
+          :title="$t('All-fine-btn-title')"
+          >
+          <!--<i class="fas fa-check"></i>-->
+          <font-awesome-icon :icon="['fas','check']"/>
+          {{$t('All-fine-btn-text')}}
         </b-button>
       </div>
     </b-popover>
@@ -125,8 +123,8 @@ export default {
   },
   computed: {
     tooltipComp() {
-      if (this.sending) return "Please wait while sending message";
-      else return "Send bug-report about the video to developers";
+      if (this.sending) return $t("Please wait while sending message");
+      else return $t("Send bug-report about the video to developers");
     },
     btnClassComp() {
       return this.sending ? "disabled" : false;
@@ -151,9 +149,7 @@ export default {
       await this.getVideoList();
       this.sending = false;
     },
-    onAllRight() {
-      this.sendFeedBack(1);
-    },
+    onAllRight() { this.sendFeedBack(1); },
     onOk() {
       if (!this.comment) this.commentstate = false;
       else this.sendFeedBack();
@@ -190,10 +186,13 @@ export default {
 </script>
 
 <style lang="scss">
-button.disabled i:hover {
-  color: black !important;
+button.disabled i:hover { color: black !important;}
+button.disabled { cursor: not-allowed !important; }
+.modal-header .close {
+    padding: .5rem .5rem;
 }
-button.disabled {
-  cursor: not-allowed !important;
+
+.popover-body { 
+    text-align: center;
 }
 </style>

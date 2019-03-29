@@ -1,7 +1,7 @@
 <template>
   <div class="Drag-Drop-Zone-Button">
     <label class="file-label" for="file">
-      <i class="far fa-folder-open"></i>
+      <font-awesome-icon :icon="['fas','folder-open']"/><!--<i class="far fa-folder-open"></i>-->
       {{ $t("Browse") }}
     </label>
 
@@ -17,12 +17,8 @@
 
 <i18n>
 {
-  "en": {
-    "Browse": "Browse"
-  },
-  "ru": {
-    "Browse": "Обзор"
-   }
+  "en": { "Browse": "Browse" },
+  "ru": { "Browse": "Обзор" }
 }
 </i18n>
 
@@ -62,5 +58,16 @@ export default {
 }
 #file {
   display: none;
+}
+
+.Drag-Drop-Zone-Button {
+  transition: .5s;
+  &:active {
+    transition: .3s;
+    transform:scale(.8) !important
+  }
+  &:hover {
+    transform:scale(1.1)
+  }
 }
 </style>

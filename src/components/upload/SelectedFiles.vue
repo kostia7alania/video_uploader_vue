@@ -34,11 +34,10 @@
           v-if="whatShow({ name: 'upload', obj: contextData })"
           @click.native="slot_click({ name: 'upload', obj: contextData })"
           :class="sendClass({ obj: contextData })"
-          v-b-tooltip.hover.left
-          :title="send_btn_tooltip({ obj: contextData })"
+          v-b-tooltip.hover.left :title="send_btn_tooltip({ obj: contextData })"
         >
-          <span
-            ><i class="far fa-share-square"></i>
+          <span>
+            <font-awesome-icon :icon="['fa','share-square']"/><!--<i class="far fa-share-square"></i>-->
             {{ $t("Upload the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
@@ -46,11 +45,10 @@
         <ContextMenuItem
           v-if="whatShow({ name: 'delete', obj: contextData })"
           @click.native="slot_click({ name: 'delete', obj: contextData })"
-          v-b-tooltip.hover.left
-          :title="$t('Delete the file')"
+          v-b-tooltip.hover.left :title="$t('Delete the file')"
         >
-          <span
-            ><i class="far fa-trash-alt"></i>
+          <span>
+            <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
             {{ $t("Delete the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
@@ -59,10 +57,10 @@
           v-if="whatShow({ name: 'stop', obj: contextData })"
           @click.native="slot_click({ name: 'stop', obj: contextData })"
           v-b-tooltip.hover.left
-          :title="`Stop transfering: ${parseVal(contextData, 'name')}`"
+          :title="`${$t('Stop transfering')}: ${parseVal(contextData, 'name')}`"
         >
-          <span
-            ><i class="far fa-stop-circle"></i>
+          <span>
+            <font-awesome-icon :icon="['fas','stop-circle']"/><!--<i class="far fa-stop-circle"></i>-->
             {{ $t("Stop") }}
           </span>
         </ContextMenuItem>

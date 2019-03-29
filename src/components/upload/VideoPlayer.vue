@@ -1,21 +1,17 @@
 <template>
   <div @click.stop="startShow = true" class="video-player-div">
-    <div
-      v-if="!isAvailabled"
-      class="video-unavailable"
-      v-b-tooltip.hover
-      :title="$t('The video preview is unavailable')"
+
+    <div v-if="!isAvailabled" class="video-unavailable"
+      v-b-tooltip.hover :title="$t('The video preview is unavailable')"
     >
       <div class="video-unavailable--message">
-        <i class="fas fa-video-slash fa-x"></i>
+        <font-awesome-icon  :icon="['fas','video-slash']" class="fa-x"/><!--<i class="fas fa-video-slash fa-x"></i>-->
         <span> &nbsp; N/A </span>
       </div>
     </div>
 
-    <div v-else-if="!startShow" class="image-placeholder">
-      <i class="fab fa-youtube fa-3x"></i>
-    </div>
-
+    <VideoPlayerPlaceholder  v-else-if=" (!startShow && file) || (VidUID && !startShow)" @letsgo="startShow=true" :VidUID="VidUID"/>
+    
     <video-player
       v-else-if="startShow && isAvailabled"
       class="video-player-box"
@@ -45,15 +41,17 @@
 /*eslint-disable*/
 import "video.js/dist/video-js.css";
 import { videojs,videoPlayer } from "vue-video-player";
-import brand from "@/plugins/videojs-brand";
-
+import VideoPlayerPlaceholder from './VideoPlayerPlaceholder'
 import DetectDuration from "./DetectDuration";
+
+import brand from "@/plugins/videojs-brand";
 
 import { mapState } from "vuex";
 export default {
   name: "My-VideoPlayer",
-  components: { videoPlayer, DetectDuration },
-  props: {
+  components: { videoPlayer, DetectDuration, VideoPlayerPlaceholder },
+  props: { 
+    VidUID:null,//загруженные и готовые (в мр4) видосы!
     isAvailabled: { type: Boolean },
     file: File,
     src: String,
@@ -84,7 +82,7 @@ export default {
   },
   methods: {
     brandClick() {
-      this.$toast.info( this.$t("Brand click"), this.$store.state.getTime() );
+      this.$toast.info( this.$t(this.video_brand_click_msg), this.$store.state.getTime() );
     },
     play(e) {
       console.log("play!", e);
@@ -110,26 +108,35 @@ export default {
       console.log("canplay", e);
     },
     canplaythrough(e) {
+      e.play();
+      this.$emit('refka', e);
       console.log("canplaythrough", e);
     },
     statechanged(e) {
       console.log("statechanged", e);
     },
-    ready(player) {
+    ready(player) { 
       console.log("ready", player);
-      player.brand({
-        title: this.videoPlayerBrandTitle,
-        destination: "#", //"http://www.google.com",
-        destinationTarget: "", //"_top"
-        brandClick: this.brandClick
-      });
+//      if(this.video_brand_img_src) { 
+        player.brand({
+          video_brand_img_title: this.video_brand_img_title,
+          video_brand_img_src: this.video_brand_img_src,
+          destination: "#", //"http://www.google.com",
+          destinationTarget: "", //"_top"
+          brandClick: this.brandClick, //<==сюда пишется из - this.video_brand_click_msg;
+        });
+   //   }
       player.play();
       this.ready_player = player;
       ///player.one("loadedmetadata", () => this.duration = player.duration() );
     }
   },
   computed: {
-    ...mapState(["videoPlayerBrandTitle"]),
+    ...mapState([
+      "video_brand_img_title",
+      "video_brand_img_src",
+      "video_brand_click_msg"
+      ]),
     player() {
       return (
         this.isAvailabled &&
@@ -141,7 +148,7 @@ export default {
       return {
         // videojs options
         muted: true,
-        language: "en",
+        language: this._i18n && this._i18n.locale || "en",
         playbackRates: [0.5, 1.0, 1.5, 2.0, 5, 16],
         sources: [
           {

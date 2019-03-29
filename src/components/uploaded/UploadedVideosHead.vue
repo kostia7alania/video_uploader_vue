@@ -4,10 +4,11 @@
 
 <template>
   <tr class="list-item table-active">
-    <th width="22">{{ $t("#") }}</th>
-    <th scope="col">{{ $t("Preview") }}</th>
+    <th class="nopointer" width="22">{{ $t("#") }}</th>
+    <th class="nopointer" scope="col">{{ $t("Preview") }}</th>
     <th class="pointer" @click="sortHandler('Status')" scope="col">
-      <i class="fas fa-sort"></i> {{ $t("Status") }}
+      <font-awesome-icon :icon="['fas','sort']"/><!--<i class="fas fa-sort"></i>-->
+      {{ $t("Status") }}
     </th>
     <th
       class="pointer"
@@ -16,11 +17,12 @@
       v-b-tooltip.hover
       :title="$t('Date of uploading')"
     >
-      <i class="fas fa-sort"></i> {{ $t("Date") }}
+      <font-awesome-icon :icon="['fas','sort']"/> <!--<i class="fas fa-sort"></i>--> 
+      {{ $t("Date") }}
     </th>
-    <th scope="col">{{ $t("Info") }}</th>
-    <th class="pointer width200" @click="sortHandler('Comments')" scope="col">
-      <i class="fas fa-sort"></i>
+    <th class="nopointer" scope="col">{{ $t("Info") }}</th>
+    <th class="pointer width300" @click="sortHandler('Comments')" scope="col">
+      <font-awesome-icon :icon="['fas','sort']"/> <!--<i class="fas fa-sort"></i>-->
       {{ $t("Comments") }}
     </th>
   </tr>
@@ -56,4 +58,16 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scope>
+.width300 {
+  min-width: 146px;
+  max-width: 333px;
+}
+.pointer {
+  transition: .5s;
+  &:active {
+    transform: scale(.9);
+    color: gray;
+  }
+}
+</style>

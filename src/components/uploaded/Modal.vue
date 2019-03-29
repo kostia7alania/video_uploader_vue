@@ -13,9 +13,7 @@
     <div class="my-4 modal--video-wrapper">
       <VideoPlayer
         modal="true"
-        :isAvailabled="
-          parseInfo(modalActiveFileGetter.Info).type == 'video/mp4'
-        "
+        :isAvailabled="modalActiveFileGetter.Status == 2 ? true : parseInfo(modalActiveFileGetter.Info).type == 'video/mp4'"
         :src="
           srcHandler(
             modalActiveFileGetter.VidUID,
@@ -23,12 +21,8 @@
             modalActiveFileGetter.Status
           )
         "
-        :poster="`${gif_url + modalActiveFileGetter.VidUID}.gif`"
-        :file_type="
-          modalActiveFileGetter.Status == 2
-            ? 'video/mp4'
-            : parseInfo(modalActiveFileGetter.Info).type
-        "
+        :poster="`${img_url + modalActiveFileGetter.VidUID}.jpg`"
+        :file_type=" modalActiveFileGetter.Status == 2 ? 'video/mp4': parseInfo(modalActiveFileGetter.Info).type "
         :status="modalActiveFileGetter.Status"
       />
     </div>
@@ -44,28 +38,28 @@
       <BugReport class="float-right" :abusingFile="modalActiveFileGetter" />
     </div>
 
-    <b-container fluid class="modal-description">
+    <b-container fluid class="modal-description  text-left">
       <b-row>
-        <b-col sm="2">
-          <label for="textarea-small">{{ $t("Comment") }}:</label>
+        <b-col sm="3">
+          <label for="textarea-small">{{ $t("Comment") }}</label>
         </b-col>
-        <b-col sm="10">
+        <b-col sm="9 ">
           <span v-html="modalActiveFileGetter.Comments"></span>
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="2">
-          <label for="textarea-small">{{ $t("File name") }}:</label>
+        <b-col sm="3">
+          <label for="textarea-small">{{ $t("File name") }}</label>
         </b-col>
-        <b-col sm="10">
+        <b-col sm="9">
           {{ modalActiveFileGetter.OrigFileName }}
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="2">
-          <label for="textarea-small">{{ $t("Info") }}:</label>
+        <b-col sm="3">
+          <label for="textarea-small">{{ $t("Info") }}</label>
         </b-col>
-        <b-col sm="10">
+        <b-col sm="9">
           <InfoCol
             :file="parseInfo(modalActiveFileGetter.Info)"
             :skipVerify="true"
@@ -75,10 +69,10 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="2">
-          <label>{{ $t("Status") }}:</label>
+        <b-col sm="3">
+          <label>{{ $t("Status") }}</label>
         </b-col>
-        <b-col sm="10" class="modal-status">
+        <b-col sm="9" class="modal-status">
           <Status :status="modalActiveFileGetter.Status" />
         </b-col>
       </b-row>
@@ -86,21 +80,24 @@
     <div slot="modal-footer" class="w-100">
       <b-button
         size="sm"
-        class="float-left"
+        class="float-left btn-active"
         :class="{ disabled: prevAllow }"
         variant="primary"
         @click="changeModal(false)"
       >
-        <i class="fa fa-angle-left"></i> {{ $t("Prev") }}</b-button
+        <!--<i class="fa fa-angle-left"></i>-->
+        <font-awesome-icon :icon="['fa','angle-left']"/>
+         {{ $t("Prev") }}</b-button
       >
       <b-button
         size="sm"
-        class="float-right"
+        class="float-right btn-active"
         :class="{ disabled: nextAllow }"
         variant="primary"
         @click="changeModal(true)"
-        >{{ $t("Next") }} <i class="fa fa-angle-right"></i
-      ></b-button>
+        >{{ $t("Next") }} 
+          <font-awesome-icon :icon="['fa','angle-right']"/><!--<i class="fa fa-angle-right"></i>-->
+        </b-button>
     </div>
   </b-modal>
 </template>
@@ -111,7 +108,7 @@ import VideoPlayer from "../upload/VideoPlayer";
 import InfoCol from "@/components/Common/Info_col";
 import BugReport from "./BugReport";
 import Status from "./Status";
-import { /*withHooks,*/ useState, useEffect } from "vue-hooks";
+//import { /*withHooks,*/ useState, useEffect } from "vue-hooks";
 //import {useData,useComputed,useWatch,useMounted,useUpdated,useDestroyed} from "vue-hooks";
 
 export default {
@@ -129,7 +126,7 @@ export default {
   mounted() {
     this.ready = true;
   },
-
+/*
   hooks() {
     const [высота, изменитьВысоту] = useState(window.innerWidth); //срабатывает при инициализации
     const handleResize = () => {
@@ -148,7 +145,7 @@ export default {
 
     return высота;
   },
-
+*/
   watch: {
     height(neww, old) {
       console.log("WATCH height", neww, old);
@@ -184,7 +181,7 @@ export default {
       let out = this.watch_url;
       if (status == 2) out += VidUID + ".mp4";
       //2-значит готово и надо искать в папке CONVERTED
-      else out += VidUID + spl[spl.length - 1];
+      else out += VidUID + "." + spl[spl.length - 1];
       return `${out}&status=${status}`;
     }
   },
@@ -195,6 +192,7 @@ export default {
       "uploadedListSortType",
       "watch_url",
       "gif_url",
+      "img_url",
       "height",
       "modalActiveIndex"
     ]),

@@ -14,21 +14,12 @@
           :key="i"
           @click="sortBy(e.method)"
           :class="{ selected: e.method == selectedVideos_Sort }"
-          v-if="
-            (e.show && ['selected', 'comment'].includes(e.method)) ||
-              !['selected', 'comment'].includes(e.method)
-          "
-          v-b-tooltip.hover.left
-          :title="e.tooltip"
+          v-if="(e.show && ['selected', 'comment'].includes(e.method)) ||
+              !['selected', 'comment'].includes(e.method)"
+          v-b-tooltip.hover.left :title="e.tooltip"
         >
-          <i
-            v-if="e.method == selectedVideos_Sort && i != 0"
-            :class="iconSortActive"
-          ></i>
-          <i
-            v-if="e.method == selectedVideos_Sort && i == 0"
-            class="fa fa-sort"
-          ></i>
+          <font-awesome-icon  v-if="e.method == selectedVideos_Sort && i != 0" :icon="iconSortActive_vue_awesome"/><!--<i v-if="e.method == selectedVideos_Sort && i != 0" :class="iconSortActive"></i>-->
+          <font-awesome-icon  v-if="e.method == selectedVideos_Sort && i == 0" :icon="['fas','sort']"/><!--<i v-if="e.method == selectedVideos_Sort && i == 0" class="fa fa-sort"></i>-->
           {{ e.text }}
         </b-dropdown-item>
       </template>
@@ -41,8 +32,9 @@ export default {
   name: "Selected-Files-Head-Info",
   data() {
     return {
-      iconDOWN: "fas fa-arrow-down",
-      iconUP: "far fas fa-arrow-up"
+      //iconDOWN: "fas fa-arrow-down",iconUP: "far fas fa-arrow-up"
+      iconDOWN: ["fas","arrow-down"],
+      iconUP: ["fas","arrow-up"]
       // type: 0, // <<<<<0 - desc<<<< ====== >>>>1 - asc>>>>
     };
   },
@@ -60,10 +52,10 @@ export default {
   computed: {
     ...mapGetters(["selectedVideosGetter"]),
     ...mapState(["selectedVideos_Sort", "selectedVideos_SortType"]),
-    iconSortActive() {
-      return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP;
+    iconSortActive_vue_awesome() {
+       return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP; 
     },
-
+    //iconSortActive() { return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP; },
     isAnySelected() {
       return (
         this.selectedVideosGetter.length > 1 &&

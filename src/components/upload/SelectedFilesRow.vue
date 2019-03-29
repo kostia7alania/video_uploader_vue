@@ -17,8 +17,8 @@
     </td>
     <td cols="3">
       <b :class="{ 'non-valid': nonValid }">
-        <i v-if="nonValid" class="fas fa-ban"></i>
-        <i v-if="isAlreadyUploaded" class="fas fa-exclamation-triangle"></i>
+        <font-awesome-icon  v-if="nonValid" :icon="['fas','ban']"/><!--<i v-if="nonValid" class="fas fa-ban"></i>-->
+        <font-awesome-icon  v-if="isAlreadyUploaded" :icon="['fas','exclamation-triangle']"/><!--<i v-if="isAlreadyUploaded" class="fas fa-exclamation-triangle"></i>-->
         {{ obj.file.name }}</b
       >
     </td>
