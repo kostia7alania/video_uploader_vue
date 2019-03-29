@@ -51,10 +51,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss"> 
 body,
 .wrapper {
+  min-width: 500px;
   min-height: 100vh;
+  overflow: auto;
 }
 main {
   flex: 1;
