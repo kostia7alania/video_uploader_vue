@@ -49,6 +49,8 @@ const state = {
   alreadyUploaded_btn_status: 0, //
 
   /* MISC */
-  height: window.innerHeight
+  height: window.innerHeight,
+
+  status: 'online'
 };
 export default state;

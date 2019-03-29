@@ -15,7 +15,7 @@
     "Converted":"Сконвертировано",
     "Error":"Ошибка",
     "N/A":"Н/И",
-    
+
     "The video queued for conversion":"Данное видео поставлено в очередь на конвертацию",
     "Converting the file":"В данный момент происходит конвертация видео в общий формат (mp4)"
   }
@@ -23,18 +23,18 @@
 </i18n>
 
 <template>
-  <div class="status">
+  <div class="video-status">
     <span :class="spanClass" v-b-tooltip.hover.left :title="toolTip">
       <!--<i :class="iconComp" />-->
       <font-awesome-icon :icon="iconComp_vue_awesome.obj" :style="iconComp_vue_awesome.style" :spin="iconComp_vue_awesome.spin"/>
-      <span class="status-text"> {{ text }}</span>
+       <span class="status-text">{{ text }}</span>
     </span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "status",
+  name: "video-status",
   props: {
     status: [Number, String]
   },
@@ -92,7 +92,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.status {
+
+.video-status {
   span:hover {
     color: red;
   }
@@ -120,5 +121,6 @@ i {
 .status-text {
   display: inline-block;
   min-width: 5em;
+  margin-left: .5em;
 }
 </style>

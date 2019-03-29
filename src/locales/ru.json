@@ -9,7 +9,7 @@
     "ICCSPC": "ИЦГПК",
     "Copyright":"Все права защищены",
     "The feature was implemented soon":"Функция будет реализована в ближайшее время",
-    
+
   "-->вкладки":"",
   "Tabs_vue": {
     "Upload":"Загрузить видео",
@@ -45,7 +45,7 @@
     "choose-en-lang":"Change interface to ENGLISH",
     "cant-close-window":"Судя по всему, вкладка не закрылась. Попробуйте самостоятельно его закрыть."
   },
- 
+
   "Uploaded_vue": {
     "Uploaded":"Загруженные",
     "Already":"Список уже загруженных видео-файлов",
@@ -56,7 +56,7 @@
     "--> модальное окно ==>":"...",
     "Prev":"Предыдущий",
     "Next":"Следующий",
-  
+
     "--> всплывающие подсказки ==>":"...",
     "already uploaded":"Похоже, Вы уже загружали данное видео в рамках данного замечания",
     "Cancelled": "Операция отменена пользователем",
@@ -68,7 +68,7 @@
     "#":"№",
     "Preview":"Превью",
     "Status": "Статус",
-    "Date":"Дата", 
+    "Date":"Дата",
     "Comments":"Комментарии",
     "Status":"Статус",
     "Info":"Информация",
@@ -90,7 +90,7 @@
     "Sort the list by Comment column":"Сортировать по полю Комментарии",
     "Sort by added":"Сортировать по добавлению",
     "Sort the list by added":"Сортировать по порядку добавления файлов",
-    
+
 
   "-->actions":"-->",
   "corrupt file":"Файл поврежден - <b>{filename}</b>",
@@ -109,25 +109,25 @@
   "Default displaying error in the table" : "Произошла ошибка при загрузке файла",
   "Network Error":"Сетевая ошибка",
 
-  
+
   "==> SelectedFiles_vue->":"",
   "You can't send this file":"Вы не можете отправить этот файл",
-  "Upload the file":"Загрузить файл", 
+  "Upload the file":"Загрузить файл",
   "Delete the file":"Удалить файл",
   "Stop transfering":"Остановить отправку",
   "Stop":"Остановить текущую операцию",
 
-  "==> rowTextArea_vue": "",  
+  "==> rowTextArea_vue": "",
   "Comments need to be reduced":"Комментарий должен быть сокращен до {maxLen} символов",
   "The comment max size is": "Максимальный размер комментария - {maxLen} символов",
   "Size has been exceeded":"Размер превышен",
   "Limit size":"Лимит размера файла",
 
-  
+
   "==>>VideoPlayer_vue":"",
   "Brand click":"Вас приветствует команда разработчиков этого приложения и желает хорошего дня!",
   "The video preview is unavailable": "Превью недоступно",
-  
+
   "Bytes": "Б",
   "KB": "КБ",
   "MB": "МБ",
@@ -136,7 +136,7 @@
 
   "Message sent successfully": "Сообщение успешно отправлено",
   "An error occurred while sending the request": "Произошла ошибка при выполнении запроса",
-  
+
   " ====> actions.js ":"",
   "Successively uploaded":"<br>- успешно отправлено: {suc_count};",
   "Uploaded with fail":"<br>- отправлено с ошибкой: {fail_count};",
@@ -150,7 +150,7 @@
   "Remove all report 2": "Удалено: {deleted} файла.",
   "Remove all report skipped 1": "Пропущен: {skipped} файл",
   "Remove all report skipped 2": "Пропущено: {skipped} файла",
-   
+
   "Upload selected text 1": "Загрузить выделенный",
   "Upload selected text 2": "Загрузить выделенные ({count})",
 
@@ -161,7 +161,7 @@
 
   "Send all text": "Отправить все {count} ({size})",
   "Send all text ignor": "Отправить все остальные {count} ({size})",
-  
+
   "Send all other title 1": "Мы добавим в загрузку {count} файл",
   "Send all other title 2": "Мы добавим в загрузку остальные {count} файла",
   "sendAllTitle 1": "Мы загрузим {count} файл ({size})",
@@ -170,7 +170,7 @@
   "sendAllTitle ignore 2": "\nи проигнориуем {count} неподдерживаемых файла",
 
   "Remove all text":"Удалить все ({all_noneTransfering_count}, {all_noneTransfering_size_beauty})",
-    
+
   "Clear the list":"Очистить список",
   "skip":"пропуская",
   "transfering file":"передающийся файл",
@@ -179,10 +179,10 @@
 
   "Remove Selected Title 1": "Удалить {count} выделенный файл: \n- валидных: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty}); \n- не валидных: {all_bad_selected_count} ({all_bad_selected_size_beauty})",
   "Remove Selected Title 2": "Удалить {count} выделенных файла:\n- валидных: {all_valid_selected_noneTransfering_count} ({all_valid_selected_noneTransfering_size_beauty}); \n- не валидных: {all_bad_selected_count} ({all_bad_selected_size_beauty})",
- 
+
   "Stop all title 1": "Остановить загрузку ({count})",
   "Stop all title 2": "Остановить все загрузки ({count})",
-  
+
 
   " ===> UploadedRefreshBtn_VUE":"",
   "Network Error": "Сетевая ошибка",
@@ -200,9 +200,12 @@
 
   "Send-btn-text":"Отправить",
   "Send-btn-title":"Отправить ошибку разработчикам",
-  
-  "All-fine-btn-text":"",
-  "All-fine-btn-title":"Ошибки нет или была исправлена"
 
+  "All-fine-btn-text":"",
+  "All-fine-btn-title":"Ошибки нет или была исправлена",
+
+  "=>offlineAlert_vue":"",
+   "online alert":"Вы вернулись в онлайн!",
+   "offline alert":"Кажется, мы потеряли соединение с интернетом..."
 
   }

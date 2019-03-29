@@ -5,6 +5,7 @@
       <main>
         <router-view />
         <BackToTop />
+        <OfflineAlert/>
       </main>
       <footer-section />
     </div>
@@ -15,6 +16,7 @@
 import header from "@/Views/Header";
 import footer from "@/Views/Footer";
 import BackToTop from "@/components/BackToTop/BackToTop";
+import OfflineAlert from '@/Views/OfflineAlert'
 
 import { mapMutations, mapGetters } from "vuex";
 export default {
@@ -22,7 +24,8 @@ export default {
   components: {
     "header-section": header,
     "footer-section": footer,
-    BackToTop
+    BackToTop,
+    OfflineAlert
   },
   methods: {
     ...mapMutations(["changeProp"])
@@ -39,7 +42,7 @@ export default {
   created() {
     let p = this.$options._parentVnode.data.props;
     Object.keys(p).forEach(prop => this.changeProp({ prop, state: p[prop] })); //Записываем конфиг в стор; из initVue({prop:state})
-  
+
   window.addEventListener('beforeunload', e => {
     if(this.selectedVideosGetter.filter(ee=>ee.percentCompleted != null).length) {
       e.preventDefault();// Cancel the event
@@ -51,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss"> 
+<style lang="scss">
 body,
 .wrapper {
   min-width: 500px;
