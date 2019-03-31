@@ -99,12 +99,8 @@ export default {
       let res = "";
       if (this.isAlreadyUploaded) res = this.$t("already uploaded");
       const fd = this.obj;
-      if (!fd.sizeOK)
-        res += `${res ? " and m" : " M"}ax size (<${this.maxSize /
-          1000 /
-          1000 /
-          1000} GB) exceeded`;
-      if (!fd.typeOK) res += `${res ? " and f" : " F"}ormat not supported`;
+      if (!fd.sizeOK) res += (res ? ".\n" : '') + this.$t("Max size exceeded", { maxSize: this.$store.state.maxSize / 1000 / 1000 / 1000 });
+        if (!fd.typeOK) res += (res ? ".\n" : '') + this.$t("Format not supported");
       return res;
     },
 

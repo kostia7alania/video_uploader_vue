@@ -205,7 +205,10 @@
 
  "=>offlineAlert_vue":"",
   "online alert":"You're in online",
-  "offline alert":"You're in offline"
+  "offline alert":"You're in offline",
+
+  "==> BACKEND":"php",
+  "An error occurred while write to data base": "An error occurred while write to data base"
 
 
 }

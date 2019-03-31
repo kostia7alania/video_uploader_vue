@@ -94,9 +94,9 @@
 
   "-->actions":"-->",
   "corrupt file":"Файл поврежден - <b>{filename}</b>",
-  "unsupported format": "Файл имеет неподдерживаемый нашей системой формат - <b>{file.name}</b",
+  "unsupported format": "Файл имеет формат, неподдерживаемый нашей системой - <b>{file.name}</b",
   "Format not supported": "Формат не поддерживается",
-  "Max size exceeded": "Лимит размера файла превышен. Лимит - {maxSize} GB.",
+  "Max size exceeded": "Лимит размера файла превышен. Лимит - {maxSize} ГБ.",
   "Size-is-OK":"Размер в пределах лимита",
   "Type is OK":"Тип файла поддерживается",
   "file is already selected":"Файл уже в списке - <b>{filename}</b>",
@@ -206,6 +206,9 @@
 
   "=>offlineAlert_vue":"",
    "online alert":"Вы вернулись в онлайн!",
-   "offline alert":"Кажется, мы потеряли соединение с интернетом..."
+   "offline alert":"Кажется, мы потеряли соединение с интернетом...",
+
+   "==> BACKEND":"php",
+   "An error occurred while write to data base": "Ошибка записи в базу данных. Попробуйте перезайти на сайт."
 
   }

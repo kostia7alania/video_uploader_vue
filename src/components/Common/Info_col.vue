@@ -73,7 +73,7 @@ export default {
         ? ""
         : this.obj.sizeOK
         ? this.$t("Size-is-OK")
-        : this.$t("Max size exceeded");
+        : this.$t("Max size exceeded", { maxSize: this.$store.state.maxSize / 1000 / 1000 / 1000 });
     },
     typeTitle() {
       return this.skipVerify
