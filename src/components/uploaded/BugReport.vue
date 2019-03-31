@@ -32,7 +32,7 @@
         <b-button @click="onClose" class="close" aria-label="Close">
           <span class="d-inline-block" aria-hidden="true">&times;</span>
         </b-button>
-        
+
       </template>
       <div>
         <b-row>
@@ -56,10 +56,10 @@
           <b-col sm="12">
             <b-alert show class="small">
               <strong>{{$t('Last report reason')}}</strong><br />
-              <!--<i class="far fa-calendar-alt"></i>--> 
+              <!--<i class="far fa-calendar-alt"></i>-->
               <font-awesome-icon :icon="['fas','calendar-alt']"/>
               {{ new Date(abusingFile.ReportDate).toLocaleString() }}: <br />
-              <span v-html="abusingFile.Report"></span>
+              <span class="abusing-field" v-html="abusingFile.Report"></span>
             </b-alert>
           </b-col>
         </b-row>
@@ -192,7 +192,13 @@ button.disabled { cursor: not-allowed !important; }
     padding: .5rem .5rem;
 }
 
-.popover-body { 
+.popover-body {
     text-align: center;
+}
+
+.abusing-field {
+  overflow: auto;
+  max-height: 200px;
+  display: block;
 }
 </style>
