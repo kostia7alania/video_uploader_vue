@@ -6,7 +6,8 @@ export default {
   async getVideoList({ state, commit, dispatch }) {
     let params = await dispatch("params");
     if (!params.def_uid && !params.insp_uid) {
-      dispatch("toast", { text: "Url is wrong", type: "warning" });
+
+      dispatch("toast", { text: $t("Url is wrong"), type: "warning" });
       return false;
     }
 

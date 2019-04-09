@@ -109,6 +109,7 @@
   "Is not uploaded":"Is not uploaded {name}",
   "Default displaying error in the table":"Erorr while upload the file",
   "Network Error":"Network Error",
+  "Url is wrong":"Url params is wrong",
 
   "==> SelectedFiles_vue->":"",
   "You can't send this file":"You can't send this file",
