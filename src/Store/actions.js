@@ -33,7 +33,7 @@ export default {
   },
   /*
   async deleteEntryAction ({ state, commit, dispatch },  { index }) {
-   let ud = state.selectedVideos[index].userData 
+   let ud = state.selectedVideos[index].userData
    if('percentCompleted' in ud && !ud.percentCompleted) {
      ud.cancel();
    }
@@ -86,7 +86,7 @@ export default {
             state.selectedVideos.forEach((e, index) => {
               if (e.fileData.hash === hash) {  //if equal, will temporary highlight appropriate row in the table with already uploaded videos
                 dispatch( "pulseRow", { hash, index } );
-                dispatch('toast', { text: $t('file is already selected', {filename:file.name}), type:'warning' } ) 
+                dispatch('toast', { text: $t('file is already selected', {filename:file.name}), type:'warning' } )
                 t = true;
                 return; // OPTIMIZE; just TRUST ME!;-)
               }
@@ -140,7 +140,7 @@ export default {
     video.src = URL.createObjectURL(file);
   },
   /************/
-  /** :::DEPRECATED 24.3.19 ::: 
+  /** :::DEPRECATED 24.3.19 :::
   getIndex({ state }, { hash }) {
     if (!state.selectedVideos.length) return false;
     for (let index in state.selectedVideos)
