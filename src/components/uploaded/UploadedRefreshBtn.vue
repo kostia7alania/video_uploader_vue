@@ -6,8 +6,8 @@
     "Loading":"Loading..",
     "Error":"Error",
     "Success":"Success",
-    "Refresh list":"Refresh list",
-    "The list is empty":"The list is empty"
+    "Refresh list":"Refresh",
+    "The list is empty":"List is empty"
   },
   "ru": {
     "Show list":"Показать список",
@@ -15,7 +15,7 @@
     "Loading":"Загрузка..",
     "Error":"Ошибка",
     "Success":"Успешно",
-    "Refresh list":"Обновить" 
+    "Refresh list":"Обновить"
    }
 }
 </i18n>
