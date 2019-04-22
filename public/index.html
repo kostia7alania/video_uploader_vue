@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
 
-    <title>video-uploader-new</title>
+    <title>Video Uploader new</title>
   </head>
   <body>
     <noscript>
@@ -16,6 +16,7 @@
     <!-- built files will be auto injected -->
   </body>
   <script>
+    //перевод берется из директив .env до компиляции проджа
   window.onload = function () {
   const url_api   = "./index.php"//"http://localhost:3000/backend/index.php"
   const watch_url = url_api + '?action=watch&dir=watch&v='
@@ -23,10 +24,11 @@
   const webp_url  = url_api + '?action=watch&dir=webp&v='
   const img_url   = url_api + '?action=watch&dir=img&v='
   const show_menu = false;
-  video_brand_img_title = 'ISGS';
-  video_brand_click_msg = 'Brand click';//Значение из перевода , если не будет перевода, то выведет как есть;
+  video_brand_img_title = 'APCIS';
+  video_brand_click_msg = 'Brand click';//Введи сюда Brand click - чтобы взяло значение из перевода , если не будет перевода, то выведет как есть;
   video_brand_img_src = ''; //ссылка на значек в плеере
-    initVue ({ url_api, watch_url, gif_url, webp_url, img_url, video_brand_img_title, video_brand_click_msg, video_brand_img_src  });
+    initVue ({ url_api, watch_url, gif_url, webp_url, img_url, video_brand_img_title, video_brand_click_msg, video_brand_img_src, show_menu });
   }
+
   </script>
 </html>

@@ -1,3 +1,7 @@
+var _global = this || window || {};
+
+
+
 import Vue from "vue";
 import App from "./App.vue";
 
@@ -20,8 +24,8 @@ import "../node_modules/izitoast/dist/css/iziToast.min.css";
 
 
 import { library, dom, config } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm, 
-  faUpload, faAngleDoubleLeft, faTimes, 
+import { faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm,
+  faUpload, faAngleDoubleLeft, faTimes,
   faStopwatch, faBell, faCalendarAlt, faCheck,
   faBan,faAngleRight,faAngleLeft,faTasks,faFlagCheckered,faExclamationTriangle,faExclamation,
   faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare,faTrashAlt,faStopCircle,
@@ -30,19 +34,19 @@ import { faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmi
 from '@fortawesome/free-solid-svg-icons'
 import { faYoutube, faTelegramPlane} from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add( faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm, 
-  faUpload, faAngleDoubleLeft, faTimes, faYoutube, faCoffee, 
+library.add( faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm,
+  faUpload, faAngleDoubleLeft, faTimes, faYoutube, faCoffee,
   faStopwatch, faBell, faCalendarAlt, faTelegramPlane, faCheck,
   faBan,faAngleRight,faAngleLeft,faTasks,faFlagCheckered,faExclamationTriangle,
   faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare,faTrashAlt,faExclamation,faStopCircle,
   faFolderOpen,faHandPaper,faArrowUp,faArrowDown,faVideoSlash
 
-  
+
     )
 
   config.autoReplaceSvg = 'nest'//=>https://github.com/matfish2/vue-tables-2/issues/441
 dom.watch() // This will kick of the initial replacement of i to svg tags and configure a MutationObserver => https://www.npmjs.com/package/@fortawesome/vue-fontawesome
- 
+
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -53,7 +57,7 @@ Vue.config.devtools = true;
 import { withHooks, useState, useEffect } from "vue-hooks";
 const Setter = withHooks( h => {
   const [sex, изменитьSEX] = useState(0);// state
-  useEffect(() => { 
+  useEffect(() => {
     console.log('SEX effect happening... ');
     document.title = "count is " + sex;
   }); // effect
@@ -62,7 +66,7 @@ const Setter = withHooks( h => {
 
 const Listtener = withHooks( h => {
   const width = (() => { // custom hook
-    const [высота, изменитьВысоту ] =  useState( window.innerWidth );    //срабатывает при инициализации 
+    const [высота, изменитьВысоту ] =  useState( window.innerWidth );    //срабатывает при инициализации
     const handleResize = () => {
       window.hand = store;
       store.commit('changeProp', {prop:'height',state:window.innerHeight})
@@ -91,11 +95,11 @@ window.initVue = props =>
   new Vue({ router, store, i18n,
     render(createElement) {
       return createElement(
-          "div", 
+          "div",
           { 'attrs': { class: 'render-app' }, },
           [createElement(
-            App, 
-            { props }) 
+            App,
+            { props })
             /*
             h(Setter),
             h(Listtener)*/

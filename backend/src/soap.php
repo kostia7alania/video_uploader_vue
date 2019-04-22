@@ -1,4 +1,4 @@
-<?php  
+<?php
   //require('./video-config.php');
   $codes  = new DOMDocument( );
   $xml    = new DOMDocument( );
@@ -11,5 +11,5 @@
     , array( 'AuthUserName' => vid_cfg['AuthUserName']
            , 'AuthPassword' => vid_cfg['AuthPassword']
   ) );
-  $soap_service = new SoapClient( vid_cfg['soapServer'] . '?WSDL', $soap_params );
-  $soap_service->__setSoapHeaders( $soap_header );  
+  $soap_service = new SoapClient( vid_cfg['soapServer'] /*.'?WSDL'*/, $soap_params );
+  $soap_service->__setSoapHeaders( $soap_header );
