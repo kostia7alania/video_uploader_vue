@@ -2,14 +2,13 @@
 /* //PROD ::: INDEX.PHP ::: =>
 if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-video-list','abusingFile'] ) )  {
 	header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
-	require('./video-hosting/backend/index.php');;
+	require(__DIR__.'./video-hosting/backend/index.php');;
 	die;
 }
 */
 if (!isset($_SESSION)) session_start();
-$index_html = 'video-hosting/dist/index.html';
 $index_html = __DIR__.'../dist/index.html';
-if($_GET['action']=='viewvideo') { echo file_get_contents(index_html);	die; }
+if($_GET['action']=='viewvideo') { echo file_get_contents($index_html);	die; }
 require(__DIR__.'/src/options.php');//CORS policy
 require '../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');
@@ -64,11 +63,10 @@ if ( $action == 'watch' ) {
     }
 
   if($dir=='watch') {
-    require('./src/VideoStream.php');
+    require(__DIR__.'./src/VideoStream.php');
     if ($status==2) $videoDir = vid_cfg['convertedDir'];
     else            $videoDir = vid_cfg['realDir'];
-    //$stream = new VideoStream($videoDir.$v);
-    $stream = new \Sources\VideoStream('c://PHP PARSER 2019-02-25_19-03-14.mp4');
+    $stream = new \Sources\VideoStream($videoDir.$v); // $stream = new \Sources\VideoStream('c://PHP PARSER 2019-02-25_19-03-14.mp4'); //test
     $stream->start();
   }
 }

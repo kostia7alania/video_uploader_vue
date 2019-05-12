@@ -17,7 +17,7 @@ const state = {
   formats: "mp4,avi,flv,3gp,mpg,mov,qt,wmv,mkv",
 
   maxSize: 2000, // 2gb.
-  maxDuration: 5, //в минутах 5min - длительность видео.
+  maxDuration: 10, //в минутах 5min - длительность видео.
 
   commentMaxLength: "2000",
   /*SELECT VIDEOs*/

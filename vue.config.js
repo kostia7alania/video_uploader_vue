@@ -1,24 +1,19 @@
 module.exports = {
-  transpileDependencies: [
-    'object-hash'
-  ],
+  transpileDependencies: [ 'object-hash' ],
   lintOnSave: process.env.NODE_ENV !== "production",
   devServer: {
     overlay: {
       warnings: false,
       errors: true,
-      proxy: "http://localhost:3000/backend/index.php" //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
+      proxy: process.env.devServer_PROXY //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
     }
   },
   publicPath: process.env.NODE_ENV === "production"
-      ?
-      //"/test/video-hosting/dist" :
-      "/video-hosting/dist":
-      "/", //По умолчанию: '/'
-  assetsDir: "./", //По умолчанию: '' - Каталог (относительно outputDir) для хранения сгенерированных статических ресурсов (js, css, img, fonts).
-  outputDir: "dist",
-  indexPath: "index.html", //умолч -'index.html'-относительно outputDir
-  filenameHashing: true,
+            ? process.env.publicPath_PROD:process.env.publicPath_TEST,
+  assetsDir: process.env.assetsDir,   // "./", //По умолчанию: '' - Каталог (относительно outputDir) для хранения сгенерированных статических ресурсов (js, css, img, fonts).
+  outputDir: process.env.outputDir,   // "dist",
+  indexPath:  process.env.indexPath,  // "index.html", //умолч -'index.html'-относительно outputDir
+  filenameHashing: false,
 
   chainWebpack: config => {
     config.module
@@ -64,10 +59,11 @@ module.exports = {
 
   // ...other vue-cli plugin options...
   pwa: {
-    name: "Video uploader",
-    msTileColor: "#00FF3C",
-    appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black"
+    name: 'Video uploader',
+    msTileColor: '#00FF3C',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+   // workboxPluginMode: 'InjectManifest'
   }
 };
 
