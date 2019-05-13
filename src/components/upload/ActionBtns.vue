@@ -58,12 +58,12 @@ import progressBar from "./ProgressBar";
 import { mapMutations, mapActions, mapState } from "vuex";
 
 import checkMixins from "@/mixins.js";
-import { localCheckers, selectedFilesMethods } from "@/mixins.js";
+import { selectedFilesMethods } from "@/mixins.js";
 
 export default {
   name: "Action-Btns",
   components: { progressBar },
-  mixins: [checkMixins, localCheckers, selectedFilesMethods],
+  mixins: [checkMixins, selectedFilesMethods],
   props: {
     obj: {
       type: Object,
@@ -91,10 +91,14 @@ export default {
       return !isNaN(parseInt(this.obj.percentCompleted));
     },
     sendClass() {
-      return !this.obj.sizeOK || !this.obj.typeOK ? "block" : "";
+      let durationOK = true;
+      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      return !this.obj.sizeOK || !this.obj.typeOK || !durationOK ? "block" : "";
     },
     send_btn_tooltip() {
-      return !this.obj.sizeOK || !this.obj.typeOK
+      let durationOK = true;
+      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      return !this.obj.sizeOK || !this.obj.typeOK || !durationOK
         ? this.$t("You can't send this file")
         : this.$t("Upload the file", { filename: this.obj.file.name });
     }
