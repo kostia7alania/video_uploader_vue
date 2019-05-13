@@ -1,14 +1,17 @@
 <?php
 /* //PROD ::: INDEX.PHP ::: =>
-if ( in_array( $_GET['action'],['video-list-json', 'viewvideo', 'savevid', 'watch','get-uploaded-video-list','abusingFile'] ) )  {
+if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-video-list','abusingFile'] ) )  {
 	header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
 	require('./video-hosting/backend/index.php');;
 	die;
 }
 */
 if (!isset($_SESSION)) session_start();
+$index_html = 'video-hosting/dist/index.html';
+$index_html = __DIR__.'../dist/index.html';
+if($_GET['action']=='viewvideo') { echo file_get_contents(index_html);	die; }
 require(__DIR__.'/src/options.php');//CORS policy
-require __DIR__.'/../../vendor/autoload.php';
+require '../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');
 require(__DIR__.'./src/soap.php');
 require(__DIR__.'./src/browserDetection.php');
