@@ -91,16 +91,22 @@ export default {
     }
   },
   computed: {
-    ...mapState(["maxSize", "alreadyUploaded", "selectedActiveContextRowHash"]),
+    ...mapState(["maxSize",'maxDuration', "alreadyUploaded", "selectedActiveContextRowHash"]),
     nonValid() {
-      return !this.obj.sizeOK || !this.obj.typeOK;
+      let durationOK = true;
+      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      return !this.obj.sizeOK || !this.obj.typeOK || !durationOK;
     },
     rowTooltipText() {
       let res = "";
       if (this.isAlreadyUploaded) res = this.$t("already uploaded");
       const fd = this.obj;
-      if (!fd.sizeOK) res += (res ? ".\n" : '') + this.$t("Max size exceeded", { maxSize: this.$store.state.maxSize / 1000 / 1000 / 1000 });
-        if (!fd.typeOK) res += (res ? ".\n" : '') + this.$t("Format not supported");
+
+      if ( 'durationOK' in fd ) {
+        if (!fd.durationOK) res += (res ? ".\n" : '') + this.$t("Duration is exceeded", { maxDuration: this.maxDuration });
+      }
+      if (!fd.sizeOK) res += (res ? ".\n" : '') + this.$t("Max size exceeded", { maxSize: this.maxSize / 1000 });
+      if (!fd.typeOK) res += (res ? ".\n" : '') + this.$t("Format not supported");
       return res;
     },
 

@@ -150,12 +150,16 @@ export default {
     },
 
     sendClass({ obj }) {
+      let durationOK = true;
+      if ( 'durationOK' in obj ) durationOK = obj.durationOK;
       if (this.isInValid(obj)) return;
-      return !obj.sizeOK || !obj.typeOK ? "block text-muted" : "";
+      return !obj.sizeOK || !obj.typeOK  || !durationOK ? "block text-muted" : "";
     },
     send_btn_tooltip({ obj }) {
+      let durationOK = true;
+      if ( 'durationOK' in obj ) durationOK = obj.durationOK;
       if (this.isInValid(obj)) return;
-      return !obj.sizeOK || !obj.typeOK
+      return !obj.sizeOK || !obj.typeOK || !durationOK
         ? this.$t("You can't send this file")
         : this.$t("Upload the file", { filename: obj.file.name });
     }

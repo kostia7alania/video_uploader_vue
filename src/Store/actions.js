@@ -102,7 +102,7 @@ export default {
               return;
             }
             //иначе - спокойненько добавляем в массив;
-            let sizeCheck = state.maxSize > file.size; //true = okay
+            let sizeCheck = state.maxSize * 1000 * 1000 > file.size; //true = okay
             let typeCheck = file.type && file.type.split("/")[0] == "video"; //true = okay
             commit("appendToSelectedVideos", {
               obj: {
@@ -117,7 +117,9 @@ export default {
                 typeOK: typeCheck
               }
             });
+
             dispatch("detectDuration", { hash, file });
+
           });
           resolve();
         }, 300)
@@ -134,8 +136,10 @@ export default {
     video.onloadedmetadata = async () => {
       window.URL.revokeObjectURL(video.src);
       let sec = video.duration;
-      if (sec)
+      if (sec) {
         commit("changeSelectedVideos", { hash, prop: "duration", val: sec });
+        commit("changeSelectedVideos", { hash, prop: "durationOK", val: store.state.maxDuration*60>sec });
+      }
     };
     video.src = URL.createObjectURL(file);
   },

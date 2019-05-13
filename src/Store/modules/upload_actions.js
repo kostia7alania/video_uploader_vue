@@ -4,20 +4,20 @@ import axios from "axios";
 
 export default {
   async upload({ state, commit, dispatch }, { hash }) {
+    const { def_uid, insp_uid } = await dispatch("params");
+    if ( !def_uid || !insp_uid ) { dispatch("toast", { text: $t("Url params is wrong"), type: "error" } ); return false; }
     window.t = this;
     if (!hash || !(hash in state.selectedVideos))
       return dispatch("toast", {text: $t("Error while preparing to send the file"),type: "error"});
-    const obj = state.selectedVideos[hash],
-      f = obj.file,
-      name = f.name ? f.name : "";
-    let res;
-    if (!obj.sizeOK)
-      res =
-        $t("Max size exceeded", { maxSize: state.maxSize / 1000 / 1000 / 1000 }) + " "; 
-        if (!obj.typeOK) res += $t("Format not supported");
-      if (res) { dispatch("toast", { text: `<b>${res}</b>: ${name}`, type: "error" }); return; }
-      const { def_uid, insp_uid } = await dispatch("params");
-      if ( !def_uid || !insp_uid ) { dispatch("toast", { text: $t("Url params is wrong"), type: "error" } ); return false; }
+    const obj = state.selectedVideos[hash]
+    const f = obj.file
+    let res = ''
+    if (!obj.sizeOK) res =  ( res ? ".\n" : '' ) + $t("Max size exceeded", { maxSize: state.maxSize / 1000 }) + " ";
+    if (!obj.typeOK) res += ( res ? ".\n" : '' ) + $t("Format not supported");
+    if ('durationOK' in obj   &&    !obj.durationOK) res += (res ? ".\n" : '') + $t("Duration is exceeded", { maxDuration: state.maxDuration });
+
+
+    if (res) { dispatch("toast", { text: `<b>${res}</b>: ${ f.name }`, type: "error" }); return; }
 
     const formData = new FormData();
     formData.append("comment", obj.comment ? obj.comment : "");
@@ -66,7 +66,7 @@ export default {
           disp_err = $t("Network Error");
           toast_msg = $t("Is not uploaded", { name });
           type = "error";
-        } 
+        }
         commit("changeProp", { prop: "uploadAllInProgress", state: false });
         commit("changeSelectedVideos", { hash, prop: "percentCompleted", val: null });
         commit("changeSelectedVideos", { hash, prop: "error", val: disp_err });

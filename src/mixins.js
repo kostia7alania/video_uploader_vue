@@ -3,10 +3,14 @@
 export default {
   methods: {
     sizeCheck(e) {
-      return this.$store.state.maxSize > e ? "size-success" : "size-error";
+      return this.$store.state.maxSize * 1000 * 1000 > e ? "size-success" : "size-error";
     },
     typeCheck: e =>
-      e && e.split("/")[0] == "video" ? "type-success" : "type-error"
+      e && e.split("/")[0] == "video" ? "type-success" : "type-error",
+      durationCheck(e){
+        return this.$store.state.maxDuration*60 > e ? "type-success" : "type-error"
+      }
+
   },
   size(e) {
     return this.$store.state.maxSize > e ? true : false;
@@ -72,7 +76,7 @@ export const filters = {
   }
 };
 
-  
+
 export const selectedFilesCounts = {
   mixins:[filters],
   computed: {
@@ -130,13 +134,13 @@ export const selectedFilesCounts = {
     sendSelectedIcon_vue_awesome: ()=>['fas', 'upload'],
     //sendSelectedIcon: () => "fas fa-upload",
     sendSelectedText() {
-      let avsc = this.all_valid_selected_count; 
+      let avsc = this.all_valid_selected_count;
       return $t(`Upload selected text ${avsc == 1 ? 1 : 2}`, { count: avsc, ...this.toUploadCountsReport });;
     },
     sendSelectedTitle() {
-      let avsc = this.all_valid_selected_count; 
-      let absc = this.all_bad_selected_count; 
-      
+      let avsc = this.all_valid_selected_count;
+      let absc = this.all_bad_selected_count;
+
       let out = $t(`Upload selected title ${avsc == 1 ? 1 : 2}`, { count: avsc, ...this.toUploadCountsReport });
       if (absc)
         out +=
@@ -193,7 +197,7 @@ export const selectedFilesCounts = {
         });
       return out;
     },
-    
+
     all_obj() {
       return {
         all_count:this.all.length,
@@ -201,13 +205,13 @@ export const selectedFilesCounts = {
         all_size_beauty: this.sizeMethod(this.all.reduce((sum, cur) => cur.file.size + sum, 0))
       }
     },
-    
+
     /* ALL */
     all() { return this.selectedVideosGetter; },
     all_count() {return this.all.length; },
     all_size() { return this.all.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_size_beauty() { return this.sizeMethod(this.all_size); },
-    
+
     /* ALL SELECTED */
     all_selected() {return this.all.filter(e => e.selected && e.percentCompleted == null);},
     all_selected_count() {return this.all_selected.length;},
@@ -215,13 +219,13 @@ export const selectedFilesCounts = {
     all_selected_size_beauty() { return this.sizeMethod(this.all_selected_size); },
 
     /* ALL VALID */
-    all_valid() {return this.all.filter(e => e.sizeOK && e.typeOK);},
+    all_valid() {return this.all.filter(e => e.sizeOK && e.typeOK && !('durationOK' in e && !e.durationOK));},
     all_valid_count() {return this.all_valid.length;},
     all_valid_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_valid_size_beauty() { return this.sizeMethod(this.all_valid_size); },
 
   /* ALL TRANSFERING */
-    all_valid_transfering() {return this.all.filter( e => e.sizeOK && e.typeOK && e.percentCompleted != null);},
+    all_valid_transfering() {return this.all.filter( e => e.sizeOK && e.typeOK && !('durationOK' in e && !e.durationOK) && e.percentCompleted != null);},
     all_valid_transfering_count() {return this.all_valid_transfering.length;},
     all_valid_transfering_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_valid_transfering_size_beauty() { return this.sizeMethod(this.all_valid_transfering_size); },
@@ -231,25 +235,25 @@ export const selectedFilesCounts = {
     all_noneTransfering_count() {return this.all_noneTransfering.length;},
     all_noneTransfering_size() {return this.all.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_noneTransfering_size_beauty() { return this.sizeMethod(this.all_noneTransfering_size); },
-    
+
     /* ALL VALID NON-TRANSFERING */
     all_valid_noneTransfering() {return this.all.filter(e => e.sizeOK && e.typeOK && e.percentCompleted == null);},
     all_valid_noneTransfering_count() {return this.all_valid_noneTransfering.length;},
     all_valid_noneTransfering_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_valid_noneTransfering_size_beauty() { return this.sizeMethod(this.all_valid_noneTransfering_size); },
-    
+
     /* ALL VALID CHOOSE */
     all_valid_selected() {return this.all_valid.filter(e => e.selected && e.percentCompleted == null);},
     all_valid_selected_count() {return this.all_valid_selected.length;},
     all_valid_selected_size() {return this.all_valid_selected.reduce((sum, cur) => cur.file.size + sum,0);},
     all_valid_selected_size_beauty() { return this.sizeMethod(this.all_valid_selected_size); },
-        
+
     /* ALL VALID SELECTED NON-TRANSFERING */
     all_valid_selected_noneTransfering() {return this.all_valid_noneTransfering.filter(e => e.selected );},
     all_valid_selected_noneTransfering_count() {return this.all_valid_selected_noneTransfering.length;},
     all_valid_selected_noneTransfering_size() {return this.all_valid_selected_noneTransfering.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_valid_selected_noneTransfering_size_beauty() { return this.sizeMethod(this.all_valid_selected_noneTransfering_size); },
-        
+
     /* ALL NON-UPLOADING SELECTED with non-valid*/
     all_noneUploading_selected() {return this.all.filter(e => e.selected && e.percentCompleted == null);},
     all_valid_selected_count() {return this.all_noneUploading_selected.length;},
@@ -257,7 +261,7 @@ export const selectedFilesCounts = {
     all_valid_selected_size_beauty() { return this.sizeMethod(this.all_valid_selected_size); },
 
     /* ALL BAD*/
-    all_bad() {return this.all.filter(e => !e.sizeOK || !e.typeOK);},
+    all_bad() {return this.all.filter(e => !e.sizeOK || !e.typeOK || ('durationOK' in e && !e.durationOK) ) ;},
     all_bad_count() {return this.all_bad.length;},
     all_bad_size() {return this.all_bad.reduce((sum, cur) => cur.file.size + sum, 0);},
     all_bad_size_beauty() { return this.sizeMethod(this.all_bad_size); },
@@ -303,26 +307,26 @@ export const selectedFilesCounts = {
     },
   },
   methods: {
-    
+
     calc_SIZE: arr => arr.reduce((sum, cur) => cur.file.size + sum,0) ,
-    
-    
+
+
 
   }
 };
- 
 
-export const localCheckers = {
+
+export const localCheckers = { // НЕ ИСПОЛЬЗУЕТСЯ!!!!!!!!!!!!!!!!
   computed: {
     ...mapState(["maxSize"]),
     sizeCheck_comp() {
-      return this.maxSize > this.file.size ? "size-success" : "size-error";
+      return this.maxSize * 1000 * 1000 > this.file.size ? "size-success" : "size-error";
     },
     typeCheck_comp() {
       return this.file.type && this.file.type.split("/")[0] == "video"
         ? "type-success"
         : "type-error";
-    }
+    },
   }
 };
 

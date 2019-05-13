@@ -15,7 +15,10 @@ const state = {
   "video_brand_img_src":"",
   /**** LIMITS 4 upload ****/
   formats: "mp4,avi,flv,3gp,mpg,mov,qt,wmv,mkv",
-  maxSize: +"2 000 000 000".split(" ").join(""), //2gb.
+
+  maxSize: 2000, // 2gb.
+  maxDuration: 5, //в минутах 5min - длительность видео.
+
   commentMaxLength: "2000",
   /*SELECT VIDEOs*/
   selectedVideos: [],
