@@ -41,6 +41,7 @@ export default {
   },
   created() {
     let p = this.$options._parentVnode.data.props;
+    if('title' in p) window.document.title = p.title;//заголовок окна .!.
     Object.keys(p).forEach(prop => this.changeProp({ prop, state: p[prop] })); //Записываем конфиг в стор; из initVue({prop:state})
 
   window.addEventListener('beforeunload', e => {
