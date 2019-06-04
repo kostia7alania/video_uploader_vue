@@ -19,9 +19,12 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
+
+
 <script>
   //перевод берется из директив .env до компиляции проджа
   window.onload = function () {
+    locale = 'ru'//ru, en
     canWrite = false
     url_api = "./index.php" //"http://localhost:3000/backend/index.php"
     watch_url = url_api + '?action=watch&dir=watch&v='
@@ -37,6 +40,7 @@
     title = "Video Hosting new"
 
     initVue({
+      locale,
       title,
       canWrite,
       url_api,

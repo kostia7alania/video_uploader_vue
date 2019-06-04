@@ -104,6 +104,9 @@ window.initVue = props =>
             h(Setter),
             h(Listtener)*/
           ])
+    },
+    mounted(){
+      if('locale' in props && ['en','ru'].includes(props.locale) ) this.$i18n.locale = props.locale
     }
   }).$mount("#app");
 /*
