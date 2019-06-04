@@ -34,11 +34,12 @@ export default {
     ...mapActions(["getVideoList"])
   },
   mounted() {
-    if (!this.isLoadedList) this.getVideoList();
+    if (this.canWrite && !this.isLoadedList) this.getVideoList();
+    if(!this.canWrite) { this.$router.push('uploaded');}
   },
   computed: {
     ...mapGetters(["selectedVideosGetter"]),
-    ...mapState(["isLoadedList"])
+    ...mapState(["isLoadedList",'canWrite'])
   }
 };
 </script>

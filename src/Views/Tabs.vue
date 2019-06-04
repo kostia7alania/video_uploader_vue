@@ -11,11 +11,11 @@
         <font-awesome-icon :icon="uploadIcon" :class="{'fa-spin':isLoadingUploader}" :spin="uploadIcon=='spinner'?true:false"/>
         <!--<i :class="uploadIcon"></i>-->
         {{ $t("Tabs_vue.Upload") }}
-        <b-badge v-if="all_count" class="tab-badge" 
+        <b-badge v-if="all_count" class="tab-badge"
           v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Selected files number in tab']`, {...toUploadCountsReport})"
           pill :variant="activeTab == '/' || activeTab == 'Home' ? 'info' : 'primary'">{{ all_count }}</b-badge>
-          
-        <b-badge v-if="all_valid_transfering_count" class="tab-badge" 
+
+        <b-badge v-if="all_valid_transfering_count" class="tab-badge"
           v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Selected files number tranfering in tab ${all_valid_transfering_count==1?1:2}']`, {...toUploadCountsReport})"
           pill variant="danger">{{ all_valid_transfering_count }}</b-badge>
 
@@ -25,8 +25,8 @@
           pill variant="default">
             <font-awesome-icon icon="stop-circle"/> <!--<i class="far fa-stop-circle"></i> -->
           </b-badge>
-      </a> 
-        <MultiProgressBar v-show="progressShow" />  
+      </a>
+        <MultiProgressBar v-show="progressShow" />
     </li>
     <li class="nav-item second-tab" sm="6">
       <a
@@ -68,7 +68,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions([ 
+    ...mapActions([
     ]),
     routeChange(name) {
       this.$router.push(name);
@@ -107,13 +107,13 @@ export default {
     },
     alreadyUploadedIcon() {
       return this.alreadyUploaded_btn_status == 2
-        ? "spinner"//fas 
-        : "film";//fas 
+        ? "spinner"//fas
+        : "film";//fas
     },
 
     uploadIcon() {
       return this.isLoadingUploader
-        ? "spinner"//fas 
+        ? "spinner"//fas
         : "upload";
     }
   }
@@ -137,7 +137,7 @@ a.nav-link{
     }
 
   }
- 
+
 .nav-item {
   a {
     color: white;

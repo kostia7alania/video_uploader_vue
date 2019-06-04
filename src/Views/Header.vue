@@ -55,7 +55,7 @@
          <!--<i class="fab fa-youtube logotip"></i>-->
           <strong>{{ $t("Header_vue.Brand") }}</strong>
         </a>
-      <template v-if="show_menu"> 
+      <template v-if="show_menu">
         <button
           class="navbar-toggler back-to-size-btn" type="button"
           v-b-tooltip.hover :title="$t('Header_vue.Back-to-site_title')"
@@ -66,18 +66,17 @@
             <!--<i class="fas fa-angle-double-left"></i>-->
             {{ $t("Header_vue.Back-to-site") }}
             <font-awesome-icon icon="times"/>
-            <!--<i class="fas fa-times"></i>--> 
+            <!--<i class="fas fa-times"></i>-->
           </span>
         </button>
         <button class="navbar-toggler" @click="isShown = !isShown" type="button">
         <span class="navbar-toggler-icon"></span>
-        </button> 
+        </button>
       </template>
-      
+
       </div>
     </div>
-
-    <Tabs />
+    <Tabs v-if="canWrite"/>
   </header>
 </template>
 <script>
@@ -112,7 +111,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'show_menu'
+      'show_menu','canWrite'
     ])
   }
 };

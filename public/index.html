@@ -21,12 +21,13 @@
 <script>
   //перевод берется из директив .env до компиляции проджа
   window.onload = function () {
-    const url_api = "./index.php" //"http://localhost:3000/backend/index.php"
-    const watch_url = url_api + '?action=watch&dir=watch&v='
-    const gif_url = url_api + '?action=watch&dir=gif&v='
-    const webp_url = url_api + '?action=watch&dir=webp&v='
-    const img_url = url_api + '?action=watch&dir=img&v='
-    const show_menu = true;
+    canWrite = false
+    url_api = "./index.php" //"http://localhost:3000/backend/index.php"
+     watch_url = url_api + '?action=watch&dir=watch&v='
+     gif_url = url_api + '?action=watch&dir=gif&v='
+     webp_url = url_api + '?action=watch&dir=webp&v='
+     img_url = url_api + '?action=watch&dir=img&v='
+     show_menu = false;
     video_brand_img_title = 'APCIS';
     video_brand_click_msg =
     'Brand click'; //Введи сюда Brand click - чтобы взяло значение из перевода , если не будет перевода, то выведет как есть;
@@ -35,6 +36,7 @@
     const maxDuration = 10 // минуты  - - длительность видео.
 
     initVue({
+      canWrite,
       url_api,
       watch_url,
       gif_url,
