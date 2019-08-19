@@ -3,12 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve  --mode development",
     "build": "vue-cli-service build",
     "buildmodern": "vue-cli-service build --modern",
-
-    "builddev": "vue-cli-service build --mode development",
-
     "lint": "vue-cli-service lint",
     "//": "http//localhost:8000/dashboard",
     "ui": "vue ui"
