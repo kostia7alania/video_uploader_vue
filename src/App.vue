@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import header from "@/Views/Header";
-import footer from "@/Views/Footer";
-import BackToTop from "@/components/BackToTop/BackToTop";
-import OfflineAlert from '@/Views/OfflineAlert'
+const header = () => "@/Views/Header";
+const footer = () => "@/Views/Footer";
+const OfflineAlert = () => "@/Views/OfflineAlert";
+const BackToTop = () => "@/components/BackToTop/BackToTop";
 
 import { mapMutations, mapGetters } from "vuex";
 export default {
@@ -31,9 +31,7 @@ export default {
     ...mapMutations(["changeProp"])
   },
   computed: {
-    ...mapGetters([
-      'selectedVideosGetter'
-    ])
+    ...mapGetters(["selectedVideosGetter"])
   },
   mounted() {
     window.App = this;
@@ -41,16 +39,18 @@ export default {
   },
   created() {
     let p = this.$options._parentVnode.data.props;
-    if('title' in p) window.document.title = p.title;//заголовок окна .!.
+    if ("title" in p) window.document.title = p.title; //заголовок окна .!.
     Object.keys(p).forEach(prop => this.changeProp({ prop, state: p[prop] })); //Записываем конфиг в стор; из initVue({prop:state})
 
-  window.addEventListener('beforeunload', e => {
-    if(this.selectedVideosGetter.filter(ee=>ee.percentCompleted != null).length) {
-      e.preventDefault();// Cancel the event
-      e.returnValue = '';// Chrome requires returnValue to be set
-    }
-  });
-
+    window.addEventListener("beforeunload", e => {
+      if (
+        this.selectedVideosGetter.filter(ee => ee.percentCompleted != null)
+          .length
+      ) {
+        e.preventDefault(); // Cancel the event
+        e.returnValue = ""; // Chrome requires returnValue to be set
+      }
+    });
   }
 };
 </script>

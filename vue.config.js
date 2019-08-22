@@ -1,18 +1,18 @@
+const isDev = process.env.NODE_ENV !== "production"
 module.exports = {
-  transpileDependencies: [ 'object-hash' ],
-  lintOnSave: process.env.NODE_ENV !== "production",
+  transpileDependencies: ['object-hash'],
+  lintOnSave: isDev,
   devServer: {
     overlay: {
       warnings: false,
       errors: true,
-      proxy: process.env.devServer_PROXY //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
+      proxy: 'http://localhost:3000/backend/index.php' //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
     }
   },
-  publicPath: process.env.NODE_ENV === "production"
-            ? process.env.publicPath_PROD:process.env.publicPath_TEST,
-  assetsDir: process.env.assetsDir,   // "./", //По умолчанию: '' - Каталог (относительно outputDir) для хранения сгенерированных статических ресурсов (js, css, img, fonts).
-  outputDir: process.env.outputDir,   // "dist",
-  indexPath:  process.env.indexPath,  // "index.html", //умолч -'index.html'-относительно outputDir
+  publicPath: isDev ? './' : './js/video-uploader',
+  assetsDir: './',   // "./", //По умолчанию: '' - Каталог (относительно outputDir) для хранения сгенерированных статических ресурсов (js, css, img, fonts).
+  outputDir: 'dist',   // "dist",
+  indexPath: 'index.html',  // "index.html", //умолч -'index.html'-относительно outputDir
   filenameHashing: false,
 
   chainWebpack: config => {
@@ -63,7 +63,7 @@ module.exports = {
     msTileColor: '#00FF3C',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-   // workboxPluginMode: 'InjectManifest'
+    // workboxPluginMode: 'InjectManifest'
   }
 };
 

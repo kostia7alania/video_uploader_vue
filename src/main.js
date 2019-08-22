@@ -24,27 +24,26 @@ import "../node_modules/izitoast/dist/css/iziToast.min.css";
 
 
 import { library, dom, config } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm,
+import {
+  faCoffee, faCloudDownloadAlt, faSyncAlt, faSplotch, faSkullCrossbones, faSmileWink, faSpinner, faFilm,
   faUpload, faAngleDoubleLeft, faTimes,
   faStopwatch, faBell, faCalendarAlt, faCheck,
-  faBan,faAngleRight,faAngleLeft,faTasks,faFlagCheckered,faExclamationTriangle,faExclamation,
-  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare,faTrashAlt,faStopCircle,
-  faFolderOpen,faHandPaper,faArrowUp,faArrowDown,faVideoSlash
-  }
-from '@fortawesome/free-solid-svg-icons'
-import { faYoutube, faTelegramPlane} from '@fortawesome/free-brands-svg-icons'
+  faBan, faAngleRight, faAngleLeft, faTasks, faFlagCheckered, faExclamationTriangle, faExclamation,
+  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare, faTrashAlt, faStopCircle,
+  faFolderOpen, faHandPaper, faArrowUp, faArrowDown, faVideoSlash
+}
+  from '@fortawesome/free-solid-svg-icons'
+import { faYoutube, faTelegramPlane } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add( faCoffee,faCloudDownloadAlt,faSyncAlt,faSplotch,faSkullCrossbones,faSmileWink, faSpinner,faFilm,
+library.add(faCoffee, faCloudDownloadAlt, faSyncAlt, faSplotch, faSkullCrossbones, faSmileWink, faSpinner, faFilm,
   faUpload, faAngleDoubleLeft, faTimes, faYoutube, faCoffee,
   faStopwatch, faBell, faCalendarAlt, faTelegramPlane, faCheck,
-  faBan,faAngleRight,faAngleLeft,faTasks,faFlagCheckered,faExclamationTriangle,
-  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare,faTrashAlt,faExclamation,faStopCircle,
-  faFolderOpen,faHandPaper,faArrowUp,faArrowDown,faVideoSlash
+  faBan, faAngleRight, faAngleLeft, faTasks, faFlagCheckered, faExclamationTriangle,
+  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare, faTrashAlt, faExclamation, faStopCircle,
+  faFolderOpen, faHandPaper, faArrowUp, faArrowDown, faVideoSlash
+)
 
-
-    )
-
-  config.autoReplaceSvg = 'nest'//=>https://github.com/matfish2/vue-tables-2/issues/441
+config.autoReplaceSvg = 'nest'//=>https://github.com/matfish2/vue-tables-2/issues/441
 dom.watch() // This will kick of the initial replacement of i to svg tags and configure a MutationObserver => https://www.npmjs.com/package/@fortawesome/vue-fontawesome
 
 
@@ -92,21 +91,22 @@ import "./registerServiceWorker";
 //Vue.use(hooks);
 
 window.initVue = props =>
-  new Vue({ router, store, i18n,
+  new Vue({
+    router, store, i18n,
     render(createElement) {
       return createElement(
-          "div",
-          { 'attrs': { class: 'render-app' }, },
-          [createElement(
-            App,
-            { props })
-            /*
-            h(Setter),
-            h(Listtener)*/
-          ])
+        "div",
+        { 'attrs': { class: 'render-app' }, },
+        [createElement(
+          App,
+          { props })
+          /*
+          h(Setter),
+          h(Listtener)*/
+        ])
     },
-    mounted(){
-      if('locale' in props && ['en','ru'].includes(props.locale) ) this.$i18n.locale = props.locale
+    mounted() {
+      if ('locale' in props && ['en', 'ru'].includes(props.locale)) this.$i18n.locale = props.locale
     }
   }).$mount("#app");
 /*

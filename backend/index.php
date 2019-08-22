@@ -7,8 +7,7 @@ if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-vi
 }
 */
 if (!isset($_SESSION)) session_start();
-$index_html = __DIR__.'../dist/index.html';
-if($_GET['action']=='viewvideo') { echo file_get_contents($index_html);	die; }
+if($_GET['action']=='viewvideo') { echo file_get_contents( __DIR__.'../dist/index.html');	die; }
 require(__DIR__.'/src/options.php');//CORS policy
 require '../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');

@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import SelectedFiles from "../components/upload/SelectedFiles";
-import DragDropZone from "../components/upload/DragDropZone";
-import MultiProgressBar from "../components/upload/MultiProgressBar";
-import UploadBottomBtns from "../components/upload/UploadBottomBtns";
+const SelectedFiles = () => import("../components/upload/SelectedFiles");
+const DragDropZone = () => import("../components/upload/DragDropZone");
+const MultiProgressBar = () => import("../components/upload/MultiProgressBar");
+const UploadBottomBtns = () => import("../components/upload/UploadBottomBtns");
 
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
@@ -23,23 +23,18 @@ export default {
     UploadBottomBtns
   },
   data() {
-    return {
-      uploadPercentage: 0,
-      btnsend: "SEND",
-      updbtn: "Update this list",
-      btnalreadyuploaded: "Load already uploaded videos"
-    };
+    return {};
   },
   methods: {
     ...mapActions(["getVideoList"])
   },
   mounted() {
-    if (this.canWrite && !this.isLoadedList) this.getVideoList();
-    if(!this.canWrite) { this.$router.push('uploaded');}
+    if (!this.canWrite) this.$router.push("uploaded");
+    if (!this.isLoadedList) this.getVideoList();
   },
   computed: {
     ...mapGetters(["selectedVideosGetter"]),
-    ...mapState(["isLoadedList",'canWrite'])
+    ...mapState(["isLoadedList", "canWrite"])
   }
 };
 </script>

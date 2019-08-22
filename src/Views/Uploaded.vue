@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import UploadedRefreshBtn from "../components/uploaded/UploadedRefreshBtn";
-import UploadedVideos from "@/components/uploaded/UploadedVideos";
+const UploadedRefreshBtn = () =>
+  import("../components/uploaded/UploadedRefreshBtn");
+const UploadedVideos = () => import("../components/uploaded/UploadedVideos");
 import { duration_comp_mixin } from "@/mixins.js";
 
 import { mapState } from "vuex";
