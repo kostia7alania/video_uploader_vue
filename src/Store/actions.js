@@ -47,11 +47,8 @@ export default {
    ******/
 
   async filesSelected({ state, commit, dispatch }, event) {
-    window.s = this;
     const fileList = event.target.files || event.dataTransfer.files;
-    if (!fileList.length) {
-      return;
-    }
+    if (!fileList.length) return;
 
     commit("changeProp", { prop: "SelectedFiles__IsLoading", state: true });
 
@@ -138,7 +135,7 @@ export default {
       let sec = video.duration;
       if (sec) {
         commit("changeSelectedVideos", { hash, prop: "duration", val: sec });
-        commit("changeSelectedVideos", { hash, prop: "durationOK", val: store.state.maxDuration*60>sec });
+        commit("changeSelectedVideos", { hash, prop: "durationOK", val: store.state.maxDuration * 60 > sec });
       }
     };
     video.src = URL.createObjectURL(file);
@@ -174,25 +171,25 @@ export default {
         deleted++;
       } else skipped++;
     });
-    let report;
+    let text;
     if (skipped > 0) {
-      if (deleted == 1) report = $t("Remove all report 1", { deleted });
-      else if (deleted > 1) report = $t("Remove all report 2", { deleted });
+      if (deleted == 1) text = $t("Remove all report 1", { deleted });
+      else if (deleted > 1) text = $t("Remove all report 2", { deleted });
       if (skipped == 1)
-        report =
-          (deleted > 0 ? `${report}<br>` : "") +
+        text =
+          (deleted > 0 ? `${text}<br>` : "") +
           $t("Remove all report skipped 1", { skipped });
       else if (skipped > 1)
-        report =
-          (deleted > 0 ? `${report}<br>` : "") +
+        text =
+          (deleted > 0 ? `${text}<br>` : "") +
           $t("Remove all report skipped 2", { skipped });
     } else if (deleted > 0) {
-      report =
+      text =
         deleted > 1
           ? $t("Remove all completely 2", { deleted })
           : $t("Remove all completely 1", { deleted });
-    } else report == "n/a";
-    dispatch("toast", { text: report, type: "success" });
+    } else text == "n/a";
+    dispatch("toast", { text, type: "success" });
   },
 
   sendSelectedAction({ getters, dispatch }) {
@@ -208,16 +205,15 @@ export default {
     let arr = getters.selectedVideosGetter.filter(e => e.percentCompleted == null);
     arr = arr.map(e => dispatch("upload", { hash: e.hash }));
     Promise.all(arr)
-      .then(e => {
-        let suc = 0, fail = 0;
-        e.forEach(el => (el && el.status ? suc++ : fail++));
-        let res = suc > 0 ? $t("Successively uploaded", { suc_count: suc }) : "";
-        res += $t("Uploaded with fail", { fail_count: fail });
-        dispatch("toast", {text: $t("Send all report", { report: res }), type: suc>0&&fail==0?"success":"warning" });
+      .then(res => {
+        const suc_count = res.filter(_ => _ === true).length;
+        const fail_count = res.length - suc_count;
+        let text = suc_count && $t("Successively uploaded", { suc_count }) || "";
+        text += $t("Uploaded with fail", { fail_count });
+        const type = suc_count && !fail_count && "success" || !suc_count && fail_count && 'error' || "warning"
+        dispatch("toast", { text: $t("Send all report", { text }), type });
       })
-      .catch(err =>{
-        dispatch("toast", {text: $t("Upload all done with error", { err: err }),type: "warning"})
-      })
+      .catch(err => dispatch("toast", { text: $t("Upload all done with error", { err }), type: "warning" }))
       .finally(() => {
         commit("changeProp", { prop: "uploadAllInProgress", state: false });
         dispatch("getVideoList"); // for  refresh duplicate list -> HUIDs;
@@ -227,7 +223,7 @@ export default {
   /********/
 
   async sendFeedback({ state, dispatch }, { VidUID, comment }) {
-    const url = `${state.url_api}?action=abusingFile&VidUID=${VidUID}`;
+    const url = `${state.BASE_URL}action=abusingFile&VidUID=${VidUID}`;
     return await axios
       .post(url, { comment })
       .then(() =>
@@ -240,7 +236,7 @@ export default {
         dispatch("toast", {
           text:
             $t("An error occurred while sending the request") + typeof err ===
-            "string"
+              "string"
               ? ": " + err
               : "",
           type: "error"
