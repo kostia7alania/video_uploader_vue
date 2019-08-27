@@ -1,9 +1,7 @@
-//const watch_url = url_api+'?action=watch&dir=watch&v='
-//const gif_url = url_api+'?action=watch&dir=gif&v='
 //: 'http://localhost:3000/backend',//'./backend/';// 'https://apcis.tmou.org/APCIS-Test/index.php',
 
 const state = {
-  url_api: null,
+  BASE_URL: null,
   watch_url: null,
   gif_url: null,
   webp_url: null,
@@ -12,7 +10,7 @@ const state = {
   upload_action: 'savevid',
   video_brand_img_title: " ",//"by VUE.js Dev Team",
   video_brand_click_msg: "Brand click",//Значение из перевода
-  "video_brand_img_src":"",
+  "video_brand_img_src": "",
   /**** LIMITS 4 upload ****/
   formats: "mp4,avi,flv,3gp,mpg,mov,qt,wmv,mkv",
 
