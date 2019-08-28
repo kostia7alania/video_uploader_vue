@@ -21,9 +21,9 @@ export default {
         console.log("onUploadProgress=>", e);
         e.lengthComputable
           ? commit("changeProp", {
-              prop: "percentCompleted",
-              val: Math.round((e.loaded * 100) / e.total)
-            })
+            prop: "percentCompleted",
+            val: Math.round((e.loaded * 100) / e.total)
+          })
           : "";
       }, //в .GET прогресс не палится пока что
       cancelToken: source.token
@@ -32,8 +32,8 @@ export default {
 
     return await axios
       .get(
-        `${state.url_api}?action=get-uploaded-video-list&def_uid=${
-          params.def_uid
+        `${state.BASE_URL}action=get-uploaded-video-list&def_uid=${
+        params.def_uid
         }&insp_uid=${params.insp_uid}`,
         options
       )
