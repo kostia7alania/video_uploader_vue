@@ -1,8 +1,12 @@
 <template>
   <div id="app">
+
     <div class="wrapper d-flex flex-column">
-      <header-section />
+
+      <HeaderVue/>
+
       <main>
+
         <router-view />
         <BackToTop />
         <OfflineAlert/>
@@ -13,16 +17,16 @@
 </template>
 
 <script>
-const header = () => "@/Views/Header";
-const footer = () => "@/Views/Footer";
-const OfflineAlert = () => "@/Views/OfflineAlert";
-const BackToTop = () => "@/components/BackToTop/BackToTop";
+const HeaderVue = () => import("./Views/Header");
+const footer = () => import("@/Views/Footer");
+const OfflineAlert = () => import("@/Views/OfflineAlert");
+const BackToTop = () => import("@/components/BackToTop/BackToTop");
 
 import { mapMutations, mapGetters } from "vuex";
 export default {
   name: "app",
   components: {
-    "header-section": header,
+    HeaderVue,
     "footer-section": footer,
     BackToTop,
     OfflineAlert
