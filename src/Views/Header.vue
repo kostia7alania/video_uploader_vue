@@ -76,15 +76,16 @@
 
       </div>
     </div>
-    <Tabs v-if="canWrite"/>
+    <Tabs/>
   </header>
 </template>
+
 <script>
+import { mapState } from "vuex";
 
-import { mapState } from 'vuex'
+const Language = () => import("./Language");
+const Tabs = () => import("./Tabs");
 
-import Language from "./Language";
-import Tabs from "./Tabs";
 export default {
   name: "my-header",
   components: { Language, Tabs },
@@ -96,8 +97,11 @@ export default {
   methods: {
     closeWindow() {
       try {
-        window.close()
-        setTimeout(e=>this.$toast.error(this.$t("Header_vue['cant-close-window']")),1000);
+        window.close();
+        setTimeout(
+          e => this.$toast.error(this.$t("Header_vue['cant-close-window']")),
+          1000
+        );
         //var customWindow = window.open("https://2ip.ru", "_blank", "");
         //setTimeout(() => customWindow.close(), 1110);
       } catch (e) {
@@ -110,9 +114,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      'show_menu','canWrite'
-    ])
+    ...mapState(["show_menu"])
   }
 };
 </script>
@@ -128,13 +130,12 @@ ul.help-menu > li:not(.language) {
   }
 }
 
-
 .logotip {
   color: #dc3545;
   font-size: 30px;
   padding: 2px;
   &:active {
-    transform: scale(.8);
+    transform: scale(0.8);
   }
 }
 .sticky-header {
