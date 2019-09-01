@@ -1,6 +1,6 @@
 <template>
   <ul fill class="nav nav-pills nav-justified tab-line">
-    <li class="nav-item" sm="6">
+    <li v-if="CAN_UPLOAD" class="nav-item" sm="6" >
       <a
         href="#"
         @click.prevent="routeChange('/')"
@@ -68,19 +68,23 @@ export default {
     };
   },
   methods: {
-    ...mapActions([
-    ]),
     routeChange(name) {
       this.$router.push(name);
       this.activeTab = name;
     }
   },
   mounted() {
-    this.$router.onReady(route => route && route.name ? (this.activeTab = route.name):'');
+    this.$router.onReady(route =>
+      route && route.name ? (this.activeTab = route.name) : ""
+    );
   },
   computed: {
     ...mapGetters(["selectedVideosGetter"]),
-    ...mapState(["alreadyUploaded_btn_status", "alreadyUploaded"]),
+    ...mapState([
+      "alreadyUploaded_btn_status",
+      "alreadyUploaded",
+      "CAN_UPLOAD"
+    ]),
     uploadTabClass() {
       return this.activeTab == "/" || this.activeTab == "Home" ? "active" : "";
     },
@@ -103,17 +107,18 @@ export default {
     },
 
     isLoadingUploader() {
-      return this.selectedVideosGetter.filter(e => e.percentCompleted != null).length;
+      return this.selectedVideosGetter.filter(e => e.percentCompleted != null)
+        .length;
     },
     alreadyUploadedIcon() {
       return this.alreadyUploaded_btn_status == 2
-        ? "spinner"//fas
-        : "film";//fas
+        ? "spinner" //fas
+        : "film"; //fas
     },
 
     uploadIcon() {
       return this.isLoadingUploader
-        ? "spinner"//fas
+        ? "spinner" //fas
         : "upload";
     }
   }
@@ -125,18 +130,17 @@ export default {
   cursor: not-allowed !important;
 }
 
-a.nav-link{
-  transition: .5s;
-    &.active {
-      background-color: #343a40 !important;
-    }
-
-    &:active {
-      transform: scale(.99);
-      color: dark;
-    }
-
+a.nav-link {
+  transition: 0.5s;
+  &.active {
+    background-color: #343a40 !important;
   }
+
+  &:active {
+    transform: scale(0.99);
+    color: dark;
+  }
+}
 
 .nav-item {
   a {
@@ -159,9 +163,9 @@ ul.nav.nav-pills.nav-justified.tab-line {
   top: 270px !important;
 }
 .tab-badge {
-  transition: .3s;
+  transition: 0.3s;
   &:hover {
-    transform: scale(1.3)
+    transform: scale(1.3);
   }
 }
 .stop-badge {
