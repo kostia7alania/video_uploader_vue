@@ -4,7 +4,7 @@
       @contextmenu.stop
       id="textarea-state"
       v-model.trim="commentHandler"
-      placeholder="Type your comment.."
+      :placeholder="$t('type-your-comment')"
       rows="5"
     />
 
