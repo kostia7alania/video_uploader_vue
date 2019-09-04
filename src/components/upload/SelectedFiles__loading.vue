@@ -15,7 +15,7 @@
             class="video-unavailable"
             title="The video preview is unavailable"
           >
-            <div class="video-unavailable--message"> 
+            <div class="video-unavailable--message">
               <i class="fas fa-video-slash fa-x"></i><span> &nbsp; N/A </span>
             </div>
           </div>
@@ -37,7 +37,7 @@
         <div>
           <textarea
             id="textarea-state"
-            placeholder="Type your comment.."
+            :placeholder="$t('type-your-comment')"
             rows="5"
             wrap="soft"
             class="form-control"
