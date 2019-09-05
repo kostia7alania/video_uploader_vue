@@ -44,7 +44,7 @@
             <b-form-textarea
               ref="comment"
               size="sm"
-              placeholder="Reason"
+              :placeholder="$t('abusing-text-placeholder')"
               v-model.trim="comment"
               :state="commentstate"
               invalid-feedback="This field is required"
@@ -149,7 +149,9 @@ export default {
       await this.getVideoList();
       this.sending = false;
     },
-    onAllRight() { this.sendFeedBack(1); },
+    onAllRight() {
+      this.sendFeedBack(1);
+    },
     onOk() {
       if (!this.comment) this.commentstate = false;
       else this.sendFeedBack();
@@ -186,14 +188,18 @@ export default {
 </script>
 
 <style lang="scss">
-button.disabled i:hover { color: black !important;}
-button.disabled { cursor: not-allowed !important; }
+button.disabled i:hover {
+  color: black !important;
+}
+button.disabled {
+  cursor: not-allowed !important;
+}
 .modal-header .close {
-    padding: .5rem .5rem;
+  padding: 0.5rem 0.5rem;
 }
 
 .popover-body {
-    text-align: center;
+  text-align: center;
 }
 
 .abusing-field {
