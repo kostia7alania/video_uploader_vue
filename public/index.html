@@ -6,54 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-
     <title>Video Uploader new</title>
   </head>
 
   <body>
-    <noscript>
-      <strong
-        >We're sorry but video-uploader-new doesn't work properly without
-        JavaScript enabled. Please enable it to continue.</strong
-      >
-    </noscript>
+    <noscript> <strong>We're sorry but video-uploader-new doesn't work properly without JavaScript enabled. Please enable it to continue.</strong> </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 
   <script>
-    //перевод берется из директив .env до компиляции проджа
     window.onload = function() {
-      locale = "ru"; //ru, en
-      CAN_UPLOAD = 1;
-      BASE_URL = "./api?api=video-manager&"; //"http://localhost:3000/backend/index.php"
-      watch_url = BASE_URL + "action=watch&dir=watch&v=";
-      gif_url = BASE_URL + "action=watch&dir=gif&v=";
-      webp_url = BASE_URL + "action=watch&dir=webp&v=";
-      img_url = BASE_URL + "action=watch&dir=img&v=";
-      show_menu = false;
-      video_brand_img_title = "APCIS";
-      video_brand_click_msg = "Brand click"; //Введи сюда Brand click - чтобы взяло значение из перевода , если не будет перевода, то выведет как есть;
-      video_brand_img_src = ""; //ссылка на значек в плеере
-      maxSize = 100; // мегабайты - - размер видео.
-      maxDuration = 10; // минуты  - - длительность видео.
-      title = "Video Hosting new";
-
       initVue({
-        locale: locale,
-        title: title,
-        CAN_UPLOAD: CAN_UPLOAD,
-        BASE_URL: BASE_URL,
-        watch_url: watch_url,
-        gif_url: gif_url,
-        webp_url: webp_url,
-        img_url: img_url,
-        video_brand_img_title: video_brand_img_title,
-        video_brand_click_msg: video_brand_click_msg,
-        video_brand_img_src: video_brand_img_src,
-        show_menu: show_menu,
-        maxSize: maxSize,
-        maxDuration: maxDuration
+        "title": "Video Hosting New",
+        "BASE_URL": "./api?api=video-manager&" 
       });
     };
   </script>
