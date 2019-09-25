@@ -1,6 +1,4 @@
-var _global = this || window || {};
-
-
+//import "@babel/polyfill";
 
 import Vue from "vue";
 import App from "./App.vue";
@@ -13,41 +11,94 @@ import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/bootstrap-vue/dist/bootstrap-vue.css";
 
 import "./registerServiceWorker";
-//import "@babel/polyfill";
+
 import "./assets/globalStyles.scss";
 import router from "@/Router";
 import VueIziToast from "vue-izitoast";
 Vue.use(VueIziToast, { position: "bottomRight" });
 import "../node_modules/izitoast/dist/css/iziToast.min.css";
 
-
-
-
-import { library, dom, config } from '@fortawesome/fontawesome-svg-core'
+import { library, dom, config } from "@fortawesome/fontawesome-svg-core";
 import {
-  faCoffee, faCloudDownloadAlt, faSyncAlt, faSplotch, faSkullCrossbones, faSmileWink, faSpinner, faFilm,
-  faUpload, faAngleDoubleLeft, faTimes,
-  faStopwatch, faBell, faCalendarAlt, faCheck,
-  faBan, faAngleRight, faAngleLeft, faTasks, faFlagCheckered, faExclamationTriangle, faExclamation,
-  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare, faTrashAlt, faStopCircle,
-  faFolderOpen, faHandPaper, faArrowUp, faArrowDown, faVideoSlash
-}
-  from '@fortawesome/free-solid-svg-icons'
-import { faYoutube, faTelegramPlane } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faCoffee, faCloudDownloadAlt, faSyncAlt, faSplotch, faSkullCrossbones, faSmileWink, faSpinner, faFilm,
-  faUpload, faAngleDoubleLeft, faTimes, faYoutube, faCoffee,
-  faStopwatch, faBell, faCalendarAlt, faTelegramPlane, faCheck,
-  faBan, faAngleRight, faAngleLeft, faTasks, faFlagCheckered, faExclamationTriangle,
-  faSort, faSortAlphaDown, faSortAlphaUp, faShareSquare, faTrashAlt, faExclamation, faStopCircle,
-  faFolderOpen, faHandPaper, faArrowUp, faArrowDown, faVideoSlash
-)
+  faCoffee,
+  faCloudDownloadAlt,
+  faSyncAlt,
+  faSplotch,
+  faSkullCrossbones,
+  faSmileWink,
+  faSpinner,
+  faFilm,
+  faUpload,
+  faAngleDoubleLeft,
+  faTimes,
+  faStopwatch,
+  faBell,
+  faCalendarAlt,
+  faCheck,
+  faBan,
+  faAngleRight,
+  faAngleLeft,
+  faTasks,
+  faFlagCheckered,
+  faExclamationTriangle,
+  faExclamation,
+  faSort,
+  faSortAlphaDown,
+  faSortAlphaUp,
+  faShareSquare,
+  faTrashAlt,
+  faStopCircle,
+  faFolderOpen,
+  faHandPaper,
+  faArrowUp,
+  faArrowDown,
+  faVideoSlash
+} from "@fortawesome/free-solid-svg-icons";
+import { faYoutube, faTelegramPlane } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+library.add(
+  faCoffee,
+  faCloudDownloadAlt,
+  faSyncAlt,
+  faSplotch,
+  faSkullCrossbones,
+  faSmileWink,
+  faSpinner,
+  faFilm,
+  faUpload,
+  faAngleDoubleLeft,
+  faTimes,
+  faYoutube,
+  faCoffee,
+  faStopwatch,
+  faBell,
+  faCalendarAlt,
+  faTelegramPlane,
+  faCheck,
+  faBan,
+  faAngleRight,
+  faAngleLeft,
+  faTasks,
+  faFlagCheckered,
+  faExclamationTriangle,
+  faSort,
+  faSortAlphaDown,
+  faSortAlphaUp,
+  faShareSquare,
+  faTrashAlt,
+  faExclamation,
+  faStopCircle,
+  faFolderOpen,
+  faHandPaper,
+  faArrowUp,
+  faArrowDown,
+  faVideoSlash
+);
 
-config.autoReplaceSvg = 'nest'//=>https://github.com/matfish2/vue-tables-2/issues/441
-dom.watch() // This will kick of the initial replacement of i to svg tags and configure a MutationObserver => https://www.npmjs.com/package/@fortawesome/vue-fontawesome
+config.autoReplaceSvg = "nest"; //=>https://github.com/matfish2/vue-tables-2/issues/441
+dom.watch(); // This will kick of the initial replacement of i to svg tags and configure a MutationObserver => https://www.npmjs.com/package/@fortawesome/vue-fontawesome
 
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -92,21 +143,18 @@ import "./registerServiceWorker";
 
 window.initVue = props =>
   new Vue({
-    router, store, i18n,
+    router,
+    store,
+    i18n,
     render(createElement) {
-      return createElement(
-        "div",
-        { 'attrs': { class: 'render-app' }, },
-        [createElement(
-          App,
-          { props })
-          /*
-          h(Setter),
-          h(Listtener)*/
-        ])
+      return createElement("div", { attrs: { class: "render-app" } }, [
+        createElement(App, { props })
+        /* h(Setter), h(Listtener)*/
+      ]);
     },
     mounted() {
-      if ('locale' in props && ['en', 'ru'].includes(props.locale)) this.$i18n.locale = props.locale
+      if ("locale" in props && ["en", "ru"].includes(props.locale))
+        this.$i18n.locale = props.locale;
     }
   }).$mount("#app");
 /*

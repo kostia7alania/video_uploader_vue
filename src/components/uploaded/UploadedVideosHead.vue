@@ -7,7 +7,9 @@
     <th class="nopointer" width="22">{{ $t("#") }}</th>
     <th class="nopointer" scope="col">{{ $t("Preview") }}</th>
     <th class="pointer" @click="sortHandler('Status')" scope="col">
-      <font-awesome-icon :icon="['fas','sort']"/><!--<i class="fas fa-sort"></i>-->
+      <font-awesome-icon
+        :icon="['fas', 'sort']"
+      /><!--<i class="fas fa-sort"></i>-->
       {{ $t("Status") }}
     </th>
     <th
@@ -17,12 +19,14 @@
       v-b-tooltip.hover
       :title="$t('Date of uploading')"
     >
-      <font-awesome-icon :icon="['fas','sort']"/> <!--<i class="fas fa-sort"></i>--> 
+      <font-awesome-icon :icon="['fas', 'sort']" />
+      <!--<i class="fas fa-sort"></i>-->
       {{ $t("Date") }}
     </th>
     <th class="nopointer" scope="col">{{ $t("Info") }}</th>
     <th class="pointer width300" @click="sortHandler('Comments')" scope="col">
-      <font-awesome-icon :icon="['fas','sort']"/> <!--<i class="fas fa-sort"></i>-->
+      <font-awesome-icon :icon="['fas', 'sort']" />
+      <!--<i class="fas fa-sort"></i>-->
       {{ $t("Comments") }}
     </th>
   </tr>
@@ -64,9 +68,9 @@ export default {
   max-width: 333px;
 }
 .pointer {
-  transition: .5s;
+  transition: 0.5s;
   &:active {
-    transform: scale(.9);
+    transform: scale(0.9);
     color: gray;
   }
 }

@@ -35,12 +35,13 @@
       {{ file.type | typeFilter }}
     </div>
 
-    <div v-if="duration"
-        :class="'type ' + durationCheck(duration)"
-         v-b-tooltip.hover
-        :title="duration && durationTitle"
+    <div
+      v-if="duration"
+      :class="'type ' + durationCheck(duration)"
+      v-b-tooltip.hover
+      :title="duration && durationTitle"
     >
-      <b >{{ $t("Duration") }}:</b>
+      <b>{{ $t("Duration") }}:</b>
       {{ duration_comp(duration) }}
     </div>
 
@@ -51,14 +52,13 @@
       <span v-else> - </span>
       {{ file.lastModifiedDate || file.lastModified | dateFilterTime }}
     </div>
-
   </b-col>
 </template>
 
 <script>
 import checkMixins from "@/mixins.js";
 import { filters, duration_comp_mixin } from "@/mixins.js";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "Info-Column",
   mixins: [checkMixins, filters, duration_comp_mixin],
@@ -76,10 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      'maxSize',
-      'maxDuration'
-    ]),
+    ...mapState(["maxSize", "maxDuration"]),
     sizeTitle() {
       return this.skipVerify
         ? ""
@@ -95,12 +92,12 @@ export default {
         : this.$t("Format not supported");
     },
     durationTitle() {
-      if(this.skipVerify) return;
-      if(!this.duration) return this.$t("Duration is not defined");
+      if (this.skipVerify) return;
+      if (!this.duration) return this.$t("Duration is not defined");
       const maxDuration = this.maxDuration;
-      if( (this.maxDuration*60) > this.duration) return this.$t("Duration is OK", { maxDuration })
+      if (this.maxDuration * 60 > this.duration)
+        return this.$t("Duration is OK", { maxDuration });
       else return this.$t("Duration is exceeded", { maxDuration });
-
     }
   },
   filters: {
@@ -112,20 +109,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .size-success {
-    /*color: green*/
-  }
-  .size-error {
-    color: red;
-  }
-  .type-success {
-    /*color: green;*/
-  }
-  .type-error {
-    color: red;
-  }
+.size-success {
+  /*color: green*/
+}
+.size-error {
+  color: red;
+}
+.type-success {
+  /*color: green;*/
+}
+.type-error {
+  color: red;
+}
 
-  .info-column p {
-    margin: 0px;
-  }
+.info-column p {
+  margin: 0px;
+}
 </style>

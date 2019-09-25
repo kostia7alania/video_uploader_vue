@@ -1,5 +1,5 @@
 <template>
-  <span>  </span>
+  <span> </span>
   <!--
     <div id="status" :class="status">
     {{status}}
@@ -8,80 +8,80 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import { mapState, mapMutations } from "vuex";
+const $t = window.$t;
 export default {
   name: "OfflineAlert",
-  props: { },
-  data(){return {} },
+  props: {},
+  data() {
+    return {};
+  },
   mounted() {
-      window.addEventListener('online',  this.updateOnlineStatus);
-      window.addEventListener('offline', this.updateOnlineStatus);
+    window.addEventListener("online", this.updateOnlineStatus);
+    window.addEventListener("offline", this.updateOnlineStatus);
   },
   watch: {
-    status(neww,old) {
-      if(neww!=old) {
-        this.toast();
+    status(neww, old) {
+      if (neww != old) {
+        this.toast_alert();
       }
     }
   },
   methods: {
-    ...mapMutations([
-      "changeProp"
-    ]),
-    updateOnlineStatus(event) {
-        const status = navigator.onLine ? "online" : "offline";
-        if(this.status !== status) this.changeProp( { prop:'status', state: status } )
+    ...mapMutations(["changeProp"]),
+    updateOnlineStatus() {
+      const status = navigator.onLine ? "online" : "offline";
+      if (this.status !== status)
+        this.changeProp({ prop: "status", state: status });
     },
-    toast() {
-      let  res;
-      if(this.status=='online') res = $t("online alert");
-      if(this.status=='offline') res = $t("offline alert");;
-      if(res) this.$toast.show(res,  this.$store.state.getTime(), this.toastsConfig);
-
-    },
-
+    toast_alert() {
+      let res;
+      if (this.status == "online") res = $t("online alert");
+      if (this.status == "offline") res = $t("offline alert");
+      if (res)
+        this.$toast.show(res, this.$store.state.getTime(), this.toastsConfig);
+    }
   },
   computed: {
-    ...mapState([
-      "status"
-    ]),
+    ...mapState(["status"]),
 
-          toastsConfig() {
-            return {
-            timeout: 10000,
-            close: false,
-            theme: "light",
-            color: this.status=="online"?"green":"red", // blue, red, green, yellow
-            displayMode: "replace", // once, replace
-            overlay: true,
-            icon: "icon-person",
-            position: "topCenter",
-            progressBarColor: "rgb(0, 255, 184)",
-            buttons: [
-              [
-                "<button>X</button>",
-                function(instance, toast) {
-                  instance.hide(
-                    {
-                      transitionOut: "fadeOutUp",
-                      onClosing: function(instance, toast, closedBy) {
-                        console.info("closedBy: " + closedBy);
-                      }
-                    },
-                    toast, "buttonName"
-                  );
-                }
-              ]
-            ],
-            onOpening: function(instance, toast) {
-              console.info("callback abriu!");
-            },
-            onClosing: function(instance, toast, closedBy) {
-              console.info("closedBy: " + closedBy);
+    toastsConfig() {
+      return {
+        timeout: 10000,
+        close: false,
+        theme: "light",
+        color: this.status == "online" ? "green" : "red", // blue, red, green, yellow
+        displayMode: "replace", // once, replace
+        overlay: true,
+        icon: "icon-person",
+        position: "topCenter",
+        progressBarColor: "rgb(0, 255, 184)",
+        buttons: [
+          [
+            "<button>X</button>",
+            function(instance, toast) {
+              instance.hide(
+                {
+                  transitionOut: "fadeOutUp",
+                  onClosing: function(instance, toast, closedBy) {
+                    console.info("closedBy: " + closedBy);
+                  }
+                },
+                toast,
+                "buttonName"
+              );
             }
-          }
+          ]
+        ],
+        onOpening: function() {
+          console.info("callback abriu!");
         },
-   }
+        onClosing: function(instance, toast, closedBy) {
+          console.info("closedBy: " + closedBy);
+        }
+      };
+    }
+  }
 };
 </script>
 

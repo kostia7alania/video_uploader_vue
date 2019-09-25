@@ -1,15 +1,14 @@
 import axios from "axios";
 
-//const $t = window.$t;
+const $t = window.$t;
+
+import { params } from "../functions/index.js";
 
 export default {
-  async getVideoList({ state, commit, dispatch }) {
-    let params = await dispatch("params");
-    if (!params.def_uid && !params.insp_uid) {
-
-      dispatch("toast", { text: $t("Url is wrong"), type: "warning" });
-      return false;
-    }
+  async getVideoList({ state, commit }) {
+    const p = params();
+    if (!p) return;
+    const { def_uid, insp_uid } = p;
 
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
@@ -21,9 +20,9 @@ export default {
         console.log("onUploadProgress=>", e);
         e.lengthComputable
           ? commit("changeProp", {
-            prop: "percentCompleted",
-            val: Math.round((e.loaded * 100) / e.total)
-          })
+              prop: "percentCompleted",
+              val: Math.round((e.loaded * 100) / e.total)
+            })
           : "";
       }, //в .GET прогресс не палится пока что
       cancelToken: source.token
@@ -32,9 +31,9 @@ export default {
 
     return await axios
       .get(
-        `${state.BASE_URL}action=get-uploaded-video-list&def_uid=${
-        params.def_uid
-        }&insp_uid=${params.insp_uid}`,
+        `${
+          state.BASE_URL
+        }action=get-uploaded-video-list&def_uid=${def_uid}&insp_uid=${insp_uid}`,
         options
       )
       .then(res => {

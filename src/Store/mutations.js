@@ -44,6 +44,13 @@ const mutations = {
 
   changeFileData(store, { hash, prop, val }) {
     this._vm.$set(store.selectedVideos[hash], prop, val);
+  },
+
+  INIT_VALUE(store, { key, value }) {
+    this._vm.$set(store, key, value);
+  },
+  SET_IS_CONFIG_GETTED(store, value) {
+    store.IS_CONFIG_GETTED = value;
   }
 
   /***** :::DEPRECATED::: 24.3.19 ::::::

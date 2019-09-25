@@ -17,8 +17,14 @@
     </td>
     <td cols="3">
       <b :class="{ 'non-valid': nonValid }">
-        <font-awesome-icon  v-if="nonValid" :icon="['fas','ban']"/><!--<i v-if="nonValid" class="fas fa-ban"></i>-->
-        <font-awesome-icon  v-if="isAlreadyUploaded" :icon="['fas','exclamation-triangle']"/><!--<i v-if="isAlreadyUploaded" class="fas fa-exclamation-triangle"></i>-->
+        <font-awesome-icon
+          v-if="nonValid"
+          :icon="['fas', 'ban']"
+        /><!--<i v-if="nonValid" class="fas fa-ban"></i>-->
+        <font-awesome-icon
+          v-if="isAlreadyUploaded"
+          :icon="['fas', 'exclamation-triangle']"
+        /><!--<i v-if="isAlreadyUploaded" class="fas fa-exclamation-triangle"></i>-->
         {{ obj.file.name }}</b
       >
     </td>
@@ -91,10 +97,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(["maxSize",'maxDuration', "alreadyUploaded", "selectedActiveContextRowHash"]),
+    ...mapState([
+      "maxSize",
+      "maxDuration",
+      "alreadyUploaded",
+      "selectedActiveContextRowHash"
+    ]),
     nonValid() {
       let durationOK = true;
-      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      if ("durationOK" in this.obj) durationOK = this.obj.durationOK;
       return !this.obj.sizeOK || !this.obj.typeOK || !durationOK;
     },
     rowTooltipText() {
@@ -102,11 +113,18 @@ export default {
       if (this.isAlreadyUploaded) res = this.$t("already uploaded");
       const fd = this.obj;
 
-      if ( 'durationOK' in fd ) {
-        if (!fd.durationOK) res += (res ? ".\n" : '') + this.$t("Duration is exceeded", { maxDuration: this.maxDuration });
+      if ("durationOK" in fd) {
+        if (!fd.durationOK)
+          res +=
+            (res ? ".\n" : "") +
+            this.$t("Duration is exceeded", { maxDuration: this.maxDuration });
       }
-      if (!fd.sizeOK) res += (res ? ".\n" : '') + this.$t("Max size exceeded", { maxSize: this.maxSize / 1000 });
-      if (!fd.typeOK) res += (res ? ".\n" : '') + this.$t("Format not supported");
+      if (!fd.sizeOK)
+        res +=
+          (res ? ".\n" : "") +
+          this.$t("Max size exceeded", { maxSize: this.maxSize / 1000 });
+      if (!fd.typeOK)
+        res += (res ? ".\n" : "") + this.$t("Format not supported");
       return res;
     },
 

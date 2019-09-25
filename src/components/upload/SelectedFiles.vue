@@ -34,10 +34,13 @@
           v-if="whatShow({ name: 'upload', obj: contextData })"
           @click.native="slot_click({ name: 'upload', obj: contextData })"
           :class="sendClass({ obj: contextData })"
-          v-b-tooltip.hover.left :title="send_btn_tooltip({ obj: contextData })"
+          v-b-tooltip.hover.left
+          :title="send_btn_tooltip({ obj: contextData })"
         >
           <span>
-            <font-awesome-icon :icon="['fa','share-square']"/><!--<i class="far fa-share-square"></i>-->
+            <font-awesome-icon
+              :icon="['fa', 'share-square']"
+            /><!--<i class="far fa-share-square"></i>-->
             {{ $t("Upload the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
@@ -45,10 +48,13 @@
         <ContextMenuItem
           v-if="whatShow({ name: 'delete', obj: contextData })"
           @click.native="slot_click({ name: 'delete', obj: contextData })"
-          v-b-tooltip.hover.left :title="$t('Delete the file')"
+          v-b-tooltip.hover.left
+          :title="$t('Delete the file')"
         >
           <span>
-            <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
+            <font-awesome-icon
+              :icon="['fa', 'trash-alt']"
+            /><!--<i class="far fa-trash-alt"></i>-->
             {{ $t("Delete the file", { filename: contextData.file.name }) }}
           </span>
         </ContextMenuItem>
@@ -60,7 +66,9 @@
           :title="`${$t('Stop transfering')}: ${parseVal(contextData, 'name')}`"
         >
           <span>
-            <font-awesome-icon :icon="['fas','stop-circle']"/><!--<i class="far fa-stop-circle"></i>-->
+            <font-awesome-icon
+              :icon="['fas', 'stop-circle']"
+            /><!--<i class="far fa-stop-circle"></i>-->
             {{ $t("Stop") }}
           </span>
         </ContextMenuItem>
@@ -151,13 +159,15 @@ export default {
 
     sendClass({ obj }) {
       let durationOK = true;
-      if ( 'durationOK' in obj ) durationOK = obj.durationOK;
+      if ("durationOK" in obj) durationOK = obj.durationOK;
       if (this.isInValid(obj)) return;
-      return !obj.sizeOK || !obj.typeOK  || !durationOK ? "block text-muted" : "";
+      return !obj.sizeOK || !obj.typeOK || !durationOK
+        ? "block text-muted"
+        : "";
     },
     send_btn_tooltip({ obj }) {
       let durationOK = true;
-      if ( 'durationOK' in obj ) durationOK = obj.durationOK;
+      if ("durationOK" in obj) durationOK = obj.durationOK;
       if (this.isInValid(obj)) return;
       return !obj.sizeOK || !obj.typeOK || !durationOK
         ? this.$t("You can't send this file")

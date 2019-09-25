@@ -9,7 +9,8 @@
         v-b-tooltip.hover
         :title="send_btn_tooltip"
       >
-       <font-awesome-icon :icon="['fa','share-square']"/> <!--<i class="far fa-share-square"></i>-->
+        <font-awesome-icon :icon="['fa', 'share-square']" />
+        <!--<i class="far fa-share-square"></i>-->
       </button>
 
       <button
@@ -19,7 +20,9 @@
         v-b-tooltip.hover
         :title="$t('Delete the file')"
       >
-      <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
+        <font-awesome-icon
+          :icon="['fa', 'trash-alt']"
+        /><!--<i class="far fa-trash-alt"></i>-->
       </button>
 
       <button
@@ -29,7 +32,10 @@
         v-b-tooltip.hover
         :title="$t(obj.error)"
       >
-      <font-awesome-icon :icon="['fas','exclamation']" class="text-danger"/><!--<i class="fas fa-exclamation text-danger"></i>-->
+        <font-awesome-icon
+          :icon="['fas', 'exclamation']"
+          class="text-danger"
+        /><!--<i class="fas fa-exclamation text-danger"></i>-->
       </button>
 
       <button
@@ -39,7 +45,9 @@
         v-b-tooltip.hover
         :title="$t('Stop')"
       >
-      <font-awesome-icon :icon="['fas','stop-circle']"/><!--<i class="far fa-stop-circle"></i>-->
+        <font-awesome-icon
+          :icon="['fas', 'stop-circle']"
+        /><!--<i class="far fa-stop-circle"></i>-->
       </button>
     </div>
 
@@ -92,12 +100,12 @@ export default {
     },
     sendClass() {
       let durationOK = true;
-      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      if ("durationOK" in this.obj) durationOK = this.obj.durationOK;
       return !this.obj.sizeOK || !this.obj.typeOK || !durationOK ? "block" : "";
     },
     send_btn_tooltip() {
       let durationOK = true;
-      if ( 'durationOK' in this.obj ) durationOK = this.obj.durationOK;
+      if ("durationOK" in this.obj) durationOK = this.obj.durationOK;
       return !this.obj.sizeOK || !this.obj.typeOK || !durationOK
         ? this.$t("You can't send this file")
         : this.$t("Upload the file", { filename: this.obj.file.name });

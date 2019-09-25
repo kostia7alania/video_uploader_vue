@@ -3,23 +3,13 @@ const object_hash = require("object-hash");
 import alreadyActions from "./modules/alreadyUploaded_actions";
 import uploadActions from "./modules/upload_actions";
 
-//const $t = window.$t;
+const $t = window.$t;
 
 export default {
   ...alreadyActions,
   ...uploadActions,
-  params: async () =>
-    window.location.search
-      .replace("?", "")
-      .split("&")
-      .reduce((p, e) => {
-        let a = e.split("=");
-        p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
-        return p;
-      }, {}),
-
   toast({ state }, { text, type }) {
-    this._vm.$toast[type](text, state.getTime());
+    window.toast[type](text, state.getTime());
   },
   pulseRow({ state, commit }, { hash }) {
     commit("changeSelectedVideos", { hash, prop: "class", val: "pulse" });
@@ -49,28 +39,22 @@ export default {
   async filesSelected({ state, commit, dispatch }, event) {
     const fileList = event.target.files || event.dataTransfer.files;
     if (!fileList.length) return;
-
+    const t = this._vm;
     commit("changeProp", { prop: "SelectedFiles__IsLoading", state: true });
 
     return new Promise(resolve => {
-      this._vm.$nextTick(() =>
+      t.$nextTick(() =>
         setTimeout(() => {
           //для визуализации загрузки))
           Array.prototype.forEach.call(fileList, file => {
             if (!file || !file.name.split(".").length) {
-              dispatch("toast", {
-                text: $t("corrupt file", { filename: file.name }),
-                type: "warning"
-              });
+              //dispatch("toast", { text: $t("corrupt file", { filename: file.name }),type: "warning" });
               return;
             }
             let spName = file.name.split(".");
             const ext = spName[spName.length - 1];
             if (!state.formats.includes(ext.toLowerCase())) {
-              dispatch("toast", {
-                text: $t("unsupported format", { filename: file.name }),
-                type: "warning"
-              });
+              //dispatch("toast", {text: $t("unsupported format", { filename: file.name }), type: "warning" });
               return false;
             }
             const hash = object_hash({
@@ -92,10 +76,10 @@ export default {
             if (hash in state.selectedVideos) {
               //файл уже в списке, начинаем мигать
               dispatch("pulseRow", { hash });
-              dispatch("toast", {
-                text: $t("file is already selected", { filename: file.name }),
-                type: "warning"
+              const text = $t("file is already selected", {
+                filename: file.name
               });
+              window.toast.warning(text, state.getTime());
               return;
             }
             //иначе - спокойненько добавляем в массив;
@@ -116,7 +100,6 @@ export default {
             });
 
             dispatch("detectDuration", { hash, file });
-
           });
           resolve();
         }, 300)
@@ -135,7 +118,11 @@ export default {
       let sec = video.duration;
       if (sec) {
         commit("changeSelectedVideos", { hash, prop: "duration", val: sec });
-        commit("changeSelectedVideos", { hash, prop: "durationOK", val: store.state.maxDuration * 60 > sec });
+        commit("changeSelectedVideos", {
+          hash,
+          prop: "durationOK",
+          val: window.store.state.maxDuration * 60 > sec
+        });
       }
     };
     video.src = URL.createObjectURL(file);
@@ -161,7 +148,7 @@ export default {
     });
   },
 
-  removeAllAction({ getters, commit, dispatch }) {
+  removeAllAction({ state, getters, commit }) {
     let deleted = 0,
       skipped = 0;
     getters.selectedVideosGetter.forEach(e => {
@@ -189,7 +176,7 @@ export default {
           ? $t("Remove all completely 2", { deleted })
           : $t("Remove all completely 1", { deleted });
     } else text == "n/a";
-    dispatch("toast", { text, type: "success" });
+    window.toast.success(text, state.getTime());
   },
 
   sendSelectedAction({ getters, dispatch }) {
@@ -200,20 +187,30 @@ export default {
 
   /********/
 
-  async prepareToUploadAll({ getters, commit, dispatch }) {
+  async prepareToUploadAll({ state, getters, commit, dispatch }) {
     await commit("changeProp", { prop: "uploadAllInProgress", state: true });
-    let arr = getters.selectedVideosGetter.filter(e => e.percentCompleted == null);
+    let arr = getters.selectedVideosGetter.filter(
+      e => e.percentCompleted == null
+    );
     arr = arr.map(e => dispatch("upload", { hash: e.hash }));
     Promise.all(arr)
       .then(res => {
         const suc_count = res.filter(_ => _ === true).length;
         const fail_count = res.length - suc_count;
-        let text = suc_count && $t("Successively uploaded", { suc_count }) || "";
+        let text =
+          (suc_count && $t("Successively uploaded", { suc_count })) || "";
         text += $t("Uploaded with fail", { fail_count });
-        const type = suc_count && !fail_count && "success" || !suc_count && fail_count && 'error' || "warning"
-        dispatch("toast", { text: $t("Send all report", { text }), type });
+        const type =
+          (suc_count && !fail_count && "success") ||
+          (!suc_count && fail_count && "error") ||
+          "warning";
+        text = $t("Send all report", { text });
+        window.toast[type](text, state.getTime());
       })
-      .catch(err => dispatch("toast", { text: $t("Upload all done with error", { err }), type: "warning" }))
+      .catch(err => {
+        const text = $t("Upload all done with error", { err });
+        window.toast.warning(text, state.getTime());
+      })
       .finally(() => {
         commit("changeProp", { prop: "uploadAllInProgress", state: false });
         dispatch("getVideoList"); // for  refresh duplicate list -> HUIDs;
@@ -222,25 +219,44 @@ export default {
 
   /********/
 
-  async sendFeedback({ state, dispatch }, { VidUID, comment }) {
+  async sendFeedback({ state }, { VidUID, comment }) {
     const url = `${state.BASE_URL}action=abusingFile&VidUID=${VidUID}`;
     return await axios
       .post(url, { comment })
-      .then(() =>
-        dispatch("toast", {
-          text: $t("Message sent successfully"),
-          type: "success"
-        })
-      )
+      .then(() => {
+        const text = $t("Message sent successfully");
+        window.toast.success(text, state.getTime());
+      })
       .catch(err => {
-        dispatch("toast", {
-          text:
-            $t("An error occurred while sending the request") + typeof err ===
-              "string"
-              ? ": " + err
-              : "",
-          type: "error"
-        });
+        const text =
+          $t("An error occurred while sending the request") + typeof err ===
+          "string"
+            ? ": " + err
+            : "";
+        window.toast.error(text, state.getTime());
+        return false;
+      });
+  },
+
+  async GET_CONFIG({ state, commit }) {
+    const url = `${state.BASE_URL}action=get-config`;
+    commit("SET_IS_CONFIG_GETTED", false);
+    return await axios
+      .get(url)
+      .then(e => {
+        const config = e.data;
+        Object.keys(config).forEach(key =>
+          commit("INIT_VALUE", { key, value: config[key] })
+        );
+        commit("SET_IS_CONFIG_GETTED", true);
+      })
+      .catch(err => {
+        const text =
+          $t("An error occurred while getting config") + typeof err === "string"
+            ? ": " + err
+            : "";
+        commit("SET_IS_CONFIG_GETTED", text);
+        window.toast.error(text, state.getTime());
         return false;
       });
   }

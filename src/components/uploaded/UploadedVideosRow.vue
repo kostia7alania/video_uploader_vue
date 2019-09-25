@@ -29,7 +29,6 @@
 
         <transition-group mode="in-out" tag="tbody" name="table-row">
           <tr
-
             @click="videoRowClickHandler(index2)"
             class="list-item"
             v-for="(file2, index2) in uploadedList"
@@ -44,24 +43,33 @@
               </video>-->
             <td cols="2" class="td-el text-center width200 video-td">
               <!--НА СЕРВАКЕ переменные с большой буквы! в info зашито - c маленькой!!!-->
-            
-              <VideoPlayer @click.stop
-                  
-                @refka="refHandler($event)"
 
-                :VidUID="file2.Status == 2 || parseInfo(file2.Info).type == 'video/mp4' ? file2.VidUID : false"
-                :isAvailabled="file2.Status == 2 || parseInfo(file2.Info).type == 'video/mp4'"
-                :src="srcHandler(file2.VidUID, file2.OrigFileName, file2.Status)"
+              <VideoPlayer
+                @click.stop
+                @refka="refHandler($event)"
+                :VidUID="
+                  file2.Status == 2 || parseInfo(file2.Info).type == 'video/mp4'
+                    ? file2.VidUID
+                    : false
+                "
+                :isAvailabled="
+                  file2.Status == 2 || parseInfo(file2.Info).type == 'video/mp4'
+                "
+                :src="
+                  srcHandler(file2.VidUID, file2.OrigFileName, file2.Status)
+                "
                 :poster="`${img_url + file2.VidUID}.jpg`"
-                :file_type="file2.Status == 2 ? 'video/mp4' : parseInfo(file2.Info).type"
+                :file_type="
+                  file2.Status == 2 ? 'video/mp4' : parseInfo(file2.Info).type
+                "
                 :status="file2.Status"
                 :duration="file2.Duration"
               />
             </td>
-            <td  class="td-el1">
+            <td class="td-el1">
               <Status :status="file2.Status" />
             </td>
-            <td  class="td-el">
+            <td class="td-el">
               <b>{{ new Date(file2.Date).toLocaleString() }}</b>
             </td>
 
@@ -110,14 +118,14 @@ export default {
   name: "Uploaded-Videos",
   props: {},
   data() {
-    return { 
+    return {
       modalShow: false
     };
   },
   components: { InfoCol, VideoPlayer, Modal, Status, UploadedVideosHead },
   methods: {
     refHandler(e) {
-      window.e =e;
+      window.e = e;
       console.log(e);
     },
     onCloseModal() {
@@ -133,7 +141,10 @@ export default {
       if (status == 2) out += VidUID + ".mp4";
       //2-значит готово и надо искать в папке CONVERTED
       else {
-        out += VidUID + "." + OrigFileName.split(".")[OrigFileName.split(".").length - 1]; //оригинальное расширение + новое имя
+        out +=
+          VidUID +
+          "." +
+          OrigFileName.split(".")[OrigFileName.split(".").length - 1]; //оригинальное расширение + новое имя
       }
       return `${out}&status=${status}`;
     },
@@ -156,15 +167,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-
 tr.list-item td {
-  transition: .5s;
+  transition: 0.5s;
   &:active {
-    transform: scale(.9);
+    transform: scale(0.9);
   }
 }
-.video-td {  
+.video-td {
   transform: none !important;
   &:active {
     transform: none !important;

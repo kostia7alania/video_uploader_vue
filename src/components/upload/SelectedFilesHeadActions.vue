@@ -7,16 +7,20 @@
         v-b-tooltip.hover.left
         :title="stopAllTitle"
       >
-        <font-awesome-icon :icon="stopAllIcon_vue_awesome"/> <!--<i :class="stopAllIcon"></i>-->
+        <font-awesome-icon :icon="stopAllIcon_vue_awesome" />
+        <!--<i :class="stopAllIcon"></i>-->
         {{ stopAllText }}
       </b-dropdown-item>
 
       <b-dropdown-item
         v-if="removeAllShown"
         @click="removeAllAction"
-        v-b-tooltip.hover.left :title="removeAllTitle"
+        v-b-tooltip.hover.left
+        :title="removeAllTitle"
       >
-         <font-awesome-icon :icon="removeAllIcon_vue_awesome"/><!--<i :class="removeAllIcon"></i>-->
+        <font-awesome-icon
+          :icon="removeAllIcon_vue_awesome"
+        /><!--<i :class="removeAllIcon"></i>-->
         {{ removeAllText }}
       </b-dropdown-item>
 
@@ -26,7 +30,9 @@
         v-b-tooltip.hover.left
         :title="removeSelectedTitle"
       >
-        <font-awesome-icon :icon="sendAllIcon_vue_awesome"/><!--<i :class="removeSelectedIcon"></i>-->
+        <font-awesome-icon
+          :icon="sendAllIcon_vue_awesome"
+        /><!--<i :class="removeSelectedIcon"></i>-->
         {{ removeSelectedText }}
       </b-dropdown-item>
 
@@ -38,7 +44,8 @@
         v-b-tooltip.hover.left
         :title="sendSelectedTitle"
       >
-       <font-awesome-icon :icon="sendSelectedIcon_vue_awesome"/> <!--<i :class="sendSelectedIcon"></i>-->
+        <font-awesome-icon :icon="sendSelectedIcon_vue_awesome" />
+        <!--<i :class="sendSelectedIcon"></i>-->
         {{ sendSelectedText }}
       </b-dropdown-item>
 
@@ -48,7 +55,9 @@
         v-b-tooltip.hover.left
         :title="sendAllTitle"
       >
-        <font-awesome-icon :icon="sendAllIcon_vue_awesome"/><!--<i :class="sendAllIcon"></i>-->
+        <font-awesome-icon
+          :icon="sendAllIcon_vue_awesome"
+        /><!--<i :class="sendAllIcon"></i>-->
         {{ sendAllText }}
       </b-dropdown-item>
     </b-dropdown>

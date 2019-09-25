@@ -25,13 +25,24 @@ const onPlayerReady = (player, options) => {
   containerElement.className = "vjs-brand-container";
   let imageElement = document.createElement("img");
   imageElement.src = options.video_brand_img_src || defaults.image;
-  imageElement.addEventListener( "click", options.brandClick || defaults.brandClick );
-  imageElement.setAttribute("title", options.video_brand_img_title || defaults.title);
+  imageElement.addEventListener(
+    "click",
+    options.brandClick || defaults.brandClick
+  );
+  imageElement.setAttribute(
+    "title",
+    options.video_brand_img_title || defaults.title
+  );
   imageElement.setAttribute("v-b-tooltip.hover", "");
-  imageElement.setAttribute( "target", options.destinationTarget || defaults.destinationTarget );
+  imageElement.setAttribute(
+    "target",
+    options.destinationTarget || defaults.destinationTarget
+  );
   imageElement.className = "vjs-brand-container-link";
   containerElement.appendChild(imageElement);
-  player.controlBar .el() .insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
+  player.controlBar
+    .el()
+    .insertBefore(containerElement, player.controlBar.fullscreenToggle.el());
   player.addClass("vjs-brand");
 };
 

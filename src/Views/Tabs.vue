@@ -1,32 +1,75 @@
 <template>
   <ul fill class="nav nav-pills nav-justified tab-line">
-    <li v-if="CAN_UPLOAD" class="nav-item" sm="6" >
+    <li v-if="CAN_UPLOAD" class="nav-item" sm="6">
       <a
         href="#"
         @click.prevent="routeChange('/')"
-        v-b-tooltip.hover :title="uploadTabTitle"
+        v-b-tooltip.hover
+        :title="uploadTabTitle"
         class="nav-link"
         :class="uploadTabClass"
       >
-        <font-awesome-icon :icon="uploadIcon" :class="{'fa-spin':isLoadingUploader}" :spin="uploadIcon=='spinner'?true:false"/>
+        <font-awesome-icon
+          :icon="uploadIcon"
+          :class="{ 'fa-spin': isLoadingUploader }"
+          :spin="uploadIcon == 'spinner' ? true : false"
+        />
         <!--<i :class="uploadIcon"></i>-->
         {{ $t("Tabs_vue.Upload") }}
-        <b-badge v-if="all_count" class="tab-badge"
-          v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Selected files number in tab']`, {...toUploadCountsReport})"
-          pill :variant="activeTab == '/' || activeTab == 'Home' ? 'info' : 'primary'">{{ all_count }}</b-badge>
+        <b-badge
+          v-if="all_count"
+          class="tab-badge"
+          v-b-tooltip.hover.bottom
+          :title="
+            $t(`Tabs_vue['Selected files number in tab']`, {
+              ...toUploadCountsReport
+            })
+          "
+          pill
+          :variant="
+            activeTab == '/' || activeTab == 'Home' ? 'info' : 'primary'
+          "
+          >{{ all_count }}</b-badge
+        >
 
-        <b-badge v-if="all_valid_transfering_count" class="tab-badge"
-          v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Selected files number tranfering in tab ${all_valid_transfering_count==1?1:2}']`, {...toUploadCountsReport})"
-          pill variant="danger">{{ all_valid_transfering_count }}</b-badge>
+        <b-badge
+          v-if="all_valid_transfering_count"
+          class="tab-badge"
+          v-b-tooltip.hover.bottom
+          :title="
+            $t(
+              `Tabs_vue['Selected files number tranfering in tab ${
+                all_valid_transfering_count == 1 ? 1 : 2
+              }']`,
+              { ...toUploadCountsReport }
+            )
+          "
+          pill
+          variant="danger"
+          >{{ all_valid_transfering_count }}</b-badge
+        >
 
-        <b-badge v-if="all_valid_transfering_count" class="tab-badge stop-badge"
+        <b-badge
+          v-if="all_valid_transfering_count"
+          class="tab-badge stop-badge"
           @click="stopAll_Mixin"
-          v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Stop transfer ${all_valid_transfering_count==1?1:2}']`, {...toUploadCountsReport})"
-          pill variant="default">
-            <font-awesome-icon icon="stop-circle"/> <!--<i class="far fa-stop-circle"></i> -->
-          </b-badge>
+          v-b-tooltip.hover.bottom
+          :title="
+            $t(
+              `Tabs_vue['Stop transfer ${
+                all_valid_transfering_count == 1 ? 1 : 2
+              }']`,
+              { ...toUploadCountsReport }
+            )
+          "
+          pill
+          variant="default"
+        >
+          <font-awesome-icon icon="stop-circle" />
+          <!--<i class="far fa-stop-circle"></i> -->
+        </b-badge>
       </a>
-        <MultiProgressBar v-show="progressShow" />
+      <MultiProgressBar v-show="progressShow" />
     </li>
     <li class="nav-item second-tab" sm="6">
       <a
@@ -37,22 +80,35 @@
         class="nav-link"
         :class="alreadyUploadedTabClass"
       >
-      <font-awesome-icon :icon="alreadyUploadedIcon" :spin="alreadyUploadedIcon=='spinner'?true:false"/> <!--<i :class="alreadyUploadedIcon"></i>-->
+        <font-awesome-icon
+          :icon="alreadyUploadedIcon"
+          :spin="alreadyUploadedIcon == 'spinner' ? true : false"
+        />
+        <!--<i :class="alreadyUploadedIcon"></i>-->
         {{ $t("Tabs_vue.Uploaded") }}
         <b-badge
           class="tab-badge"
-          v-b-tooltip.hover.bottom :title="$t(`Tabs_vue['Already uploaded number in tab ${alreadyUploaded.length==1?1:2}']`, {count: alreadyUploaded.length })"
+          v-b-tooltip.hover.bottom
+          :title="
+            $t(
+              `Tabs_vue['Already uploaded number in tab ${
+                alreadyUploaded.length == 1 ? 1 : 2
+              }']`,
+              { count: alreadyUploaded.length }
+            )
+          "
           v-if="alreadyUploaded.length"
           pill
           :variant="activeTab == 'uploaded' ? 'info' : 'primary'"
-          >{{ alreadyUploaded.length }}</b-badge>
+          >{{ alreadyUploaded.length }}</b-badge
+        >
       </a>
     </li>
   </ul>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import MultiProgressBar from "../components/upload/MultiProgressBar";
 import { selectedFilesCounts, selectedFilesMethods } from "@/mixins.js";
 
@@ -69,6 +125,7 @@ export default {
   },
   methods: {
     routeChange(name) {
+      if(this.$route.name == name) return; // уже находимся там;
       this.$router.push(name);
       this.activeTab = name;
     }

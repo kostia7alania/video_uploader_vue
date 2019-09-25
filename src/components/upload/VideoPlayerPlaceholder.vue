@@ -1,17 +1,14 @@
 <template>
-  
-    <div @click="$emit('letsgo')" class="image-placeholder">
- 
-      <picture v-if="VidUID && isAlreadyUploaded_status == 2">
-        <source type="image/webp" loop :srcset="webp">
-        <source type="image/gif" :srcset="gif">
-        <img :src="img" alt="Preview">
-      </picture>
-      <i class="ytb-icon" v-else>
-        <font-awesome-icon :icon="['fab','youtube']"/>
-      </i>
-    </div>
- 
+  <div @click="$emit('letsgo')" class="image-placeholder">
+    <picture v-if="VidUID && isAlreadyUploaded_status == 2">
+      <source type="image/webp" loop :srcset="webp" />
+      <source type="image/gif" :srcset="gif" />
+      <img :src="img" alt="Preview" />
+    </picture>
+    <i class="ytb-icon" v-else>
+      <font-awesome-icon :icon="['fab', 'youtube']" />
+    </i>
+  </div>
 </template>
 
 <script>

@@ -28,7 +28,7 @@ export default {
   methods: {
     ...mapActions(["getVideoList"])
   },
-  mounted() {
+  mounted() { 
     if (!this.CAN_UPLOAD) this.$router.push("uploaded");
     if (!this.isLoadedList) this.getVideoList();
   },

@@ -29,7 +29,10 @@
       class="btn btn-active"
       @click="load"
     >
-    <font-awesome-icon :icon="btn_icon_class" :class="status==2?'fa-spin':''" />
+      <font-awesome-icon
+        :icon="btn_icon_class"
+        :class="status == 2 ? 'fa-spin' : ''"
+      />
       <!--<i :class="btn_icon_class" class="fa" />-->
       {{ btn_text }}
     </b-button>
@@ -88,13 +91,19 @@ export default {
     },
     btn_icon_class() {
       let s = this.status;
-      return s == 0 ? "cloud-download-alt"//все были с приставкой fa-
-        : s == 1 ? "sync-alt"
-        : s == 2 ? "splotch"//fa-spin
-        : s == 3 ? "splotch"
-        : s == 4 ? "skull-crossbones"
-        : s == 6 ? "skull-crossbones"
-                 : "smile-wink";
+      return s == 0
+        ? "cloud-download-alt" //все были с приставкой fa-
+        : s == 1
+        ? "sync-alt"
+        : s == 2
+        ? "splotch" //fa-spin
+        : s == 3
+        ? "splotch"
+        : s == 4
+        ? "skull-crossbones"
+        : s == 6
+        ? "skull-crossbones"
+        : "smile-wink";
     },
     btn_text() {
       let status = this.status;
@@ -129,7 +138,7 @@ export default {
       this.timeout = setTimeout(() => this.changeStatus(after), 1500);
     },
     async load() {
-      this.$router.push("uploaded");
+    //  this.$router.push("uploaded");
       let s = this.alreadyUploaded_btn_status;
       if (s === 2) return this.cancel();
       this.changeStatus(2);
@@ -153,5 +162,4 @@ export default {
 .loading {
   cursor: progress;
 }
-
 </style>

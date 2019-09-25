@@ -1,17 +1,26 @@
 <template>
   <div @click.stop="startShow = true" class="video-player-div">
-
-    <div v-if="!isAvailabled" class="video-unavailable"
-      v-b-tooltip.hover :title="$t('The video preview is unavailable')"
+    <div
+      v-if="!isAvailabled"
+      class="video-unavailable"
+      v-b-tooltip.hover
+      :title="$t('The video preview is unavailable')"
     >
       <div class="video-unavailable--message">
-        <font-awesome-icon  :icon="['fas','video-slash']" class="fa-x"/><!--<i class="fas fa-video-slash fa-x"></i>-->
+        <font-awesome-icon
+          :icon="['fas', 'video-slash']"
+          class="fa-x"
+        /><!--<i class="fas fa-video-slash fa-x"></i>-->
         <span> &nbsp; N/A </span>
       </div>
     </div>
 
-    <VideoPlayerPlaceholder  v-else-if=" (!startShow && file) || (VidUID && !startShow)" @letsgo="startShow=true" :VidUID="VidUID"/>
-    
+    <VideoPlayerPlaceholder
+      v-else-if="(!startShow && file) || (VidUID && !startShow)"
+      @letsgo="startShow = true"
+      :VidUID="VidUID"
+    />
+
     <video-player
       v-else-if="startShow && isAvailabled"
       class="video-player-box"

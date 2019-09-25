@@ -47,7 +47,7 @@ export default {
       console.log("comment=> ", arguments);
     },
     sizeCheck(e) {
-      return this.maxSize * 1000 * 1000  > e ? "size-success" : "size-error";
+      return this.maxSize * 1000 * 1000 > e ? "size-success" : "size-error";
     },
     typeCheck: e =>
       e && e.split("/")[0] == "video" ? "type-success" : "type-error"

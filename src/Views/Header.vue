@@ -1,7 +1,7 @@
 <template>
   <header class="header-content sticky-header">
     <transition name="slide">
-      <div class="bg-dark" v-show="isShown & show_menu">
+      <div class="bg-dark" v-if="isShown & show_menu">
         <div class="container">
           <div class="row">
             <div class="col-sm-8 col-md-7 py-4 menu-sections">
@@ -49,34 +49,44 @@
 
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container d-flex justify-content-between">
-
-        <a href="#" @click.prevent v-b-tooltip :title="$t('Header_vue.Brand_title')" class="navbar-brand d-flex align-items-center">
-          <font-awesome-icon :icon="['fab','youtube']" class="logotip"/>
-         <!--<i class="fab fa-youtube logotip"></i>-->
+        <a
+          href="#"
+          @click.prevent
+          v-b-tooltip
+          :title="$t('Header_vue.Brand_title')"
+          class="navbar-brand d-flex align-items-center"
+        >
+          <font-awesome-icon :icon="['fab', 'youtube']" class="logotip" />
+          <!--<i class="fab fa-youtube logotip"></i>-->
           <strong>{{ $t("Header_vue.Brand") }}</strong>
         </a>
-      <template v-if="show_menu">
-        <button
-          class="navbar-toggler back-to-size-btn" type="button"
-          v-b-tooltip.hover :title="$t('Header_vue.Back-to-site_title')"
-          @click="closeWindow($event)"
-        >
-          <span class="navbar-toggler-close">
-            <font-awesome-icon icon="angle-double-left"/>
-            <!--<i class="fas fa-angle-double-left"></i>-->
-            {{ $t("Header_vue.Back-to-site") }}
-            <font-awesome-icon icon="times"/>
-            <!--<i class="fas fa-times"></i>-->
-          </span>
-        </button>
-        <button class="navbar-toggler" @click="isShown = !isShown" type="button">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-      </template>
-
+        <template v-if="show_menu">
+          <button
+            class="navbar-toggler back-to-size-btn"
+            type="button"
+            v-b-tooltip.hover
+            :title="$t('Header_vue.Back-to-site_title')"
+            @click="closeWindow($event)"
+          >
+            <span class="navbar-toggler-close">
+              <font-awesome-icon icon="angle-double-left" />
+              <!--<i class="fas fa-angle-double-left"></i>-->
+              {{ $t("Header_vue.Back-to-site") }}
+              <font-awesome-icon icon="times" />
+              <!--<i class="fas fa-times"></i>-->
+            </span>
+          </button>
+          <button
+            class="navbar-toggler"
+            @click="isShown = !isShown"
+            type="button"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </template>
       </div>
     </div>
-    <Tabs/>
+    <Tabs />
   </header>
 </template>
 
@@ -99,7 +109,7 @@ export default {
       try {
         window.close();
         setTimeout(
-          e => this.$toast.error(this.$t("Header_vue['cant-close-window']")),
+          () => this.$toast.error(this.$t("Header_vue['cant-close-window']")),
           1000
         );
         //var customWindow = window.open("https://2ip.ru", "_blank", "");

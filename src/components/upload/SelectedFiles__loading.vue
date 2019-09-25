@@ -48,10 +48,14 @@
         <div align="center">
           <div>
             <button class="btn" title="Send the file">
-              <font-awesome-icon :icon="['fa','share-square']"/><!--<i class="far fa-share-square"></i>-->
+              <font-awesome-icon
+                :icon="['fa', 'share-square']"
+              /><!--<i class="far fa-share-square"></i>-->
             </button>
             <button class="btn">
-              <font-awesome-icon :icon="['fa','trash-alt']"/><!--<i class="far fa-trash-alt"></i>-->
+              <font-awesome-icon
+                :icon="['fa', 'trash-alt']"
+              /><!--<i class="far fa-trash-alt"></i>-->
             </button>
           </div>
         </div>

@@ -26,8 +26,12 @@
   <div class="video-status">
     <span :class="spanClass" v-b-tooltip.hover.left :title="toolTip">
       <!--<i :class="iconComp" />-->
-      <font-awesome-icon :icon="iconComp_vue_awesome.obj" :style="iconComp_vue_awesome.style" :spin="iconComp_vue_awesome.spin"/>
-       <span class="status-text">{{ text }}</span>
+      <font-awesome-icon
+        :icon="iconComp_vue_awesome.obj"
+        :style="iconComp_vue_awesome.style"
+        :spin="iconComp_vue_awesome.spin"
+      />
+      <span class="status-text">{{ text }}</span>
     </span>
   </div>
 </template>
@@ -47,15 +51,21 @@ export default {
       if (e == 3) return "inBlock";
       return "inHelp ";
     },
-    iconComp_vue_awesome(){
+    iconComp_vue_awesome() {
       let e = this.status;
-      if (e == 0) return {obj:["fas","tasks"],style:"",spin:false};
-      if (e == 1) return {obj:["fas","spinner"],style:"",spin:true};
-      if (e == 2) return  {obj:["fas","flag-checkered"],style:"color:green",spin:false};
-      if (e == 3) return {obj:["fas","exclamation-triangle"],style:"",spin:false};
-      return {obj:["fas","exclamation"],style:"",spin:false};
+      if (e == 0) return { obj: ["fas", "tasks"], style: "", spin: false };
+      if (e == 1) return { obj: ["fas", "spinner"], style: "", spin: true };
+      if (e == 2)
+        return {
+          obj: ["fas", "flag-checkered"],
+          style: "color:green",
+          spin: false
+        };
+      if (e == 3)
+        return { obj: ["fas", "exclamation-triangle"], style: "", spin: false };
+      return { obj: ["fas", "exclamation"], style: "", spin: false };
     },
-  /* iconComp() {
+    /* iconComp() {
       let e = this.status;
       if (e == 0) return "fas fa-tasks";
       if (e == 1) return "fas fa-spinner fa-spin ";
@@ -92,7 +102,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .video-status {
   span:hover {
     color: red;
@@ -121,6 +130,6 @@ i {
 .status-text {
   display: inline-block;
   min-width: 5em;
-  margin-left: .5em;
+  margin-left: 0.5em;
 }
 </style>

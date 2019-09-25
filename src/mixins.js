@@ -1,16 +1,19 @@
-//const $t = window.$t;
+const $t = window.$t;
 
 export default {
   methods: {
     sizeCheck(e) {
-      return this.$store.state.maxSize * 1000 * 1000 > e ? "size-success" : "size-error";
+      return this.$store.state.maxSize * 1000 * 1000 > e
+        ? "size-success"
+        : "size-error";
     },
     typeCheck: e =>
       e && e.split("/")[0] == "video" ? "type-success" : "type-error",
-      durationCheck(e){
-        return this.$store.state.maxDuration*60 > e ? "type-success" : "type-error"
-      }
-
+    durationCheck(e) {
+      return this.$store.state.maxDuration * 60 > e
+        ? "type-success"
+        : "type-error";
+    }
   },
   size(e) {
     return this.$store.state.maxSize > e ? true : false;
@@ -56,8 +59,6 @@ export const selectedFilesMethods = {
   }
 };
 
-
-
 export const filters = {
   methods: {
     sizeMethod(e) {
@@ -76,9 +77,8 @@ export const filters = {
   }
 };
 
-
 export const selectedFilesCounts = {
-  mixins:[filters],
+  mixins: [filters],
   computed: {
     ...mapGetters(["selectedVideosGetter"]),
     ...mapState(["uploadAllInProgress"]),
@@ -95,16 +95,20 @@ export const selectedFilesCounts = {
 
     /*REMOVE ALL BTN*/
     removeAllText() {
-      return this.$t("Remove all text", {...this.toUploadCountsReport} );
+      return this.$t("Remove all text", { ...this.toUploadCountsReport });
     },
     removeAllTitle() {
       const count = this.countTransferingFiles;
       let ret = $t("Clear the list");
-      ret += count ? ` (${$t("skip")} ${count} ${$t(count > 1 ? "transfering files" : "transfering file")})` : "";
+      ret += count
+        ? ` (${$t("skip")} ${count} ${$t(
+            count > 1 ? "transfering files" : "transfering file"
+          )})`
+        : "";
       return ret;
     },
     removeAllClass: () => "btn btn-danger progress_btn",
-    removeAllIcon_vue_awesome:()=>['fa','trash-alt'],
+    removeAllIcon_vue_awesome: () => ["fa", "trash-alt"],
     //removeAllIcon: () => "far fa-trash-alt",
 
     /*REMOVE selected BTN*/
@@ -112,7 +116,7 @@ export const selectedFilesCounts = {
       return this.all_selected_count;
     },
     removeSelectedText() {
-      return `${$t("Remove selected", {...this.toUploadCountsReport} )}`;
+      return `${$t("Remove selected", { ...this.toUploadCountsReport })}`;
     },
     removeSelectedTitle() {
       const count = this.all_selected_count;
@@ -125,27 +129,35 @@ export const selectedFilesCounts = {
     },
     removeSelectedClass: () => "btn btn-danger progress_btn",
     //removeSelectedIcon: () => "far fa-trash-alt",
-    removeSelectedIcon_vue_awesome: ()=>["fa", 'trash-alt'],
+    removeSelectedIcon_vue_awesome: () => ["fa", "trash-alt"],
 
     /*SEND SELECTED*/
     sendSelectedShown() {
       return this.all_valid_selected_count && this.all_selected_count;
     },
-    sendSelectedIcon_vue_awesome: ()=>['fas', 'upload'],
+    sendSelectedIcon_vue_awesome: () => ["fas", "upload"],
     //sendSelectedIcon: () => "fas fa-upload",
     sendSelectedText() {
       let avsc = this.all_valid_selected_count;
-      return $t(`Upload selected text ${avsc == 1 ? 1 : 2}`, { count: avsc, ...this.toUploadCountsReport });;
+      return $t(`Upload selected text ${avsc == 1 ? 1 : 2}`, {
+        count: avsc,
+        ...this.toUploadCountsReport
+      });
     },
     sendSelectedTitle() {
       let avsc = this.all_valid_selected_count;
       let absc = this.all_bad_selected_count;
 
-      let out = $t(`Upload selected title ${avsc == 1 ? 1 : 2}`, { count: avsc, ...this.toUploadCountsReport });
+      let out = $t(`Upload selected title ${avsc == 1 ? 1 : 2}`, {
+        count: avsc,
+        ...this.toUploadCountsReport
+      });
       if (absc)
         out +=
           "\n" +
-          $t(`Upload selected title without ${absc == 1 ? 1 : 2}`, { ...this.toUploadCountsReport });
+          $t(`Upload selected title without ${absc == 1 ? 1 : 2}`, {
+            ...this.toUploadCountsReport
+          });
       return out;
     },
     sendSelectedClass: () => "btn btn-primary progress_btn",
@@ -175,7 +187,7 @@ export const selectedFilesCounts = {
         size: this.sizeMethod(this.all_valid_size)
       });
     },
-    sendAllIcon_vue_awesome:()=>['fas','upload'],
+    sendAllIcon_vue_awesome: () => ["fas", "upload"],
     //sendAllIcon: () => "fas fa-upload",
     sendAllTitle() {
       if (this.countTransferingFiles) {
@@ -200,133 +212,235 @@ export const selectedFilesCounts = {
 
     all_obj() {
       return {
-        all_count:this.all.length,
+        all_count: this.all.length,
         all_size: this.all.reduce((sum, cur) => cur.file.size + sum, 0),
-        all_size_beauty: this.sizeMethod(this.all.reduce((sum, cur) => cur.file.size + sum, 0))
-      }
+        all_size_beauty: this.sizeMethod(
+          this.all.reduce((sum, cur) => cur.file.size + sum, 0)
+        )
+      };
     },
 
     /* ALL */
-    all() { return this.selectedVideosGetter; },
-    all_count() {return this.all.length; },
-    all_size() { return this.all.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_size_beauty() { return this.sizeMethod(this.all_size); },
+    all() {
+      return this.selectedVideosGetter;
+    },
+    all_count() {
+      return this.all.length;
+    },
+    all_size() {
+      return this.all.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_size_beauty() {
+      return this.sizeMethod(this.all_size);
+    },
 
     /* ALL SELECTED */
-    all_selected() {return this.all.filter(e => e.selected && e.percentCompleted == null);},
-    all_selected_count() {return this.all_selected.length;},
-    all_selected_size() {return this.all_selected.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_selected_size_beauty() { return this.sizeMethod(this.all_selected_size); },
+    all_selected() {
+      return this.all.filter(e => e.selected && e.percentCompleted == null);
+    },
+    all_selected_count() {
+      return this.all_selected.length;
+    },
+    all_selected_size() {
+      return this.all_selected.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_selected_size_beauty() {
+      return this.sizeMethod(this.all_selected_size);
+    },
 
     /* ALL VALID */
-    all_valid() {return this.all.filter(e => e.sizeOK && e.typeOK && !('durationOK' in e && !e.durationOK));},
-    all_valid_count() {return this.all_valid.length;},
-    all_valid_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_valid_size_beauty() { return this.sizeMethod(this.all_valid_size); },
+    all_valid() {
+      return this.all.filter(
+        e => e.sizeOK && e.typeOK && !("durationOK" in e && !e.durationOK)
+      );
+    },
+    all_valid_count() {
+      return this.all_valid.length;
+    },
+    all_valid_size() {
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_valid_size_beauty() {
+      return this.sizeMethod(this.all_valid_size);
+    },
 
-  /* ALL TRANSFERING */
-    all_valid_transfering() {return this.all.filter( e => e.sizeOK && e.typeOK && !('durationOK' in e && !e.durationOK) && e.percentCompleted != null);},
-    all_valid_transfering_count() {return this.all_valid_transfering.length;},
-    all_valid_transfering_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_valid_transfering_size_beauty() { return this.sizeMethod(this.all_valid_transfering_size); },
+    /* ALL TRANSFERING */
+    all_valid_transfering() {
+      return this.all.filter(
+        e =>
+          e.sizeOK &&
+          e.typeOK &&
+          !("durationOK" in e && !e.durationOK) &&
+          e.percentCompleted != null
+      );
+    },
+    all_valid_transfering_count() {
+      return this.all_valid_transfering.length;
+    },
+    all_valid_transfering_size() {
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_valid_transfering_size_beauty() {
+      return this.sizeMethod(this.all_valid_transfering_size);
+    },
 
     /* ALL NON-TRANSFERING */
-    all_noneTransfering() {return this.all.filter(e => e.percentCompleted == null);},
-    all_noneTransfering_count() {return this.all_noneTransfering.length;},
-    all_noneTransfering_size() {return this.all.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_noneTransfering_size_beauty() { return this.sizeMethod(this.all_noneTransfering_size); },
+    all_noneTransfering() {
+      return this.all.filter(e => e.percentCompleted == null);
+    },
+    all_noneTransfering_count() {
+      return this.all_noneTransfering.length;
+    },
+    all_noneTransfering_size() {
+      return this.all.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_noneTransfering_size_beauty() {
+      return this.sizeMethod(this.all_noneTransfering_size);
+    },
 
     /* ALL VALID NON-TRANSFERING */
-    all_valid_noneTransfering() {return this.all.filter(e => e.sizeOK && e.typeOK && e.percentCompleted == null);},
-    all_valid_noneTransfering_count() {return this.all_valid_noneTransfering.length;},
-    all_valid_noneTransfering_size() {return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_valid_noneTransfering_size_beauty() { return this.sizeMethod(this.all_valid_noneTransfering_size); },
+    all_valid_noneTransfering() {
+      return this.all.filter(
+        e => e.sizeOK && e.typeOK && e.percentCompleted == null
+      );
+    },
+    all_valid_noneTransfering_count() {
+      return this.all_valid_noneTransfering.length;
+    },
+    all_valid_noneTransfering_size() {
+      return this.all_valid.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_valid_noneTransfering_size_beauty() {
+      return this.sizeMethod(this.all_valid_noneTransfering_size);
+    },
 
     /* ALL VALID CHOOSE */
-    all_valid_selected() {return this.all_valid.filter(e => e.selected && e.percentCompleted == null);},
-    all_valid_selected_count() {return this.all_valid_selected.length;},
-    all_valid_selected_size() {return this.all_valid_selected.reduce((sum, cur) => cur.file.size + sum,0);},
-    all_valid_selected_size_beauty() { return this.sizeMethod(this.all_valid_selected_size); },
+    all_valid_selected() {
+      return this.all_valid.filter(
+        e => e.selected && e.percentCompleted == null
+      );
+    },
+    all_valid_selected_count() {
+      return this.all_valid_selected.length;
+    },
+    all_valid_selected_size() {
+      return this.all_valid_selected.reduce(
+        (sum, cur) => cur.file.size + sum,
+        0
+      );
+    },
+    all_valid_selected_size_beauty() {
+      return this.sizeMethod(this.all_valid_selected_size);
+    },
 
     /* ALL VALID SELECTED NON-TRANSFERING */
-    all_valid_selected_noneTransfering() {return this.all_valid_noneTransfering.filter(e => e.selected );},
-    all_valid_selected_noneTransfering_count() {return this.all_valid_selected_noneTransfering.length;},
-    all_valid_selected_noneTransfering_size() {return this.all_valid_selected_noneTransfering.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_valid_selected_noneTransfering_size_beauty() { return this.sizeMethod(this.all_valid_selected_noneTransfering_size); },
-
-    /* ALL NON-UPLOADING SELECTED with non-valid*/
-    all_noneUploading_selected() {return this.all.filter(e => e.selected && e.percentCompleted == null);},
-    all_valid_selected_count() {return this.all_noneUploading_selected.length;},
-    all_valid_selected_size() { return this.calc_SIZE(this.all_noneUploading_selected) },
-    all_valid_selected_size_beauty() { return this.sizeMethod(this.all_valid_selected_size); },
+    all_valid_selected_noneTransfering() {
+      return this.all_valid_noneTransfering.filter(e => e.selected);
+    },
+    all_valid_selected_noneTransfering_count() {
+      return this.all_valid_selected_noneTransfering.length;
+    },
+    all_valid_selected_noneTransfering_size() {
+      return this.all_valid_selected_noneTransfering.reduce(
+        (sum, cur) => cur.file.size + sum,
+        0
+      );
+    },
+    all_valid_selected_noneTransfering_size_beauty() {
+      return this.sizeMethod(this.all_valid_selected_noneTransfering_size);
+    },
 
     /* ALL BAD*/
-    all_bad() {return this.all.filter(e => !e.sizeOK || !e.typeOK || ('durationOK' in e && !e.durationOK) ) ;},
-    all_bad_count() {return this.all_bad.length;},
-    all_bad_size() {return this.all_bad.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_bad_size_beauty() { return this.sizeMethod(this.all_bad_size); },
+    all_bad() {
+      return this.all.filter(
+        e => !e.sizeOK || !e.typeOK || ("durationOK" in e && !e.durationOK)
+      );
+    },
+    all_bad_count() {
+      return this.all_bad.length;
+    },
+    all_bad_size() {
+      return this.all_bad.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_bad_size_beauty() {
+      return this.sizeMethod(this.all_bad_size);
+    },
 
     /* ALL BAD SELECTED */
-    all_bad_selected() {return this.all_bad.filter(e => e.selected);},
-    all_bad_selected_count() {return this.all_bad_selected.length;},
-    all_bad_selected_size() {return this.all_bad_selected.reduce((sum, cur) => cur.file.size + sum, 0);},
-    all_bad_selected_size_beauty() { return this.sizeMethod(this.all_bad_selected_size); },
+    all_bad_selected() {
+      return this.all_bad.filter(e => e.selected);
+    },
+    all_bad_selected_count() {
+      return this.all_bad_selected.length;
+    },
+    all_bad_selected_size() {
+      return this.all_bad_selected.reduce((sum, cur) => cur.file.size + sum, 0);
+    },
+    all_bad_selected_size_beauty() {
+      return this.sizeMethod(this.all_bad_selected_size);
+    },
 
-    toUploadCountsReport() { return {  "all_count":this.all_count,
-        all_size_beauty:  this.all_size_beauty,
+    toUploadCountsReport() {
+      return {
+        all_count: this.all_count,
+        all_size_beauty: this.all_size_beauty,
         all_selected_count: this.all_selected_count,
         all_selected_size_beauty: this.all_selected_size_beauty,
-        all_valid_count:  this.all_valid_count,
-        all_valid_size_beauty:  this.all_valid_size_beauty,
-        all_valid_transfering_count:  this.all_valid_transfering_count,
-        all_valid_transfering_size_beauty:  this.all_valid_transfering_size_beauty,
-        all_valid_noneTransfering_count:  this.all_valid_noneTransfering_count,
-        all_valid_noneTransfering_size_beauty:  this.all_valid_noneTransfering_size_beauty,
+        all_valid_count: this.all_valid_count,
+        all_valid_size_beauty: this.all_valid_size_beauty,
+        all_valid_transfering_count: this.all_valid_transfering_count,
+        all_valid_transfering_size_beauty: this
+          .all_valid_transfering_size_beauty,
+        all_valid_noneTransfering_count: this.all_valid_noneTransfering_count,
+        all_valid_noneTransfering_size_beauty: this
+          .all_valid_noneTransfering_size_beauty,
         all_valid_selected_count: this.all_valid_selected_count,
         all_valid_selected_size_beauty: this.all_valid_selected_size_beauty,
-        all_bad_count:  this.all_bad_count,
-        all_bad_size_beauty:  this.all_bad_size_beauty,
+        all_bad_count: this.all_bad_count,
+        all_bad_size_beauty: this.all_bad_size_beauty,
         all_bad_selected_count: this.all_bad_selected_count,
         all_bad_selected_size_beauty: this.all_bad_selected_size_beauty,
-        "all_noneTransfering_count":  this.all_noneTransfering_count,
-        "all_noneTransfering_size_beauty":  this.all_noneTransfering_size_beauty,
-        "all_valid_selected_noneTransfering_count":this.all_valid_selected_noneTransfering_count,
-        "all_valid_selected_noneTransfering_size_beauty": this.all_valid_selected_noneTransfering_size_beauty,
-      }
+        all_noneTransfering_count: this.all_noneTransfering_count,
+        all_noneTransfering_size_beauty: this.all_noneTransfering_size_beauty,
+        all_valid_selected_noneTransfering_count: this
+          .all_valid_selected_noneTransfering_count,
+        all_valid_selected_noneTransfering_size_beauty: this
+          .all_valid_selected_noneTransfering_size_beauty
+      };
     },
 
     stopAllClass: () => "btn btn-danger",
     //stopAllIcon: () => "far fa-hand-paper",
-    stopAllIcon_vue_awesome: ()=> ['fas', 'hand-paper'],
+    stopAllIcon_vue_awesome: () => ["fas", "hand-paper"],
     stopAllTitle() {
-      const count = this.selectedVideosGetter.filter( e => e.percentCompleted != null ).length;
+      const count = this.selectedVideosGetter.filter(
+        e => e.percentCompleted != null
+      ).length;
       return this.$t(`Stop all title ${count == 1 ? 1 : 2}`, { count });
     },
     stopAllText() {
       return this.stopAllTitle;
-    },
+    }
   },
   methods: {
-
-    calc_SIZE: arr => arr.reduce((sum, cur) => cur.file.size + sum,0) ,
-
-
-
+    calc_SIZE: arr => arr.reduce((sum, cur) => cur.file.size + sum, 0)
   }
 };
 
-
-export const localCheckers = { // НЕ ИСПОЛЬЗУЕТСЯ!!!!!!!!!!!!!!!!
+export const localCheckers = {
+  // НЕ ИСПОЛЬЗУЕТСЯ!!!!!!!!!!!!!!!!
   computed: {
     ...mapState(["maxSize"]),
     sizeCheck_comp() {
-      return this.maxSize * 1000 * 1000 > this.file.size ? "size-success" : "size-error";
+      return this.maxSize * 1000 * 1000 > this.file.size
+        ? "size-success"
+        : "size-error";
     },
     typeCheck_comp() {
       return this.file.type && this.file.type.split("/")[0] == "video"
         ? "type-success"
         : "type-error";
-    },
+    }
   }
 };
 

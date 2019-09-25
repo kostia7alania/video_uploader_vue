@@ -13,7 +13,11 @@
     <div class="my-4 modal--video-wrapper">
       <VideoPlayer
         modal="true"
-        :isAvailabled="modalActiveFileGetter.Status == 2 ? true : parseInfo(modalActiveFileGetter.Info).type == 'video/mp4'"
+        :isAvailabled="
+          modalActiveFileGetter.Status == 2
+            ? true
+            : parseInfo(modalActiveFileGetter.Info).type == 'video/mp4'
+        "
         :src="
           srcHandler(
             modalActiveFileGetter.VidUID,
@@ -22,7 +26,11 @@
           )
         "
         :poster="`${img_url + modalActiveFileGetter.VidUID}.jpg`"
-        :file_type=" modalActiveFileGetter.Status == 2 ? 'video/mp4': parseInfo(modalActiveFileGetter.Info).type "
+        :file_type="
+          modalActiveFileGetter.Status == 2
+            ? 'video/mp4'
+            : parseInfo(modalActiveFileGetter.Info).type
+        "
         :status="modalActiveFileGetter.Status"
       />
     </div>
@@ -86,8 +94,8 @@
         @click="changeModal(false)"
       >
         <!--<i class="fa fa-angle-left"></i>-->
-        <font-awesome-icon :icon="['fa','angle-left']"/>
-         {{ $t("Prev") }}</b-button
+        <font-awesome-icon :icon="['fa', 'angle-left']" />
+        {{ $t("Prev") }}</b-button
       >
       <b-button
         size="sm"
@@ -95,9 +103,11 @@
         :class="{ disabled: nextAllow }"
         variant="primary"
         @click="changeModal(true)"
-        >{{ $t("Next") }} 
-          <font-awesome-icon :icon="['fa','angle-right']"/><!--<i class="fa fa-angle-right"></i>-->
-        </b-button>
+        >{{ $t("Next") }}
+        <font-awesome-icon
+          :icon="['fa', 'angle-right']"
+        /><!--<i class="fa fa-angle-right"></i>-->
+      </b-button>
     </div>
   </b-modal>
 </template>
@@ -126,7 +136,7 @@ export default {
   mounted() {
     this.ready = true;
   },
-/*
+  /*
   hooks() {
     const [высота, изменитьВысоту] = useState(window.innerWidth); //срабатывает при инициализации
     const handleResize = () => {

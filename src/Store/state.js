@@ -1,16 +1,17 @@
 //: 'http://localhost:3000/backend',//'./backend/';// 'https://apcis.tmou.org/APCIS-Test/index.php',
 
 const state = {
+  IS_CONFIG_GETTED: false,
   BASE_URL: null,
   watch_url: null,
   gif_url: null,
   webp_url: null,
   img_url: null,
   show_menu: false,
-  upload_action: 'savevid',
-  video_brand_img_title: " ",//"by VUE.js Dev Team",
-  video_brand_click_msg: "Brand click",//Значение из перевода
-  "video_brand_img_src": "",
+  upload_action: "savevid",
+  video_brand_img_title: " ", //"by VUE.js Dev Team",
+  video_brand_click_msg: "Brand click", //Значение из перевода
+  video_brand_img_src: "",
   /**** LIMITS 4 upload ****/
   formats: "mp4,avi,flv,3gp,mpg,mov,qt,wmv,mkv",
 
@@ -52,6 +53,6 @@ const state = {
   /* MISC */
   height: window.innerHeight,
 
-  status: 'online'
+  status: "online"
 };
 export default state;

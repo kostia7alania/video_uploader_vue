@@ -14,12 +14,21 @@
           :key="i"
           @click="sortBy(e.method)"
           :class="{ selected: e.method == selectedVideos_Sort }"
-          v-if="(e.show && ['selected', 'comment'].includes(e.method)) ||
-              !['selected', 'comment'].includes(e.method)"
-          v-b-tooltip.hover.left :title="e.tooltip"
+          v-if="
+            (e.show && ['selected', 'comment'].includes(e.method)) ||
+              !['selected', 'comment'].includes(e.method)
+          "
+          v-b-tooltip.hover.left
+          :title="e.tooltip"
         >
-          <font-awesome-icon  v-if="e.method == selectedVideos_Sort && i != 0" :icon="iconSortActive_vue_awesome"/><!--<i v-if="e.method == selectedVideos_Sort && i != 0" :class="iconSortActive"></i>-->
-          <font-awesome-icon  v-if="e.method == selectedVideos_Sort && i == 0" :icon="['fas','sort']"/><!--<i v-if="e.method == selectedVideos_Sort && i == 0" class="fa fa-sort"></i>-->
+          <font-awesome-icon
+            v-if="e.method == selectedVideos_Sort && i != 0"
+            :icon="iconSortActive_vue_awesome"
+          /><!--<i v-if="e.method == selectedVideos_Sort && i != 0" :class="iconSortActive"></i>-->
+          <font-awesome-icon
+            v-if="e.method == selectedVideos_Sort && i == 0"
+            :icon="['fas', 'sort']"
+          /><!--<i v-if="e.method == selectedVideos_Sort && i == 0" class="fa fa-sort"></i>-->
           {{ e.text }}
         </b-dropdown-item>
       </template>
@@ -33,8 +42,8 @@ export default {
   data() {
     return {
       //iconDOWN: "fas fa-arrow-down",iconUP: "far fas fa-arrow-up"
-      iconDOWN: ["fas","arrow-down"],
-      iconUP: ["fas","arrow-up"]
+      iconDOWN: ["fas", "arrow-down"],
+      iconUP: ["fas", "arrow-up"]
       // type: 0, // <<<<<0 - desc<<<< ====== >>>>1 - asc>>>>
     };
   },
@@ -53,7 +62,7 @@ export default {
     ...mapGetters(["selectedVideosGetter"]),
     ...mapState(["selectedVideos_Sort", "selectedVideos_SortType"]),
     iconSortActive_vue_awesome() {
-       return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP; 
+      return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP;
     },
     //iconSortActive() { return this.selectedVideos_SortType ? this.iconDOWN : this.iconUP; },
     isAnySelected() {

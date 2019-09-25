@@ -8,11 +8,14 @@
       ref="button"
       size="sm"
       :variant="abusingFile.Report ? 'danger' : 'outline-danger'"
-      v-b-tooltip.hover.left :title="tooltipComp"
+      v-b-tooltip.hover.left
+      :title="tooltipComp"
     >
       <!--<i v-b-tooltip.hover.left :title="sending ? tooltipComp : ''" :class="iconComp"></i>-->
-      <font-awesome-icon :icon="sending ? ['fas','stopwatch'] : ['fas','bell']"/>
-      </b-button>
+      <font-awesome-icon
+        :icon="sending ? ['fas', 'stopwatch'] : ['fas', 'bell']"
+      />
+    </b-button>
 
     <!-- Our popover title and content render container -->
     <!-- We use placement 'auto' so popover fits in the best spot on viewport -->
@@ -32,13 +35,13 @@
         <b-button @click="onClose" class="close" aria-label="Close">
           <span class="d-inline-block" aria-hidden="true">&times;</span>
         </b-button>
-
       </template>
       <div>
         <b-row>
           <b-col sm="12">
             <b-alert show class="small">
-              <strong>{{$t('File name')}}</strong><br />
+              <strong>{{ $t("File name") }}</strong
+              ><br />
               {{ abusingFile.OrigFileName }}
             </b-alert>
             <b-form-textarea
@@ -55,9 +58,10 @@
         <b-row v-if="abusingFile.Report">
           <b-col sm="12">
             <b-alert show class="small">
-              <strong>{{$t('Last report reason')}}</strong><br />
+              <strong>{{ $t("Last report reason") }}</strong
+              ><br />
               <!--<i class="far fa-calendar-alt"></i>-->
-              <font-awesome-icon :icon="['fas','calendar-alt']"/>
+              <font-awesome-icon :icon="['fas', 'calendar-alt']" />
               {{ new Date(abusingFile.ReportDate).toLocaleString() }}: <br />
               <span class="abusing-field" v-html="abusingFile.Report"></span>
             </b-alert>
@@ -68,22 +72,25 @@
           @click="onClose"
           size="sm"
           variant="danger"
-          v-b-tooltip.hover.bottomleft :title="$t('Cancel-btn-title')"
+          v-b-tooltip.hover.bottomleft
+          :title="$t('Cancel-btn-title')"
         >
-          <font-awesome-icon :icon="['fas','ban']"/>
+          <font-awesome-icon :icon="['fas', 'ban']" />
           <!--<i class="fas fa-ban"></i>-->
-          {{$t('Cancel-btn-text')}}
+          {{ $t("Cancel-btn-text") }}
         </b-button>
 
         <b-button
           @click="onOk"
           size="sm"
           variant="primary"
-          v-b-tooltip.hover.bottomleft :title="$t('Send-btn-title')"
+          v-b-tooltip.hover.bottomleft
+          :title="$t('Send-btn-title')"
         >
-        <font-awesome-icon :icon="['fab','telegram-plane']"/>
+          <font-awesome-icon :icon="['fab', 'telegram-plane']" />
           <!--<i class="fab fa-telegram-plane"></i>-->
-            {{$t('Send-btn-text')}} </b-button>
+          {{ $t("Send-btn-text") }}
+        </b-button>
 
         <b-button
           @click="onAllRight"
@@ -91,10 +98,10 @@
           variant="success"
           v-b-tooltip.hover.bottomleft
           :title="$t('All-fine-btn-title')"
-          >
+        >
           <!--<i class="fas fa-check"></i>-->
-          <font-awesome-icon :icon="['fas','check']"/>
-          {{$t('All-fine-btn-text')}}
+          <font-awesome-icon :icon="['fas', 'check']" />
+          {{ $t("All-fine-btn-text") }}
         </b-button>
       </div>
     </b-popover>
@@ -103,7 +110,7 @@
 
 <script>
 import { mapActions } from "vuex";
-
+const $t = window.$t;
 export default {
   props: { abusingFile: [Object, Boolean] },
   data() {
