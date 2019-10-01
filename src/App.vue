@@ -43,7 +43,15 @@ export default {
     //...mapActions(["GET_CONFIG"]),
     //...mapMutations(["changeProp"])
   },
+  watch: {
+    locale(locale) {
+      this.$i18n.locale = locale;
+    }
+  },
   computed: {
+    locale() {
+      return this.$store.state.locale;
+    },
     ///...mapState(["IS_CONFIG_GETTED"]),
     //...mapGetters(["selectedVideosGetter"])
     IS_CONFIG_GETTED() {
