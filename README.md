@@ -13,7 +13,10 @@
 9) шлем обратно в репозиторий фронтовых модулей - в отдельную ветку, затем скрещиваем в test, потом в master....
 
 
+# DEMO
 
+<img src=demo/video-uploader-list.JPG>
+<img src=demo/video-uploader-uploading.JPG>
 
 
 
