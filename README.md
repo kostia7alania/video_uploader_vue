@@ -17,6 +17,7 @@
 
 <img src=demo/video-uploader-list.JPG>
 <img src=demo/video-uploader-uploading.JPG>
+<img src=demo/video-uploader-upload.JPG>
 
 
 
