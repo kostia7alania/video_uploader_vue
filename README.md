@@ -84,3 +84,4 @@ FFMPEG HELP -> https://trac.ffmpeg.org/wiki/Encode/H.264
 => run_converter.cmd:
 php-cgi -f E:\fsc_videos\ffmpeg\converter.php >> E:\fsc_videos\ffmpeg\logs.log
 ```
+<img alt=наработки title=наработки src=https://sun9-43.userapi.com/c855416/v855416719/150495/l1WgjhjyrDE.jpg> 
