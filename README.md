@@ -13,6 +13,12 @@
 9) шлем обратно в репозиторий фронтовых модулей - в отдельную ветку, затем скрещиваем в test, потом в master....
 
 
+# DEMO
+
+<img src=demo/video-uploader-list.JPG>
+<img src=demo/video-uploader-uploading.JPG>
+<img src=demo/video-uploader-upload.JPG>
+
 
 
 # video-uploader-new
@@ -82,3 +88,4 @@ FFMPEG HELP -> https://trac.ffmpeg.org/wiki/Encode/H.264
 => run_converter.cmd:
 php-cgi -f E:\fsc_videos\ffmpeg\converter.php >> E:\fsc_videos\ffmpeg\logs.log
 ```
+<img alt=наработки title=наработки src=https://sun9-43.userapi.com/c855416/v855416719/150495/l1WgjhjyrDE.jpg> 
