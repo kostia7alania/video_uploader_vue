@@ -6,6 +6,8 @@ import { params } from "../functions/index.js";
 
 export default {
   async upload({ state, commit, dispatch }, { hash }) {
+    
+    const $t = window.$t ;
     const p = params();
     if (!p) return;
     const { def_uid, insp_uid } = p;
@@ -18,6 +20,7 @@ export default {
       });
     const obj = state.selectedVideos[hash];
     const f = obj.file;
+    const OrigFileName = f.name
     let res = "";
     if (!obj.sizeOK)
       res =
@@ -29,9 +32,9 @@ export default {
       res +=
         (res ? ".\n" : "") +
         $t("Duration is exceeded", { maxDuration: state.maxDuration });
-
+      
     if (res) {
-      dispatch("toast", { text: `<b>${res}</b>: ${f.name}`, type: "error" });
+      dispatch("toast", { text: `<b>${res}</b>: ${OrigFileName}`, type: "error" });
       return;
     }
 
@@ -83,42 +86,30 @@ export default {
     commit("changeSelectedVideos", { hash, prop: "percentCompleted", val: 0 });
     return await axios
       .post(url, formData, options)
-      .then(async res => {
-        if (res.status == 201) {
-          //created!
+      .then(res => {
+        if (res.status == 201) { //created!
           commit("deleteFromSelectedVideos", { hash });
-          dispatch("toast", {
-            text: $t("Sucessifely uploaded", { OrigFileName: f.name }),
-            type: "success"
-          });
+          dispatch("toast", { text: $t("Sucessifely uploaded", { OrigFileName }), type: "success" });
           return true;
-        }
+        } 
         throw res.data;
       })
-      .catch(async err => {
+      .catch(err => {
         let text, type, rowText;
-        if (axios.isCancel(err)) {
-          text = err.message;
-          type = "warning";
-        } else {
+        if (axios.isCancel(err)) { text = err.message; type = "warning"; }
+        else {
           type = "error";
-          const d = err.data;
+          const d = err.response.data
           if (d && typeof d == "object") {
-            rowText = text = d.msg
-              ? d.msg
-              : $t("Default displaying error in the table");
+             rowText = text = d.msg ? $t(d.msg) : $t("Default displaying error in the table");
           } else {
-            rowText = $t("Is not uploaded", { name });
+            rowText = $t("Is not uploaded", { "OrigFileName": OrigFileName });
             text = $t("Network Error");
           }
         }
         commit("changeSelectedVideos", { hash, prop: "error", val: rowText });
         commit("changeProp", { prop: "uploadAllInProgress", state: false });
-        commit("changeSelectedVideos", {
-          hash,
-          prop: "percentCompleted",
-          val: null
-        });
+        commit("changeSelectedVideos", { hash, prop: "percentCompleted", val: null });
         dispatch("toast", { text, type });
       })
       .finally(() =>

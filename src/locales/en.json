@@ -65,7 +65,7 @@
     "ICCSPC": "ICCSPC",
     "Info": "Info",
     "Information Coordination Center of State Port Control": "Information Coordination Center of State Port Control",
-    "Is not uploaded": "Is not uploaded {name}",
+    "Is not uploaded": "Is not uploaded {OrigFileName}",
     "KB": "KB",
     "Last report reason": "Last report reason:",
     "abusing-text-placeholder": "Message for developers",
@@ -141,7 +141,7 @@
     "Duration is OK": "Duration is OK (max - {maxDuration} min)",
     "Duration is exceeded": "Duration is exceeded (max - {maxDuration} min)",
     "Duration is not defined": "Duration is not defined",
-    "Upload all done with error": "Upload all done with error {err}",
+    "Upload all done with error": "Upload all done with error ({err})",
     "Upload selected text 1": "Upload selected",
     "Upload selected text 2": "Upload selected ({count})",
     "Upload selected title 1": "Upload {count} selected file",
@@ -175,5 +175,6 @@
     "skip": "skip",
     "transfering file": "transfering file",
     "transfering files": "transfering files",
-    "unsupported format": "The file <b>{file.name}</b> has an unsupported format. See the list of supported formats"
+    "unsupported format": "The file <b>{file.name}</b> has an unsupported format. See the list of supported formats",
+    "File size exceeded!":"File size exceeded!"
 }

@@ -65,7 +65,7 @@
     "ICCSPC": "ИЦГПК",
     "Info": "Информация",
     "Information Coordination Center of State Port Control": "Информационно-координационный центр государственного портового контроля",
-    "Is not uploaded": "Файл не загружен {name}",
+    "Is not uploaded": "Файл не загружен {OrigFileName}",
     "KB": "КБ",
     "Last report reason": "Предыдущее сообщение об ошибке:",
     "abusing-text-placeholder": "Сообщение разработчикам по поводу этого видео или в целом о сервисе",
@@ -140,7 +140,7 @@
     "Duration is OK": "Длительность в пределах нормы (макс. - {maxDuration} мин.)",
     "Duration is exceeded": "Длительность превышена (макс. - {maxDuration} мин.)",
     "Duration is not defined": "Длительность не определена",
-    "Upload all done with error": "Возникла ошибка при загрузке всех файлов: {err}",
+    "Upload all done with error": "Возникла ошибка при загрузке всех файлов ({err})",
     "Upload selected text 1": "Загрузить выделенный",
     "Upload selected text 2": "Загрузить выделенные ({count})",
     "Upload selected title 1": "Загрузить {count} выделенный файл",
@@ -148,7 +148,7 @@
     "Upload selected title without 1": "без {all_bad_selected_count} выделенного невалидного файла",
     "Upload selected title without 2": "без {all_bad_selected_count}  выделенных невалидных файла",
     "Upload the file": "Загрузить файл",
-    "Uploaded with fail": "<br>- отправлено с ошибкой: {fail_count};",
+    "Uploaded with fail": "<br>- не отправлено: {fail_count};",
     "Uploaded_vue": {
         "Already": "Список уже загруженных видео-файлов",
         "Last updated": "Последнее обновление",
@@ -174,5 +174,6 @@
     "skip": "пропуская",
     "transfering file": "передающийся файл",
     "transfering files": "передающихся файлов",
-    "unsupported format": "Файл имеет формат, неподдерживаемый нашей системой - <b>{file.name}</b"
+    "unsupported format": "Файл имеет формат, неподдерживаемый нашей системой - <b>{file.name}</b",
+    "File size exceeded!":"Превышен лимит файла"
 }

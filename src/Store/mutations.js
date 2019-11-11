@@ -1,5 +1,5 @@
 const mutations = {
-  async changeProp(store, { prop, state }) {
+  changeProp(store, { prop, state }) {
     this._vm.$set(store, prop, state);
   },
 

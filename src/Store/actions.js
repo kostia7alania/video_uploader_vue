@@ -9,7 +9,7 @@ export default {
   ...alreadyActions,
   ...uploadActions,
   toast({ state }, { text, type }) {
-    window.toast[type](text, state.getTime());
+   window.toast[type](text, state.getTime());
   },
   pulseRow({ state, commit }, { hash }) {
     commit("changeSelectedVideos", { hash, prop: "class", val: "pulse" });
@@ -37,6 +37,7 @@ export default {
    ******/
 
   async filesSelected({ state, commit, dispatch }, event) {
+    const $t = window.$t;
     const fileList = event.target.files || event.dataTransfer.files;
     if (!fileList.length) return;
     const t = this._vm;
@@ -149,6 +150,7 @@ export default {
   },
 
   removeAllAction({ state, getters, commit }) {
+    const $t = window.$t;
     let deleted = 0,
       skipped = 0;
     getters.selectedVideosGetter.forEach(e => {
@@ -187,14 +189,18 @@ export default {
 
   /********/
 
-  async prepareToUploadAll({ state, getters, commit, dispatch }) {
-    await commit("changeProp", { prop: "uploadAllInProgress", state: true });
-    let arr = getters.selectedVideosGetter.filter(
-      e => e.percentCompleted == null
-    );
-    arr = arr.map(e => dispatch("upload", { hash: e.hash }));
-    Promise.all(arr)
-      .then(res => {
+    prepareToUploadAll({ state, getters, commit, dispatch }) {
+      const $t = window.$t 
+
+      commit("changeProp", { prop: "uploadAllInProgress", state: true });
+       const arr = getters.selectedVideosGetter
+       .filter(e => e.percentCompleted == null &&
+                    e.sizeOK &&
+                    e.typeOK
+              )
+       .map(e => dispatch("upload", { hash: e.hash }));
+      Promise.all(arr)
+      .then( res => { 
         const suc_count = res.filter(_ => _ === true).length;
         const fail_count = res.length - suc_count;
         let text =
@@ -204,12 +210,13 @@ export default {
           (suc_count && !fail_count && "success") ||
           (!suc_count && fail_count && "error") ||
           "warning";
+          
         text = $t("Send all report", { text });
         window.toast[type](text, state.getTime());
       })
       .catch(err => {
-        const text = $t("Upload all done with error", { err });
-        window.toast.warning(text, state.getTime());
+        const text = window.$t("Upload all done with error", { err });
+        window.toast.warning(text, state.getTime()) 
       })
       .finally(() => {
         commit("changeProp", { prop: "uploadAllInProgress", state: false });

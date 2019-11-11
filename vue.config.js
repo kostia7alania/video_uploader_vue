@@ -10,7 +10,9 @@ module.exports = {
         proxy: {
             "/api*": {
                 //все запросы))
-                target: "https://apcis.tmou.org/develop/api/", //'http://localhost:3000/backend/index.php' //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
+                target: "https://fsc.marinet.ru/develop/api/", //'http://localhost:3000/backend/index.php' //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
+                        //"https://apcis.tmou.org/develop/api/"
+                        //"https://fsc.marinet.ru/develop/api/"
                 secure: false,
                 changeOrigin: true,
                 onProxyRes(proxyRes, req, res) {
