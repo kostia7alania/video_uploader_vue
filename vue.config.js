@@ -11,8 +11,8 @@ module.exports = {
             "/api*": {
                 //все запросы))
                 target: "https://fsc.marinet.ru/develop/api/", //'http://localhost:3000/backend/index.php' //Это скажет серверу разработки проксировать любые неизвестные запросы (запросы, которые не соответствуют статическому файлу) на адрес http://localhost:4000.
-                        //"https://apcis.tmou.org/develop/api/"
-                        //"https://fsc.marinet.ru/develop/api/"
+                //"https://apcis.tmou.org/develop/api/"
+                //"https://fsc.marinet.ru/develop/api/"
                 secure: false,
                 changeOrigin: true,
                 onProxyRes(proxyRes, req, res) {
@@ -89,8 +89,13 @@ module.exports = {
         name: "Video uploader",
         msTileColor: "#00FF3C",
         appleMobileWebAppCapable: "yes",
-        appleMobileWebAppStatusBarStyle: "black"
-            // workboxPluginMode: 'InjectManifest'
+        appleMobileWebAppStatusBarStyle: "black",
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            // swSrc is required in InjectManifest mode.
+            swSrc: './service-worker.js',
+            // ...other Workbox options...
+        }
     }
 };
 
