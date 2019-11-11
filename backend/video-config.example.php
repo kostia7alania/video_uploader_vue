@@ -3,15 +3,19 @@
 //define(Url_Soap_V, $UrlSoap);
 define(authName, $_SESSION['AuthUserName']);
 define(authPass, $_SESSION['AuthPassword']);
-const path = '\\\\media\\fsc_videos\\'; //'X:\\';//\\\\media\\fsc_videos
+const path = '\\\\media\\fsc_videos\\'; 
+//'X:\\';//\\\\media\\fsc_videos
+// '\\\\media\\apcis_videos\\'
 
 $d = date('Y');
-const title = "Video Hosting APCIS $d";
+const title = "Video Hosting $d";
 
 const vid_cfg = [
   'AuthUserName'  => authName,
   'AuthPassword'  => authPass,  
-  'soapServer'    => 'http://localhost/ISGS_DEVELOP/ISGS/ISGS1.asmx',//Url_Soap_V, 
+  'soapServer'    => 'http://localhost/ISGS_DEVELOP/ISGS/ISGS1.asmx?wsdl',
+  // 'https://apcis.tmou.org/test/APCIS_Ex.asmx?wsdl'
+  // 'http://localhost/ISGS_DEVELOP/ISGS/ISGS1.asmx?wsdl'
   'newPath'       => path.'real/',//'c://test//', //"\\\\media\\videos\\real/";
   'maxSize'       => 200000000,//2mb
   'maxCommentLen' => 3000,
