@@ -7,9 +7,6 @@ const path = '\\\\media\\fsc_videos\\';
 //'X:\\';//\\\\media\\fsc_videos
 // '\\\\media\\apcis_videos\\'
 
-$d = date('Y');
-const title = "Video Hosting $d";
-
 const vid_cfg = [
   'AuthUserName'  => authName,
   'AuthPassword'  => authPass,  
@@ -27,7 +24,7 @@ const vid_cfg = [
   'imgDir'        => path.'img/',
   'tmp_gif_src'   => 'http://placehold.jp/006699/cccc00/200x200.png',
   'locale'        => 'en',
-  'title'         => title,
+  'title'         => 'Video Hosting',
   'maxSize'       => 100, // мегабайты - - размер видео.
   'maxDuration'   => 10 // минуты  - - длительность видео. 
 ];

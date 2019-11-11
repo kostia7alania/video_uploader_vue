@@ -7,7 +7,7 @@ if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-vi
 }
 */
 if (!isset($_SESSION)) session_start();
-f($_GET['action']=='viewvideo') die(file_get_contents(__DIR__ .'/../dist/index.html'));
+if($_GET['action']=='viewvideo') die(file_get_contents(__DIR__ .'/../dist/index.html'));
 
 require __DIR__.'/../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');
@@ -39,7 +39,7 @@ if ( $action == 'get-config' ) {
     $BASE_URL = './api?api=video-manager&';
     $config = [
         'locale'                => vid_cfg['locale'],
-        'title'                 => vid_cfg['title'],
+        'title'                 => vid_cfg['title'] . date('Y'),
         'CAN_UPLOAD'            => $CAN_UPLOAD,
         'BASE_URL'              => $BASE_URL,
         'watch_url'             => $BASE_URL . 'action=watch&dir=watch&v=',
