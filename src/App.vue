@@ -16,7 +16,7 @@
     <div v-else class="getting-config">
       <Loading />
       <br />
-      Getting configuration...
+     {{ $t('Getting configuration') }}...
     </div>
   </div>
 </template>
