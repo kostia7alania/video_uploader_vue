@@ -7,13 +7,11 @@ if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-vi
 }
 */
 if (!isset($_SESSION)) session_start();
-if($_GET['action']=='viewvideo') { echo file_get_contents( __DIR__.'../dist/index.html');	die; }
-require(__DIR__.'/src/options.php');//CORS policy
-require '../vendor/autoload.php';//'/../../vendor/autoload.php';
+if($_GET['action']=='viewvideo') die(file_get_contents(__DIR__ .'/../frontend/dist/index.html'));
+
+require __DIR__.'/../../../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');
-require(__DIR__.'./src/soap.php');
-require(__DIR__.'./src/browserDetection.php');
-if(!isset($_GET['action'])) {/*http_response_code(500);*/exit('{status: 0, msg: "Wrong action"}');}
+
 $action = $_GET['action'];
 
 /*
@@ -31,8 +29,35 @@ if($action == 'ffmpeg') {
 }
 */
 
+if ( $action == 'get-config' ) {
+    $res = $soap_service->GetIsUserObserver(['Request' => 0]);
+    $xml = $res->GetIsUserObserverResult->any;
+    $xml = simplexml_load_string($xml);
+    $json = json_encode($xml);
+    $is_observer = json_decode($json,TRUE)['Observer'];  
+    $CAN_UPLOAD = !$is_observer ? 1:0;
+    $BASE_URL = './api?api=video-manager&';
+    $config = [
+        'locale'                => vid_cfg['locale'],
+        'title'                 => vid_cfg['title'],
+        'CAN_UPLOAD'            => $CAN_UPLOAD,
+        'BASE_URL'              => $BASE_URL,
+        'watch_url'             => $BASE_URL . 'action=watch&dir=watch&v=',
+        'gif_url'               => $BASE_URL . 'action=watch&dir=gif&v=',
+        'webp_url'              => $BASE_URL . 'action=watch&dir=webp&v=',
+        'img_url'               => $BASE_URL . 'action=watch&dir=img&v=',
+        'video_brand_img_title' => '',
+        'video_brand_click_msg' => 'Brand click', //Введи сюда Brand click - чтобы взяло значение из перевода , если не будет перевода, то выведет как есть;
+        'video_brand_img_src'   => '', //ссылка на значек в плеере
+        'show_menu'             => false,
+        'maxSize'               => vid_cfg['maxSize'], // мегабайты - - размер видео.
+        'maxDuration'           => vid_cfg['maxDuration'] // минуты  - - длительность видео. 
+    ];
+    die(json_encode($config));
+}
+
 if ( $action == 'watch' ) {
-  if(!isset($_GET['v']) || !isset($_GET['dir']) ) { echo '{"status":0, "msg":"Wrong URL parameters"}'; die; }
+  if(!isset($_GET['v']) || !isset($_GET['dir']) ) echo_and_die (0, 'Wrong URL parameters', 500);
     $v = $_GET['v']; // filename
     $dir = $_GET['dir'];
     $status = $_GET['status'];// status > 2-значит готово и надо искать в папке CONVERTED
@@ -62,17 +87,14 @@ if ( $action == 'watch' ) {
     }
 
   if($dir=='watch') {
-    require(__DIR__.'./src/VideoStream.php');
+    require(__DIR__.'./libs/VideoStream.php');
     if ($status==2) $videoDir = vid_cfg['convertedDir'];
     else            $videoDir = vid_cfg['realDir'];
     $stream = new \Sources\VideoStream($videoDir.$v); // $stream = new \Sources\VideoStream('c://PHP PARSER 2019-02-25_19-03-14.mp4'); //test
     $stream->start();
   }
 }
-
-header('Access-Control-Allow-Origin: *');//KOSTIA_ TEST_API
-header("Content-Type: application/json");
-
+  
 //$videodir = "\\\\media\videos\converted\2FD3D68C-B4DD-416B-A431-10189EC24887.mp4";
 ///echo file_get_contents($videodir, 'r'); echo is_writeable($videodir ).'<hr>'.exec('whoami');
 //var_dump(file_get_contents($newPath, 'r'));die; //echo ini_get('post_max_size');
@@ -86,7 +108,8 @@ if ($action == 'abusingFile') {
   $post = fopen('php://input', 'r');
   $data = json_decode(stream_get_contents($post));
   fclose($post);
-  if ( !isset($_GET['VidUID']) || strlen($_GET['VidUID'])>55 || !isset($data->comment) || strlen($data->comment) > $maxCommentLen ) { echo '{"status":0, "msg":"Wrong request! Report isn\'t saved!"}'; die; }
+  if ( !isset($_GET['VidUID']) || strlen($_GET['VidUID'])>55 || !isset($data->comment) || strlen($data->comment) > $maxCommentLen ) 
+    echo_and_die (0, 'Wrong request! Report isn\'t saved!', 500);
   $comment = toEscapeString($data->comment);
   $request =
     'VidUID="' .$_GET['VidUID'].  '"'
@@ -97,16 +120,14 @@ if ($action == 'abusingFile') {
   $xml = simplexml_load_string($xml);
   $json = json_encode($xml);
   $array = json_decode($json, TRUE);
-  if($array) echo '{"status":1, "msg":"! Success"}';
-  else echo '{"status":0, "msg":"Failed"}';
-  die;
+  if($array) echo_and_die (1, ' Success', 200);
+  echo_and_die (0, 'Failed!', 500);
 }
 if ($action == 'savevid') {
-  if ( !isset($_GET['def_uid']) || !isset($_GET['insp_uid']) ) {     echo '{"status":0, "msg":"! Try to relogin"}'; die; }
-  if ( !isset($_FILES['file']) || $_FILES['file']['error'] === 1 || !file_exists($_FILES['file']['tmp_name']) ) {
-    echo '{"status":0, "msg":"File is corrupt"}';die;}
-    //$lastModified = $_POST['lastModified'];
-    $file     = $_FILES['file'];    //[ name=>'', tmp_name=>'', size=>'' ];
+  if ( !isset($_GET['def_uid']) || !isset($_GET['insp_uid']) ) echo_and_die (0, ' Try to relogin', 500);
+  if ( !isset($_FILES['file']) || $_FILES['file']['error'] === 1 || !file_exists($_FILES['file']['tmp_name']) ) echo_and_die (0, 'File is corrupt', 500);
+    
+    $file     = $_FILES['file'];    //[ name=>'', tmp_name=>'', size=>'' ]; //$lastModified = $_POST['lastModified'];
     $file_name = $file['name'];     //[name] => 20180715_200045.mp4
     $tmp_name = $file['tmp_name'];  //[tmp_name] => C:\Users\dev\AppData\Local\Temp\php2664.tmp
     $file_size = $file['size'];     //[size] => 7887277
@@ -116,10 +137,10 @@ if ($action == 'savevid') {
     $info     = htmlspecialchars ( $_POST['info']    );
     //print_r($file); die;//Array ( [name] => 5.flv [type] => video/x-flv [tmp_name] => C:\Users\dev\AppData\Local\Temp\phpACAE.tmp [error] => 0 [size] => 1904323 )
     //print_r($file) ;die;   // Array ( [name] => 3.avi [type] => [tmp_name] => [error] => 1 [size] => 0 ) // ??BUG??
-    if($file['size'] > $maxSize) { echo '{"status":0, "msg":"File size exceeded"}'; die; }
+    if($file['size'] > $maxSize) echo_and_die (0, 'File size exceeded!', 500);
     $name = $file['name'];
     $ext = pathinfo($name, PATHINFO_EXTENSION);
-    if( !in_array(strtolower($ext), $allowedFormats) ) { echo '{"status":0, "msg":"Unsupported file type"}'; die; }
+    if( !in_array(strtolower($ext), $allowedFormats) ) echo_and_die (0, 'Unsupported file type!', 500);
     $extension = explode('.', $name);
     $extension = end($extension);
   /*
@@ -136,7 +157,7 @@ if ($action == 'savevid') {
 
     /* IS VALID */
     $ffprobe = \FFMpeg\FFProbe::create(libs);
-    if(!$ffprobe->isValid($tmp_name)) { echo '{"status":0, "msg":"The file is not valid."}'; die; }; // returns bool
+    if(!$ffprobe->isValid($tmp_name)) echo_and_die (0, 'The file is not valid!', 500);
 
     /* DURATION */
     $duration = $ffprobe
@@ -147,8 +168,9 @@ if ($action == 'savevid') {
     /* MOVE */
     $moved = move_uploaded_file($tmp_name, $full_new_path);
     //  touch($full_new_path, $file_time);//возвращаем старые даты изменения))
-      if ( !$moved ) { echo '{"status":0, "msg":"An error occurred while moving the file to the file storage."}'; die; }
-      if ( !file_exists($full_new_path) ) { echo '{"status": 0, "msg": "An error occurred after moving the file to the file storage."}'; die; }
+      if ( !$moved ) echo_and_die (0, 'An error occurred while moving the file to the file storage!', 500);
+      if ( !file_exists($full_new_path) ) echo_and_die (0, 'An error occurred after moving the file to the file storage!', 500);
+
       $request =
         'DefUID="'        .$_GET['def_uid'].  '"'
         .' InspUID="'     .$_GET['insp_uid']. '"'
@@ -164,30 +186,28 @@ if ($action == 'savevid') {
         $xml = simplexml_load_string($xml);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
-        if(!isset($array['@attributes']['OrigFileName'])) { echo '{"status":0, "msg":"An error occurred while write to data base"}'; die; }
+        if(!isset($array['@attributes']['OrigFileName'])) echo_and_die (0, 'An error occurred while write to data base!', 500); 
 
-        $output = [ "status"=>1,
+        header_status(201);
+        echo json_decode([ "stat"=>1,
                     "msg"   =>"Successfully uploaded",
                     "Hash"=>$array['@attributes']['Hash'],
                     "OrigFileName"=>$array['@attributes']['OrigFileName'],
                     "VidUID"=>$array['@attributes']['VidUID'],
                     "Duration"=>$duration,
-                  ];
-        echo json_encode($output);
+                  ]);
         die;
-}
+  }
 
 //BREAK !!!!!!!!!!!!!
 
 if ($action == 'get-uploaded-video-list') {
-        if ( !isset($_GET['def_uid']) || !isset($_GET['insp_uid']) ) {
-          echo '{status: 0, msg: "An error has occurred! Try refresh your browser!"}';
-          die;
-        }
+        if ( !isset($_GET['def_uid']) || !isset($_GET['insp_uid']) ) echo_and_die (0, 'An error has occurred! Try refresh your browser!', 500);
+       
           $request = 'DefUID="'.$_GET['def_uid'].'"'
                    .' InspUID="'.$_GET['insp_uid'].'"'
                    .' AddVid="0"';
-          $res = $soap_service->GetViewVideos( ['Request'=>"<Videos $request />"] );
+        $res = $soap_service->GetViewVideos( ['Request'=>"<Videos $request />"] );
         $xml = $res->GetViewVideosResult->any;
         $xml = simplexml_load_string($xml);
         $json = json_encode($xml);
@@ -195,40 +215,7 @@ if ($action == 'get-uploaded-video-list') {
         $arr=[];
         if (isset($array['File']) && count($array['File']) === 1) $arr[] = $array['File']['@attributes'];
         elseif (isset($array['File']) && count($array['File'])>0) foreach($array['File'] as $k => $r) $arr[] = $r['@attributes'];
-        echo json_encode($arr);
-        die;
+        exit(json_encode($arr));
+        
 }
-
-
-if (!function_exists('getGUID')) {
-  function getGUID() {
-    if (function_exists('com_create_guid')){
-      return com_create_guid();
-    } else {
-        mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
-        $charid = strtoupper(md5(uniqid(rand(), true)));
-        $hyphen = chr(45);// "-"
-        $uuid = chr(123)// "{"
-            .substr($charid, 0, 8).$hyphen
-            .substr($charid, 8, 4).$hyphen
-            .substr($charid,12, 4).$hyphen
-            .substr($charid,16, 4).$hyphen
-            .substr($charid,20,12)
-            .chr(125);// "}"
-        return $uuid;
-    }
-  }
-}
-
-function toEscapeString( $str ) {
-  $ret = trim($str);
-  $ret = str_replace('\\', '', $ret); //$ret = addslashes($ret);$ret = strip_tags($ret);//$ret = stripslashes($ret);
-  $ret = htmlentities($ret, ENT_QUOTES, "UTF-8");
-  $ret = htmlspecialchars($ret, ENT_QUOTES);
-  return $ret;
-}
-
-?>
-
-
-
+?> 
