@@ -9,7 +9,7 @@ if ( in_array( $_GET['action'],['viewvideo', 'savevid', 'watch','get-uploaded-vi
 if (!isset($_SESSION)) session_start();
 if($_GET['action']=='viewvideo') die(file_get_contents(__DIR__ .'/../frontend/dist/index.html'));
 
-require __DIR__.'/../../../vendor/autoload.php';//'/../../vendor/autoload.php';
+require '../vendor/autoload.php';//'/../../vendor/autoload.php';
 require(__DIR__.'./video-config.php');
 
 $action = $_GET['action'];
