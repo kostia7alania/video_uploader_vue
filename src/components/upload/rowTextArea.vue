@@ -83,7 +83,7 @@ export default {
         val = val.replace(/ {3}/gim, " ");
         val = val.replace(/\n\n/gim, "\n");
         val = val.replace(/\r/gim, "\r");
-        console.log(val, c);
+     //   console.log(val, c);
         if (c == null || c.trim() !== val.trim())
           this.changeSelectedVideos({
             prop: "comment",
