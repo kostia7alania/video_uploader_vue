@@ -22,6 +22,6 @@
         "vinyl-source-stream": "^2.0.0"
     },
     "dependencies": {
-        "gulp": "^3.9.1"
+        "gulp": "^4.0.2"
     }
 }
